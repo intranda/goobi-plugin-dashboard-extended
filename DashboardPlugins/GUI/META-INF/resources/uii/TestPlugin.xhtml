@@ -4,6 +4,9 @@
     </composite:interface>
 
     <composite:implementation>
+
+
+
         <div class="row">
             <div class="col-sm-6">
 
@@ -27,14 +30,21 @@
 
 
             <div class="col-sm-6">
-                <h:outputText value="zweiter Bereich" />
+
+                <h3>
+                    <h:outputText value="#{msgs.latestExports}" />
+                    <a href="http://gei-digital.gei.de/viewer/rss" class="glyphicon-rss" title="#{msg.rssSubscribe}" target="_blank"></a>
+                </h3>
+                <ui:repeat value="#{DashboardForm.plugin.feed}" var="feed">
+                    <h:panelGrid width="650">
+
+                        <h:outputText escape="false" value="#{feed.title}" />
+                        <h:outputText escape="false" value="#{feed.description}" />
+
+                    </h:panelGrid>
+                </ui:repeat>
             </div>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-sm-12">
-                <h:outputText value="komplette Breite" />
-            </div>
+
         </div>
     </composite:implementation>
 
