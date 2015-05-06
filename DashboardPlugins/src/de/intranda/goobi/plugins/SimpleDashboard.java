@@ -52,6 +52,8 @@ public class SimpleDashboard implements IDashboardPlugin {
     private void getrss() {
 
         String rssFeedUrl = "http://gei-digital.gei.de/viewer/rss/";
+//        String rssFeedUrl = "http://feeds.feedburner.com/newartcollection?format=xml";
+        
         int count = 10; // desired number of feeds to retrieve
 
         SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
@@ -157,7 +159,7 @@ public class SimpleDashboard implements IDashboardPlugin {
         if (Helper.getCurrentUser() != null) {
             String sql = FilterHelper.criteriaBuilder("", false, false, true, true, false, true);
 
-            return StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 5);
+            return StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 10);
         }
         return null;
     }
