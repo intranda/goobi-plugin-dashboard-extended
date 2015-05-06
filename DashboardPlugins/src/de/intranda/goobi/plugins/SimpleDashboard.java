@@ -52,7 +52,7 @@ public class SimpleDashboard implements IDashboardPlugin {
     private void getrss() {
 
         String rssFeedUrl = "http://gei-digital.gei.de/viewer/rss/";
-        int count = 5; // desired number of feeds to retrieve
+        int count = 10; // desired number of feeds to retrieve
 
         SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
 
