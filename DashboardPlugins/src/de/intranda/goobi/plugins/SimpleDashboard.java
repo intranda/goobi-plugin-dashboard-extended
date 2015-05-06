@@ -22,10 +22,27 @@ import de.sub.goobi.helper.Helper;
 import de.sub.goobi.persistence.managers.StepManager;
 
 @PluginImplementation
-public class TestPlugin implements IDashboardPlugin {
+public class SimpleDashboard implements IDashboardPlugin {
+
+	private static final String PLUGIN_NAME = "intranda_dashboard_simple";
 
     List<RssEntry> feeds;
 
+    @Override
+    public PluginType getType() {
+        return PluginType.Dashboard;
+    }
+
+    @Override
+    public String getTitle() {
+        return PLUGIN_NAME;
+    }
+
+    @Override
+    public String getDescription() {
+        return PLUGIN_NAME;
+    }
+    
     // Bound to our ui:repeat component
     public List<RssEntry> getFeed() {
         getrss();
@@ -73,7 +90,7 @@ public class TestPlugin implements IDashboardPlugin {
 
                 // Do some formatting you may require;
                 String description = entry.getDescription().getValue();
-
+                
                 rss.setDescription(description);
                 //  Update
                 feeds.add(rss);
@@ -136,21 +153,6 @@ public class TestPlugin implements IDashboardPlugin {
         }
     }
 
-    @Override
-    public PluginType getType() {
-        return PluginType.Dashboard;
-    }
-
-    @Override
-    public String getTitle() {
-        return "TestPlugin";
-    }
-
-    @Override
-    public String getDescription() {
-        return "TestPlugin";
-    }
-
     public List<Step> getAssignedSteps() {
         if (Helper.getCurrentUser() != null) {
             String sql = FilterHelper.criteriaBuilder("", false, false, true, true, false, true);
@@ -162,6 +164,6 @@ public class TestPlugin implements IDashboardPlugin {
 
     @Override
     public String getGuiPath() {
-        return "TestPlugin.xhtml";
+        return "SimpleDashboardPlugin.xhtml";
     }
 }

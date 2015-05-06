@@ -7,7 +7,7 @@
 	<!-- ================================= 
 	        properties             
 	     ================================= -->
-	<property name="filename" value="DashboardPlugins" />
+	<property name="filename" value="plugin_intranda_dashboard_simple" />
 	<property name="dir.build" value="bin" />
 	<property name="dir.src" value="src" />
 	<property name="dir.test" value="test/src" />
