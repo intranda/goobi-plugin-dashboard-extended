@@ -154,7 +154,7 @@
 						</h3>
 						<h:form>
 							<div class="actions">
-								<a href="http://orka.bibliothek.uni-kassel.de/viewer/rss/" class="btn btn-mini" title="#{msg.rssSubscribe}" target="_blank"> <i class="fa fa-rss" />
+								<a href="#{DashboardForm.plugin.feedUrl}" class="btn btn-mini" title="#{msg.rssSubscribe}" target="_blank"> <i class="fa fa-rss" />
 								</a>
 								<h:commandLink styleClass="btn btn-mini" action="#{NavigationForm.Reload}"
 									title="#{NavigationForm.uiStatus.dashboard_rss eq 'up'?msgs.showBoxDetailsOn:msgs.showBoxDetailsOff}">

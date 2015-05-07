@@ -142,11 +142,40 @@
 
 					</div>
 				</h:form>
+				
 			</div>
 
 			<div class="col-sm-6">
 
-				<div class="box box-color box-bordered">
+				<div class="box box-color lightgrey box-bordered">
+						<div class="box-title">
+							<h3>
+								<i class="fa fa-cog"></i>
+								<h:outputText value="intranda TaskManager Jobs" />
+							</h3>
+						</div>
+						<div class="box-content nopadding">
+	
+								<table class="table table-hover responsive">
+									<tbody>
+	
+										<ui:repeat var="item" value="#{DashboardForm.plugin.itmPlugins}">
+											<tr>
+												<td>#{item.strInt.str}</td>
+												<td>#{item.strInt.number} Jobs</td>
+												<td>
+													<h:panelGroup  class="pull-right badge #{item.running eq 'running'?'badge-intranda-green':'badge-intranda-red'}">
+														 <h:outputText style="font-weight:normal" value=" #{item.running} "/> 
+													</h:panelGroup>
+			                                    </td>
+											</tr>
+										</ui:repeat>
+									</tbody>
+								</table>
+						</div>
+					</div>
+				
+				<div class="box box-color lightgrey box-bordered">
 					<div class="box-title">
 						<h3>
 							<i class="fa fa-globe"></i>
