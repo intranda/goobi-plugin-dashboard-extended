@@ -1,0 +1,4 @@
+<config_plugin>
+	<feed-cache-time>900000</feed-cache-time>
+	<feed-url>http://www.intranda.com/feed/</feed-url>
+</config_plugin>

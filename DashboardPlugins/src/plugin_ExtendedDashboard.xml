@@ -1,0 +1,7 @@
+<config_plugin>
+	<itm-cache-time>1800</itm-cache-time>
+	<itm-url>http://goobitest02.fritz.box/itm/api?action=getPlugins</itm-url>
+	<feed-cache-time>9000</feed-cache-time>
+	<feed-url>http://gei-digital.gei.de/viewer/rss/</feed-url>
+	
+</config_plugin>
