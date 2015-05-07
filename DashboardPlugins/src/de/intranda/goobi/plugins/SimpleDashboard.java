@@ -51,7 +51,7 @@ public class SimpleDashboard implements IDashboardPlugin {
 
     private void getrss() {
 
-        String rssFeedUrl = "http://gei-digital.gei.de/viewer/rss/";
+        String rssFeedUrl = "http://orka.bibliothek.uni-kassel.de/viewer/rss/";
 //        String rssFeedUrl = "http://feeds.feedburner.com/newartcollection?format=xml";
         
         int count = 10; // desired number of feeds to retrieve
