@@ -151,7 +151,7 @@
 						<div class="box-title">
 							<h3>
 								<i class="fa fa-cog"></i>
-								<h:outputText value="intranda TaskManager Jobs" />
+								<h:outputText value="intranda TaskManager: Plugins" />
 							</h3>
 						</div>
 						<div class="box-content nopadding">
@@ -174,6 +174,148 @@
 								</table>
 						</div>
 					</div>
+	
+				<h:form id="myform2">
+					<h:panelGroup rendered="#{DashboardForm.plugin.itmJobsOcrDone.size() ne 0 or DashboardForm.plugin.itmJobsOcrError.size() ne 0}">
+						<div class="box box-color lightgrey box-bordered">
+							<div class="box-title">
+								<h3>
+									<i class="fa fa-cog"></i>
+									<h:outputText value="intranda TaskManager: OCR Jobs" />
+								</h3>
+								<ul class="tabs">
+	                                <li class="#{NavigationForm.uiStatus.dashboard_ocr ne 'error'?'active':''}">
+	                                    <h:commandLink action="#{NavigationForm.Reload}" value="Done">
+	                                        <f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_ocr}" value="" />
+	                                        <f:ajax render=":myform2" />
+	                                    </h:commandLink>
+	                                </li>
+	                                <li class="#{NavigationForm.uiStatus.dashboard_ocr eq 'error'?'active':''}">
+	                                    <h:commandLink action="#{NavigationForm.Reload}" value="Error">
+	                                        <f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_ocr}" value="error" />
+	                                        <f:ajax render=":myform2" />
+	                                    </h:commandLink>
+	                                </li>
+	                            </ul>
+	                            <div class="actions">
+									<h:commandLink styleClass="btn btn-mini" action="#{NavigationForm.Reload}"
+										title="#{NavigationForm.uiStatus.dashboard_ocrSize eq 'up'?msgs.showBoxDetailsOn:msgs.showBoxDetailsOff}">
+										<i class="fa #{NavigationForm.uiStatus.dashboard_ocrSize eq 'down'?'fa-angle-up':'fa-angle-down'}" />
+										<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_ocrSize}"
+											value="#{NavigationForm.uiStatus.dashboard_ocrSize eq 'down'?'up':'down'}" />
+										<f:ajax render=":myform2" />
+									</h:commandLink>
+								</div>
+							</div>
+							<div class="box-content nopadding">
+								<h:panelGroup rendered="#{NavigationForm.uiStatus.dashboard_ocr ne 'error'}" >
+									<table class="table table-hover responsive">
+										<tbody>
+											<ui:repeat var="item" value="#{DashboardForm.plugin.itmJobsOcrDone}" varStatus="status">
+												<h:panelGroup rendered="#{status.index lt 10 or NavigationForm.uiStatus.dashboard_ocrSize eq 'down'}">
+													<tr>
+														<td>#{item.goobiId}</td>
+														<td>#{item.goobiProcessTitle}</td>
+														<td>#{item.size}</td>
+														<td>#{item.abbyyPages}</td>
+														<td>#{item.status}</td>
+													</tr>
+												</h:panelGroup>
+											</ui:repeat>
+										</tbody>
+									</table>
+								</h:panelGroup>
+								
+								<h:panelGroup rendered="#{NavigationForm.uiStatus.dashboard_ocr eq 'error'}" >
+									<table class="table table-hover responsive">
+										<tbody>
+											<ui:repeat var="item" value="#{DashboardForm.plugin.itmJobsOcrError}" varStatus="status">
+												<h:panelGroup rendered="#{status.index lt 10 or NavigationForm.uiStatus.dashboard_ocrSize eq 'down'}">
+													<tr>
+														<td>#{item.goobiId}</td>
+														<td>#{item.goobiProcessTitle}</td>
+														<td>#{item.errorMessageShort}</td>
+														<td>#{item.status}</td>
+													</tr>
+												</h:panelGroup>
+											</ui:repeat>
+										</tbody>
+									</table>
+								</h:panelGroup>
+							</div>
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup rendered="#{DashboardForm.plugin.itmJobsSdbDone.size() ne 0 and DashboardForm.plugin.itmJobsSdbError.size() ne 0}">
+						<div class="box box-color lightgrey box-bordered">
+							<div class="box-title">
+								<h3>
+									<i class="fa fa-cog"></i>
+									<h:outputText value="intranda TaskManager: SDB Jobs" />
+								</h3>
+								<ul class="tabs">
+	                                <li class="#{NavigationForm.uiStatus.dashboard_sdb ne 'error'?'active':''}">
+	                                    <h:commandLink action="#{NavigationForm.Reload}" value="Done">
+	                                        <f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_sdb}" value="" />
+	                                        <f:ajax render=":myform2" />
+	                                    </h:commandLink>
+	                                </li>
+	                                <li class="#{NavigationForm.uiStatus.dashboard_sdb eq 'error'?'active':''}">
+	                                    <h:commandLink action="#{NavigationForm.Reload}" value="Error">
+	                                        <f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_sdb}" value="error" />
+	                                        <f:ajax render=":myform2" />
+	                                    </h:commandLink>
+	                                </li>
+	                            </ul>
+	                            <div class="actions">
+									<h:commandLink styleClass="btn btn-mini" action="#{NavigationForm.Reload}"
+										title="#{NavigationForm.uiStatus.dashboard_sdbSize eq 'up'?msgs.showBoxDetailsOn:msgs.showBoxDetailsOff}">
+										<i class="fa #{NavigationForm.uiStatus.dashboard_sdbSize eq 'down'?'fa-angle-up':'fa-angle-down'}" />
+										<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_sdbSize}"
+											value="#{NavigationForm.uiStatus.dashboard_sdbSize eq 'down'?'up':'down'}" />
+										<f:ajax render=":myform2" />
+									</h:commandLink>
+								</div>
+							</div>
+							<div class="box-content nopadding">
+								<h:panelGroup rendered="#{NavigationForm.uiStatus.dashboard_sdb ne 'error'}" >
+									<table class="table table-hover responsive">
+										<tbody>
+											<ui:repeat var="item" value="#{DashboardForm.plugin.itmJobsSdbDone}" varStatus="status">
+												<h:panelGroup rendered="#{status.index lt 10 or NavigationForm.uiStatus.dashboard_sdbSize eq 'down'}">
+													<tr>
+														<td>#{item.goobiId}</td>
+														<td>#{item.goobiProcessTitle}</td>
+														<td>#{item.size}</td>
+														<td>#{item.abbyyPages}</td>
+														<td>#{item.status}</td>
+													</tr>
+												</h:panelGroup>
+											</ui:repeat>
+										</tbody>
+									</table>
+								</h:panelGroup>
+								
+								<h:panelGroup rendered="#{NavigationForm.uiStatus.dashboard_sdb eq 'error'}" >
+									<table class="table table-hover responsive">
+										<tbody>
+											<ui:repeat var="item" value="#{DashboardForm.plugin.itmJobsSdbError}" varStatus="status">
+												<h:panelGroup rendered="#{status.index lt 10 or NavigationForm.uiStatus.dashboard_sdbSize eq 'down'}">
+													<tr>
+														<td>#{item.goobiId}</td>
+														<td>#{item.goobiProcessTitle}</td>
+														<td>#{item.errorMessageShort}</td>
+														<td>#{item.status}</td>
+													</tr>
+												</h:panelGroup>
+											</ui:repeat>
+										</tbody>
+									</table>
+								</h:panelGroup>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:form>
 				
 				<div class="box box-color lightgrey box-bordered">
 					<div class="box-title">

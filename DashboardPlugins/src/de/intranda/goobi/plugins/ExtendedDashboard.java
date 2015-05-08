@@ -26,6 +26,8 @@ import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
 import de.intranda.digiverso.model.DashQueuesObj;
+import de.intranda.digiverso.model.IJob;
+import de.intranda.digiverso.model.JobImpl;
 import de.sub.goobi.config.ConfigPlugins;
 import de.sub.goobi.helper.Helper;
 import de.sub.goobi.persistence.managers.StepManager;
@@ -35,185 +37,234 @@ public class ExtendedDashboard implements IDashboardPlugin {
 
 	private static final String PLUGIN_NAME = "intranda_dashboard_extended";
 
-    List<RssEntry> feeds;
-    private Long lastReadFeed = null;
-    private Long lastReadItm = null;
-    private List<DashQueuesObj> itmPluginList;
-    
-    
-    @Override
-    public PluginType getType() {
-        return PluginType.Dashboard;
-    }
+	List<RssEntry> feeds;
+	private Long lastReadFeed = null;
+	private Long lastReadItm = null;
+	private List<DashQueuesObj> itmPluginList;
+	List<IJob> itmJobListOcrDone;
+	List<IJob> itmJobListOcrError;
+	List<IJob> itmJobListSdbDone;
+	List<IJob> itmJobListSdbError;
 
-    @Override
-    public String getTitle() {
-        return PLUGIN_NAME;
-    }
+	@Override
+	public PluginType getType() {
+		return PluginType.Dashboard;
+	}
 
-    @Override
-    public String getDescription() {
-        return PLUGIN_NAME;
-    }
-    
-    // Bound to our ui:repeat component
-    public List<RssEntry> getFeed() {
-    	Long now = System.currentTimeMillis();
-    	//never read or 15 min ago
-        if (lastReadFeed==null || now - lastReadFeed > ConfigPlugins.getPluginConfig(this).getInt("feed-cache-time", 900000) ){
-        	createRssResult();
-        	lastReadFeed = System.currentTimeMillis();
-        }
-        return feeds;
-    }
+	@Override
+	public String getTitle() {
+		return PLUGIN_NAME;
+	}
 
-    public String getFeedUrl(){
-    	return ConfigPlugins.getPluginConfig(this).getString("feed-url", "http://www.intranda.com/feed/");
-    }
-    
-    public List<DashQueuesObj> getItmPlugins() throws MalformedURLException{
-    	Long now = System.currentTimeMillis();
-    	//never read or 3 min ago
-        if (lastReadItm==null || now - lastReadItm > ConfigPlugins.getPluginConfig(this).getInt("itm-cache-time", 180000) ){
-        	System.out.println("plugin-liste:");
-            URL url = new URL(ConfigPlugins.getPluginConfig(this).getString("itm-url", "http://goobitest02.fritz.box/itm/api?action=getPlugins"));
-            System.out.println(url);
-            String response = getStringFromUrl(url);
-            Gson gson = new Gson();
-            itmPluginList = gson.fromJson(response, new TypeToken<List<DashQueuesObj>>(){}.getType());
-            System.out.println(itmPluginList);
-            lastReadItm = System.currentTimeMillis();
-        }
-        return itmPluginList;
-    }
-    
-    private static String getStringFromUrl(URL url) {
-        try(InputStream is = url.openStream(); BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
-            String buffer;
-            StringBuilder builder = new StringBuilder();
-            while((buffer = br.readLine()) != null) {
-                builder.append(buffer);
-            }
-            return builder.toString();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return "";
-    }
-    
-    private void createRssResult() {
-        int count = 10; // desired number of feeds to retrieve
-        SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
+	@Override
+	public String getDescription() {
+		return PLUGIN_NAME;
+	}
 
-        try {
-            // Connect
-            URLConnection feedUrl = new URL(getFeedUrl()).openConnection();
-            SyndFeedInput input = new SyndFeedInput();
-            // Build the feed list
-            SyndFeed feed = input.build(new XmlReader(feedUrl));
+	// Bound to our ui:repeat component
+	public List<RssEntry> getFeed() {
+		Long now = System.currentTimeMillis();
+		// never read or 15 min ago
+		if (lastReadFeed == null || now - lastReadFeed > ConfigPlugins.getPluginConfig(this).getInt("feed-cache-time", 900000)) {
+			createRssResult();
+			lastReadFeed = System.currentTimeMillis();
+		}
+		return feeds;
+	}
 
-            @SuppressWarnings("unchecked")
-            List<SyndEntry> feedList = feed.getEntries();
-            int feedSize = feedList.size();
+	public String getFeedUrl() {
+		return ConfigPlugins.getPluginConfig(this).getString("feed-url", "http://www.intranda.com/feed/");
+	}
 
-            // Save only count requested
-            if (feedSize > count) {
-                feedSize = count;
-            }
+	public List<DashQueuesObj> getItmPlugins() throws MalformedURLException {
+		readItmInfos();
+		return itmPluginList;
+	}
 
-            feeds = new ArrayList<>();
+	public List<IJob> getItmJobsOcrDone() throws MalformedURLException {
+		readItmInfos();
+		return itmJobListOcrDone;
+	}
 
-            for (int i = 0; i < feedSize; i++) {
+	public List<IJob> getItmJobsOcrError() throws MalformedURLException {
+		readItmInfos();
+		return itmJobListOcrError;
+	}
 
-                // Please see Javadoc for more of SyndEntry members
-                SyndEntry entry = (SyndEntry) feedList.get(i);
+	public List<IJob> getItmJobsSdbDone() throws MalformedURLException {
+		readItmInfos();
+		return itmJobListSdbDone;
+	}
 
-                RssEntry rss = new RssEntry();
+	public List<IJob> getItmJobsSdbError() throws MalformedURLException {
+		readItmInfos();
+		return itmJobListSdbError;
+	}
 
-                // Format based on your requirements
-                String title = entry.getTitle();
-                rss.setTitle(title);
+	private void readItmInfos() throws MalformedURLException {
+		Long now = System.currentTimeMillis();
+		// never read or 3 min ago
+		if (lastReadItm == null || now - lastReadItm > ConfigPlugins.getPluginConfig(this).getInt("itm-cache-time", 180000)) {
+			String basisUrl = ConfigPlugins.getPluginConfig(this).getString("itm-url", "http://goobitest02.fritz.box/itm/") + "api?";
+			Gson gson = new Gson();
+			
+			// read all plugins
+			URL url = new URL(basisUrl + "action=getPlugins");
+			String response = getStringFromUrl(url);
+			itmPluginList = gson.fromJson(response, new TypeToken<List<DashQueuesObj>>() {
+			}.getType());
+			
+			// read ocr jobs: Done
+			url = new URL(basisUrl + "action=getJobs&jobtype=OCR&status=DONE");
+            response = getStringFromUrl(url);
+            itmJobListOcrDone = gson.fromJson(response, new TypeToken<List<JobImpl>>(){}.getType());
+			
+            // read ocr jobs: Error
+ 			url = new URL(basisUrl + "action=getJobs&jobtype=OCR&status=ERROR");
+            response = getStringFromUrl(url);
+            itmJobListOcrError = gson.fromJson(response, new TypeToken<List<JobImpl>>(){}.getType());
+			            
+            // read sdb jobs: Done
+			url = new URL(basisUrl + "action=getJobs&jobtype=SDB&status=DONE");
+            response = getStringFromUrl(url);
+            itmJobListSdbDone = gson.fromJson(response, new TypeToken<List<JobImpl>>(){}.getType());
+			
+            // read sdb jobs: Error
+ 			url = new URL(basisUrl + "action=getJobs&jobtype=SDB&status=ERROR");
+            response = getStringFromUrl(url);
+            itmJobListSdbError = gson.fromJson(response, new TypeToken<List<JobImpl>>(){}.getType());
+			
+			lastReadItm = System.currentTimeMillis();
+		}
+	}
 
-                rss.setAuthor(entry.getAuthor());
-                rss.setPublishedDate(df.format(entry.getPublishedDate()));
+	private static String getStringFromUrl(URL url) {
+		try (InputStream is = url.openStream(); BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+			String buffer;
+			StringBuilder builder = new StringBuilder();
+			while ((buffer = br.readLine()) != null) {
+				builder.append(buffer);
+			}
+			return builder.toString();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
 
-                // Do some formatting you may require;
-                String description = entry.getDescription().getValue();
-                
-                rss.setDescription(description);
-                //  Update
-                feeds.add(rss);
-            }
-        } catch (Exception e) {
+	private void createRssResult() {
+		int count = 10; // desired number of feeds to retrieve
+		SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
 
-            // Or whatever behaviour your application requires
-            feeds = new ArrayList<RssEntry>();
-            RssEntry rss = new RssEntry();
-            rss.setTitle("Error");
-            rss.setAuthor("");
-            rss.setDescription(e.getMessage());
-            feeds.add(rss);
+		try {
+			// Connect
+			URLConnection feedUrl = new URL(getFeedUrl()).openConnection();
+			SyndFeedInput input = new SyndFeedInput();
+			// Build the feed list
+			SyndFeed feed = input.build(new XmlReader(feedUrl));
 
-        }
+			@SuppressWarnings("unchecked")
+			List<SyndEntry> feedList = feed.getEntries();
+			int feedSize = feedList.size();
 
-    }
+			// Save only count requested
+			if (feedSize > count) {
+				feedSize = count;
+			}
 
-    // List item class
-    public class RssEntry {
+			feeds = new ArrayList<>();
 
-        private String title;
-        private String author;
-        private String publishedDate;
-        private String description;
+			for (int i = 0; i < feedSize; i++) {
 
-        public RssEntry() {
-        }
+				// Please see Javadoc for more of SyndEntry members
+				SyndEntry entry = (SyndEntry) feedList.get(i);
 
-        public String getTitle() {
-            return title;
-        }
+				RssEntry rss = new RssEntry();
 
-        public void setTitle(String s) {
-            title = s;
-        }
+				// Format based on your requirements
+				String title = entry.getTitle();
+				rss.setTitle(title);
 
-        public String getAuthor() {
-            return author;
-        }
+				rss.setAuthor(entry.getAuthor());
+				rss.setPublishedDate(df.format(entry.getPublishedDate()));
 
-        public void setAuthor(String s) {
-            author = s;
-        }
+				// Do some formatting you may require;
+				String description = entry.getDescription().getValue();
 
-        public String getPublishedDate() {
-            return publishedDate;
-        }
+				rss.setDescription(description);
+				// Update
+				feeds.add(rss);
+			}
+		} catch (Exception e) {
 
-        public void setPublishedDate(String s) {
-            publishedDate = s;
-        }
+			// Or whatever behaviour your application requires
+			feeds = new ArrayList<RssEntry>();
+			RssEntry rss = new RssEntry();
+			rss.setTitle("Error");
+			rss.setAuthor("");
+			rss.setDescription(e.getMessage());
+			feeds.add(rss);
 
-        public String getDescription() {
-            return description;
-        }
+		}
 
-        public void setDescription(String s) {
-            description = s;
-        }
-    }
+	}
 
-    public List<Step> getAssignedSteps() {
-        if (Helper.getCurrentUser() != null) {
-            String sql = FilterHelper.criteriaBuilder("", false, false, true, true, false, true);
+	// List item class
+	public class RssEntry {
 
-            return StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 10);
-        }
-        return null;
-    }
+		private String title;
+		private String author;
+		private String publishedDate;
+		private String description;
 
-    @Override
-    public String getGuiPath() {
-        return "plugin_dashboard_extended.xhtml";
-    }
+		public RssEntry() {
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String s) {
+			title = s;
+		}
+
+		public String getAuthor() {
+			return author;
+		}
+
+		public void setAuthor(String s) {
+			author = s;
+		}
+
+		public String getPublishedDate() {
+			return publishedDate;
+		}
+
+		public void setPublishedDate(String s) {
+			publishedDate = s;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String s) {
+			description = s;
+		}
+	}
+
+	public List<Step> getAssignedSteps() {
+		if (Helper.getCurrentUser() != null) {
+			String sql = FilterHelper.criteriaBuilder("", false, false, true, true, false, true);
+
+			return StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 10);
+		}
+		return null;
+	}
+
+	@Override
+	public String getGuiPath() {
+		return "plugin_dashboard_extended.xhtml";
+	}
 }

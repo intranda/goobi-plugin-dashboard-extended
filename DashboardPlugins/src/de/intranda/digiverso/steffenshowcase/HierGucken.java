@@ -49,12 +49,24 @@ public class HierGucken {
             /*
              * Hier job-Liste mit Jobtyp
              */
-            System.out.println("\njob-Liste mit Jobtyp");
-            url = new URL("http://goobitest02.fritz.box/itm/api?action=getJobs&jobtype=STORAGEBALANCER");
+            
+            System.out.println("\n------------------------------------------------------");
+            
+            System.out.println("\njob-Liste mit Jobtyp Error");
+            url = new URL("http://goobitest02.fritz.box/itm/api?action=getJobs&jobtype=OCR&status=ERROR");
             System.out.println(url);
             response = getStringFromUrl(url);
             jobList = gson.fromJson(response, new TypeToken<List<JobImpl>>(){}.getType());
             System.out.println(jobList);
+            
+            System.out.println("\njob-Liste mit Jobtyp Done");
+            url = new URL("http://goobitest02.fritz.box/itm/api?action=getJobs&jobtype=OCR&status=DONE");
+            System.out.println(url);
+            response = getStringFromUrl(url);
+            jobList = gson.fromJson(response, new TypeToken<List<JobImpl>>(){}.getType());
+            System.out.println(jobList);
+
+            System.out.println("\n------------------------------------------------------");
             /*
              * Ende job-Liste mit Jobtyp
              */
