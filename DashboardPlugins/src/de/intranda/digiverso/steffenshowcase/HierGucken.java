@@ -12,9 +12,9 @@ import java.util.Locale;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import de.intranda.digiverso.model.DashQueuesObj;
-import de.intranda.digiverso.model.IJob;
-import de.intranda.digiverso.model.JobImpl;
+import de.intranda.digiverso.model.itm.DashQueuesObj;
+import de.intranda.digiverso.model.itm.IJob;
+import de.intranda.digiverso.model.itm.JobImpl;
 
 public class HierGucken {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package de.intranda.digiverso.model;
+package de.intranda.digiverso.model.itm;
 
 import java.io.Serializable;
 
