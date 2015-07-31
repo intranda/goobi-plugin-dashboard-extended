@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+
+		<div class="box box-color box-bordered">
+			<div class="box-title">
+				<h3>
+					<i class="fa fa-globe"></i>
+					<h:outputText value="#{msgs[DashboardForm.plugin.feedTitle]}" />
+				</h3>
+				<h:form>
+					<div class="actions">
+						<a href="#{DashboardForm.plugin.feedUrl}" class="btn btn-mini" title="#{msg.rssSubscribe}" target="_blank"> <i class="fa fa-rss" />
+						</a>
+						<h:commandLink styleClass="btn btn-mini" action="#{NavigationForm.Reload}"
+							title="#{NavigationForm.uiStatus.dashboard_rss eq 'up'?msgs.showBoxDetailsOn:msgs.showBoxDetailsOff}">
+							<i class="fa #{NavigationForm.uiStatus.dashboard_rss eq 'down'?'fa-angle-up':'fa-angle-down'}" />
+							<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_rss}"
+								value="#{NavigationForm.uiStatus.dashboard_rss eq 'down'?'up':'down'}" />
+						</h:commandLink>
+					</div>
+				</h:form>
+			</div>
+			<div class="box-content">
+				<ui:repeat value="#{DashboardForm.plugin.feed}" var="feed" varStatus="status">
+	
+					<h:panelGroup rendered="#{status.index lt 3 or NavigationForm.uiStatus.dashboard_rss eq 'down'}" styleClass="margin-sides-10 block">
+	
+						<h:panelGroup rendered="#{not status.first}">
+							<hr style="margin: 10px" />
+						</h:panelGroup>
+	
+						<div class="row">
+							<h:outputText escape="false" value="#{feed.title}" />
+						</div>
+	
+						<div class="row margin-top-more">
+							<h:outputText escape="false" value="#{feed.description}" />
+						</div>
+					</h:panelGroup>
+				</ui:repeat>
+			</div>
+		</div>
+        
+    </composite:implementation>
+
+</ui:composition>
+
+
