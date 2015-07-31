@@ -40,15 +40,15 @@ public class SimpleDashboard implements IDashboardPlugin {
 	}
 
 	public Integer getFeedCachTime() {
-		return ConfigPlugins.getPluginConfig(this).getInt("feed-cache-time", 900000);
+		return ConfigPlugins.getPluginConfig(this).getInt("rss-cache-time", 900000);
 	}
 	
 	public String getFeedTitle() {
-		return ConfigPlugins.getPluginConfig(this).getString("feed-title", "Letzte Importe");
+		return ConfigPlugins.getPluginConfig(this).getString("rss-title", "Letzte Importe");
 	}
 	
 	public String getFeedUrl() {
-		return ConfigPlugins.getPluginConfig(this).getString("feed-url", "http://www.intranda.com/feed/");
+		return ConfigPlugins.getPluginConfig(this).getString("rss-url", "http://www.intranda.com/feed/");
 	}
 
 	public List<Step> getAssignedSteps() {

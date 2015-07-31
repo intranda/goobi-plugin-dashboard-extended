@@ -1,5 +1,5 @@
 <config_plugin>
-	<feed-cache-time>900000</feed-cache-time>
-	<feed-url>http://www.intranda.com/feed/</feed-url>
-	<feed-title>Letzte Importe</feed-title>
+	<rss-cache-time>900000</rss-cache-time>
+	<rss-url>http://www.intranda.com/feed/</rss-url>
+	<rss-title>Letzte Importe</rss-title>
 </config_plugin>

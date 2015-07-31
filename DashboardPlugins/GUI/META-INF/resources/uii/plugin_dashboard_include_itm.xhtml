@@ -1,0 +1,133 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk">
+
+	<composite:interface>
+	</composite:interface>
+
+	<composite:implementation>
+		<h:form id="dashboard-itm">
+			<div class="box box-color lightgrey box-bordered">
+				<div class="box-title">
+					<h3>
+						<i class="fa fa-cog"></i>
+						<h:outputText value="intranda TaskManager: " />
+						<h:outputText value="Plugins" rendered="#{DashboardForm.plugin.itmPlugin == null}" />
+						<h:outputText value="#{DashboardForm.plugin.itmPlugin.name}" rendered="#{DashboardForm.plugin.itmPlugin != null}" />
+					</h3>
+
+					
+					<!-- close current queue and show all itm plugins again -->
+					<div class="actions">
+						<h:commandLink styleClass="btn btn-mini" action="#{NavigationForm.Reload}" title="#{msgs.uebersicht}"
+							rendered="#{DashboardForm.plugin.itmPlugin != null}">
+							<i class="fa fa-desktop" />
+							<f:setPropertyActionListener target="#{DashboardForm.plugin.itmPlugin}" value="#{null}" />
+							<f:ajax render=":dashboard-itm" />
+						</h:commandLink>
+					</div>
+					<!-- // close current queue and show all itm plugins again -->
+					
+					<!-- show tabs to select between job status -->
+					<h:panelGroup rendered="#{DashboardForm.plugin.itmPlugin != null}">
+						<ul class="tabs">
+							<li class="#{NavigationForm.uiStatus.dashboard_itm eq 'processing'?'active':''}">
+								<h:commandLink action="#{NavigationForm.Reload}" value="Processing">
+									<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_itm}" value="processing" />
+									<f:ajax render=":dashboard-itm" />
+								</h:commandLink>
+							</li>
+							<li class="#{NavigationForm.uiStatus.dashboard_itm eq 'done'?'active':''}">
+								<h:commandLink action="#{NavigationForm.Reload}" value="Done">
+									<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_itm}" value="done" />
+									<f:ajax render=":dashboard-itm" />
+								</h:commandLink>
+							</li>
+							<li class="#{NavigationForm.uiStatus.dashboard_itm eq 'error'?'active':''}">
+								<h:commandLink action="#{NavigationForm.Reload}" value="Error">
+									<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_itm}" value="error" />
+									<f:ajax render=":dashboard-itm" />
+								</h:commandLink>
+							</li>
+						</ul>
+					</h:panelGroup>
+					<!-- // show tabs to select between job status -->
+
+				</div>
+				<div class="box-content nopadding">
+
+					<!-- no queue loaded - show list of all itm plugins -->
+					<h:panelGroup rendered="#{DashboardForm.plugin.itmPlugin == null}" >
+						<table class="table table-hover responsive">
+							<tbody>
+	
+								<ui:repeat var="item" value="#{DashboardForm.plugin.itmPlugins}">
+									<tr>
+										<td>
+											<h:commandLink value="#{item.name}" rel="tooltip" action="#{NavigationForm.Reload}" title="#{item.name}">
+												<f:passThroughAttribute name="data-toggle" value="tooltip" />
+												<f:setPropertyActionListener target="#{DashboardForm.plugin.itmPlugin}" value="#{item}" />
+												<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_itm}" value="done" />
+												<f:ajax render=":dashboard-itm"></f:ajax>
+											</h:commandLink>
+										</td>
+										<td>
+											<h:commandLink value="#{item.number} Jobs" rel="tooltip" action="#{NavigationForm.Reload}" title="#{item.number} Jobs">
+												<f:passThroughAttribute name="data-toggle" value="tooltip" />
+												<f:setPropertyActionListener target="#{DashboardForm.plugin.itmPlugin}" value="#{item}" />
+												<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_itm}" value="done" />
+												<f:ajax render=":dashboard-itm"></f:ajax>
+											</h:commandLink>
+										</td>
+										<td>
+											<h:panelGroup class="pull-right badge #{item.running eq 'running'?'badge-intranda-green':'badge-intranda-red'}">
+												<h:outputText style="font-weight:normal" value=" #{item.running} " />
+											</h:panelGroup>
+										</td>
+									</tr>
+								</ui:repeat>
+							</tbody>
+						</table>
+					</h:panelGroup>
+					<!-- // no queue loaded - show list of all itm plugins -->
+
+					<!-- one queue is selected - show details -->
+					<h:panelGroup rendered="#{DashboardForm.plugin.itmPlugin != null and NavigationForm.uiStatus.dashboard_itm ne 'error'}" >
+						<table class="table table-hover responsive">
+							<tbody>
+								<ui:repeat var="item" value="#{NavigationForm.uiStatus.dashboard_itm eq 'done'?DashboardForm.plugin.itmPlugin.listDone:DashboardForm.plugin.itmPlugin.listProcessing}" varStatus="status">
+									<tr>
+										<td>#{item.goobiId}</td>
+										<td>#{item.goobiProcessTitle}</td>
+										<td>#{item.size}</td>
+										<td>#{item.abbyyPages}</td>
+										<td>#{item.status}</td>
+									</tr>
+								</ui:repeat>
+							</tbody>
+						</table>
+					</h:panelGroup>
+					
+					<h:panelGroup rendered="#{DashboardForm.plugin.itmPlugin != null and NavigationForm.uiStatus.dashboard_itm eq 'error'}" >
+						<table class="table table-hover responsive">
+							<tbody>
+								<ui:repeat var="item" value="#{DashboardForm.plugin.itmPlugin.listError}" varStatus="status">
+									<tr>
+										<td>#{item.goobiId}</td>
+										<td>#{item.goobiProcessTitle}</td>
+										<td>#{item.errorMessage}</td>
+										<td>#{item.status}</td>
+									</tr>
+								</ui:repeat>
+							</tbody>
+						</table>
+					</h:panelGroup>
+					<!-- // one queue is selected - show details -->
+
+				</div>
+			</div>
+		</h:form>
+	</composite:implementation>
+
+</ui:composition>
+
+
