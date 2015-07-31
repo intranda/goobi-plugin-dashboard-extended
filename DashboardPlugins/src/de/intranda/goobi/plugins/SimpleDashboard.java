@@ -8,8 +8,8 @@ import org.goobi.beans.Step;
 import org.goobi.production.enums.PluginType;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 
-import de.intranda.digiverso.model.itm.rss.DashboardHelperRss;
-import de.intranda.digiverso.model.itm.rss.RssEntry;
+import de.intranda.digiverso.model.rss.DashboardHelperRss;
+import de.intranda.digiverso.model.rss.RssEntry;
 import de.intranda.digiverso.model.tasks.DashboardHelperTasks;
 import de.sub.goobi.config.ConfigPlugins;
 

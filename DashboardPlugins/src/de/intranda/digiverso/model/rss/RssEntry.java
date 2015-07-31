@@ -1,4 +1,4 @@
-package de.intranda.digiverso.model.itm.rss;
+package de.intranda.digiverso.model.rss;
 
 public class RssEntry {
 

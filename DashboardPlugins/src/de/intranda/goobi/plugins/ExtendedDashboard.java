@@ -20,8 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import de.intranda.digiverso.model.itm.DashQueuesObj;
 import de.intranda.digiverso.model.itm.IJob;
 import de.intranda.digiverso.model.itm.JobImpl;
-import de.intranda.digiverso.model.itm.rss.DashboardHelperRss;
-import de.intranda.digiverso.model.itm.rss.RssEntry;
+import de.intranda.digiverso.model.rss.DashboardHelperRss;
+import de.intranda.digiverso.model.rss.RssEntry;
 import de.intranda.digiverso.model.tasks.DashboardHelperTasks;
 import de.sub.goobi.config.ConfigPlugins;
 

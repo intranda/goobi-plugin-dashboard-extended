@@ -1,4 +1,4 @@
-package de.intranda.digiverso.model.itm.rss;
+package de.intranda.digiverso.model.rss;
 
 import java.net.URL;
 import java.net.URLConnection;
