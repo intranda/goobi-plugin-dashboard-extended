@@ -13,7 +13,7 @@
 				<ui:include src="plugin_dashboard_include_tasks.xhtml" />
                 <ui:include src="plugin_dashboard_include_search.xhtml" />			
                 	
-				<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.showItm}">
+				<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.showItm and LoginForm.maximaleBerechtigung le 2}">
 					<ui:include src="plugin_dashboard_include_itm.xhtml" />	
 				</h:panelGroup>			
 			
@@ -23,6 +23,11 @@
 				<h:panelGroup rendered="#{DashboardForm.plugin.rssHelper.showRss}">
 					<ui:include src="plugin_dashboard_include_rss.xhtml" />
 				</h:panelGroup>
+				
+				<h:panelGroup rendered="#{DashboardForm.plugin.nagiosHelper.showNagios and LoginForm.maximaleBerechtigung le 2}">
+					<ui:include src="plugin_dashboard_include_nagios.xhtml" />	
+				</h:panelGroup>	
+				
 			</div>
 
 		</div>

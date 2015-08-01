@@ -1,4 +1,4 @@
-package de.intranda.digiverso.model.rss;
+package de.intranda.digiverso.model.helper;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -12,6 +12,8 @@ import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+
+import de.intranda.digiverso.model.rss.RssEntry;
 
 public class DashboardHelperRss {
 

@@ -1,4 +1,4 @@
-package de.intranda.digiverso.model.tasks;
+package de.intranda.digiverso.model.helper;
 
 import java.util.List;
 

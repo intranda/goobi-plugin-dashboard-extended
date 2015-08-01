@@ -23,6 +23,7 @@
 							<f:setPropertyActionListener target="#{DashboardForm.plugin.itmHelper.lastRead}" value="#{null}" />
 							<f:ajax render=":dashboard-itm" />
 						</h:commandLink>
+						<!-- // reload all data again -->
 						
 						<!-- close current queue and show all itm plugins again -->
 						<h:commandLink styleClass="btn btn-mini" action="#{NavigationForm.Reload}" title="#{msgs.uebersicht}"
@@ -31,8 +32,8 @@
 							<f:setPropertyActionListener target="#{DashboardForm.plugin.itmHelper.currentItmPlugin}" value="#{null}" />
 							<f:ajax render=":dashboard-itm" />
 						</h:commandLink>
+						<!-- // close current queue and show all itm plugins again -->
 					</div>
-					<!-- // close current queue and show all itm plugins again -->
 					
 					<!-- show tabs to select between job status -->
 					<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.currentItmPlugin != null}">
@@ -62,15 +63,20 @@
 				</div>
 				<div class="box-content nopadding">
 
+					<h:panelGroup styleClass="padding:10px;display:block;" rendered="#{DashboardForm.plugin.itmHelper.itmPlugins == null}">
+						<h:outputText styleClass="alert alert-warning alert-dismissable margin-bottom-10" value="#{msgs.dashboard_noItmConnection}" />
+					</h:panelGroup>
+		
 					<!-- no queue loaded - show list of all itm plugins -->
-					<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.currentItmPlugin == null}" >
+					<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.itmPlugins != null and DashboardForm.plugin.itmHelper.currentItmPlugin == null}" >
+						
 						<table class="table table-hover responsive">
 							<tbody>
 	
 								<ui:repeat var="item" value="#{DashboardForm.plugin.itmHelper.itmPlugins}">
 									<tr>
 										<td>
-											<h:commandLink value="#{item.name}" rel="tooltip" action="#{NavigationForm.Reload}" title="#{item.name}">
+											<h:commandLink styleClass="font-black" value="#{item.name}" rel="tooltip" action="#{NavigationForm.Reload}" title="#{item.name}">
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
 												<f:setPropertyActionListener target="#{DashboardForm.plugin.itmHelper.currentItmPlugin}" value="#{item}" />
 												<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_itm}" value="done" />
@@ -78,7 +84,7 @@
 											</h:commandLink>
 										</td>
 										<td>
-											<h:commandLink value="#{item.number} Jobs" rel="tooltip" action="#{NavigationForm.Reload}" title="#{item.number} Jobs">
+											<h:commandLink styleClass="font-black" value="#{item.number} Jobs" rel="tooltip" action="#{NavigationForm.Reload}" title="#{item.number} Jobs">
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
 												<f:setPropertyActionListener target="#{DashboardForm.plugin.itmHelper.currentItmPlugin}" value="#{item}" />
 												<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_itm}" value="done" />
@@ -86,9 +92,13 @@
 											</h:commandLink>
 										</td>
 										<td>
-											<h:panelGroup class="pull-right badge #{item.running eq 'running'?'badge-intranda-green':'badge-intranda-red'}">
-												<h:outputText style="font-weight:normal" value=" #{item.running} " />
-											</h:panelGroup>
+											<h:commandLink styleClass="pull-right margin-right-regular" rel="tooltip" action="#{NavigationForm.Reload}" title="#{item.running}">
+												<h:outputText styleClass="badge font-size-xs #{item.running eq 'running'?'badge-intranda-green':'badge-intranda-red'}" style="font-weight:normal" value=" #{item.running} " />
+												<f:passThroughAttribute name="data-toggle" value="tooltip" />
+												<f:setPropertyActionListener target="#{DashboardForm.plugin.itmHelper.currentItmPlugin}" value="#{item}" />
+												<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_itm}" value="done" />
+												<f:ajax render=":dashboard-itm"></f:ajax>
+											</h:commandLink>
 										</td>
 									</tr>
 								</ui:repeat>
@@ -98,7 +108,7 @@
 					<!-- // no queue loaded - show list of all itm plugins -->
 
 					<!-- one queue is selected - show details -->
-					<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.currentItmPlugin != null and NavigationForm.uiStatus.dashboard_itm ne 'error'}" >
+					<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.itmPlugins != null and DashboardForm.plugin.itmHelper.currentItmPlugin != null and NavigationForm.uiStatus.dashboard_itm ne 'error'}" >
 						<table class="table table-hover responsive">
 							<tbody>
 								<ui:repeat var="item" value="#{NavigationForm.uiStatus.dashboard_itm eq 'done'?DashboardForm.plugin.itmHelper.currentItmPlugin.listDone:DashboardForm.plugin.itmHelper.currentItmPlugin.listProcessing}" varStatus="status">
@@ -114,7 +124,7 @@
 						</table>
 					</h:panelGroup>
 					
-					<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.currentItmPlugin != null and NavigationForm.uiStatus.dashboard_itm eq 'error'}" >
+					<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.itmPlugins != null and DashboardForm.plugin.itmHelper.currentItmPlugin != null and NavigationForm.uiStatus.dashboard_itm eq 'error'}" >
 						<table class="table table-hover responsive">
 							<tbody>
 								<ui:repeat var="item" value="#{DashboardForm.plugin.itmHelper.currentItmPlugin.listError}" varStatus="status">
