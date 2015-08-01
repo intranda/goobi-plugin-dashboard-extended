@@ -10,11 +10,11 @@
 			<div class="box-title">
 				<h3>
 					<i class="fa fa-globe"></i>
-					<h:outputText value="#{msgs[DashboardForm.plugin.feedTitle]}" />
+					<h:outputText value="#{msgs[DashboardForm.plugin.rssHelper.feedTitle]}"/>
 				</h3>
 				<h:form>
 					<div class="actions">
-						<a href="#{DashboardForm.plugin.feedUrl}" class="btn btn-mini" title="#{msg.rssSubscribe}" target="_blank"> <i class="fa fa-rss" />
+						<a href="#{DashboardForm.plugin.rssHelper.feedUrl}" class="btn btn-mini" title="#{msg.rssSubscribe}" target="_blank"> <i class="fa fa-rss" />
 						</a>
 						<h:commandLink styleClass="btn btn-mini" action="#{NavigationForm.Reload}"
 							title="#{NavigationForm.uiStatus.dashboard_rss eq 'up'?msgs.showBoxDetailsOn:msgs.showBoxDetailsOff}">
@@ -26,7 +26,7 @@
 				</h:form>
 			</div>
 			<div class="box-content">
-				<ui:repeat value="#{DashboardForm.plugin.feed}" var="feed" varStatus="status">
+				<ui:repeat value="#{DashboardForm.plugin.rssHelper.feed}" var="feed" varStatus="status">
 	
 					<h:panelGroup rendered="#{status.index lt 3 or NavigationForm.uiStatus.dashboard_rss eq 'down'}" styleClass="margin-sides-10 block">
 	

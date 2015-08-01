@@ -14,52 +14,61 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class DashboardHelperItm {
-	private Long lastReadItm = null;
+
+	private XMLConfiguration config;
+	private Long lastRead = null;
 	private List<DashQueuesObj> itmPluginList;
-		
-	public List<DashQueuesObj> getItmPlugins(XMLConfiguration xmlConfiguration) throws MalformedURLException {
-		readItmInfos(xmlConfiguration);
+	private DashQueuesObj currentItmPlugin = null;
+
+	public DashboardHelperItm(XMLConfiguration xmlConfiguration) {
+		config = xmlConfiguration;
+	}
+
+	public List<DashQueuesObj> getItmPlugins() throws MalformedURLException {
+		readItmInfos();
 		return itmPluginList;
 	}
-	
-	private void readItmInfos(XMLConfiguration xmlConfiguration) throws MalformedURLException {
+
+	private void readItmInfos() throws MalformedURLException {
 		Long now = System.currentTimeMillis();
+		
 		// never read or 3 min ago
-		if (lastReadItm == null || now - lastReadItm > xmlConfiguration.getInt("itm-cache-time", 180000)) {
-			String basisUrl = xmlConfiguration.getString("itm-url", "http://goobitest02.fritz.box/itm/") + "api?";
+		if (isShowItm() && (lastRead == null || now - lastRead > config.getInt("itm-cache-time", 180000))) {
+			String basisUrl = config.getString("itm-url", "http://goobitest02.fritz.box/itm/") + "api?";
 			Gson gson = new Gson();
 
-			// read all plugins
+			// read all plugin types of the itm
 			URL url = new URL(basisUrl + "action=getPlugins");
 			String response = getStringFromUrl(url);
 			itmPluginList = gson.fromJson(response, new TypeToken<List<DashQueuesObj>>() {
 			}.getType());
-			
+
+			// read all job queues for this plugin type
 			for (DashQueuesObj dqo : itmPluginList) {
 				url = new URL(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=DONE");
 				response = getStringFromUrl(url);
 				List<IJob> jobsDone = gson.fromJson(response, new TypeToken<List<JobImpl>>() {
-					}.getType());
+				}.getType());
 				dqo.setListDone(jobsDone);
-				
+
 				url = new URL(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=ERROR");
 				response = getStringFromUrl(url);
 				List<IJob> jobsError = gson.fromJson(response, new TypeToken<List<JobImpl>>() {
-					}.getType());
+				}.getType());
 				dqo.setListError(jobsError);
-				
+
 				url = new URL(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=PROCESSING");
 				response = getStringFromUrl(url);
 				List<IJob> jobsProcessing = gson.fromJson(response, new TypeToken<List<JobImpl>>() {
-					}.getType());
+				}.getType());
 				dqo.setListProcessing(jobsProcessing);
 			}
-			
-//			System.out.println(itmPluginList);
-			lastReadItm = System.currentTimeMillis();
+
+			// System.out.println(itmPluginList);
+			lastRead = System.currentTimeMillis();
 		}
 	}
-	
+
 	private static String getStringFromUrl(URL url) {
 		try (InputStream is = url.openStream(); BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
 			String buffer;
@@ -73,5 +82,25 @@ public class DashboardHelperItm {
 			e.printStackTrace();
 		}
 		return "";
+	}
+
+	public DashQueuesObj getCurrentItmPlugin() {
+		return currentItmPlugin;
+	}
+
+	public void setCurrentItmPlugin(DashQueuesObj currentItmPlugin) {
+		this.currentItmPlugin = currentItmPlugin;
+	}
+	
+	public boolean isShowItm(){
+		return config.getBoolean("itm-show", true);
+	}
+
+	public Long getLastRead() {
+		return lastRead;
+	}
+	
+	public void setLastRead(Long lastReadItm) {
+		this.lastRead = lastReadItm;
 	}
 }

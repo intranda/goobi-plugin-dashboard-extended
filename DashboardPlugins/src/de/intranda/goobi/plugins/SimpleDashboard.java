@@ -9,14 +9,13 @@ import org.goobi.production.enums.PluginType;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 
 import de.intranda.digiverso.model.rss.DashboardHelperRss;
-import de.intranda.digiverso.model.rss.RssEntry;
 import de.intranda.digiverso.model.tasks.DashboardHelperTasks;
 import de.sub.goobi.config.ConfigPlugins;
 
 @PluginImplementation
 public class SimpleDashboard implements IDashboardPlugin {
 
-	private DashboardHelperRss helper = new DashboardHelperRss();
+	private DashboardHelperRss rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(this));
 	private static final String PLUGIN_NAME = "intranda_dashboard_simple";
 
 	@Override
@@ -34,29 +33,16 @@ public class SimpleDashboard implements IDashboardPlugin {
 		return PLUGIN_NAME;
 	}
 
-	// Bound to our ui:repeat component
-	public List<RssEntry> getFeed() {
-		return helper.getFeed(getFeedUrl(), getFeedCachTime());
-	}
-
-	public Integer getFeedCachTime() {
-		return ConfigPlugins.getPluginConfig(this).getInt("rss-cache-time", 900000);
-	}
-	
-	public String getFeedTitle() {
-		return ConfigPlugins.getPluginConfig(this).getString("rss-title", "Letzte Importe");
-	}
-	
-	public String getFeedUrl() {
-		return ConfigPlugins.getPluginConfig(this).getString("rss-url", "http://www.intranda.com/feed/");
+	@Override
+	public String getGuiPath() {
+		return "plugin_dashboard_simple.xhtml";
 	}
 
 	public List<Step> getAssignedSteps() {
 		return DashboardHelperTasks.getAssignedSteps();
 	}
-
-	@Override
-	public String getGuiPath() {
-		return "plugin_dashboard_simple.xhtml";
+	
+	public DashboardHelperRss getRssHelper() {
+		return rssHelper;
 	}
 }
