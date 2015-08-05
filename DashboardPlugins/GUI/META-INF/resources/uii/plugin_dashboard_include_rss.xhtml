@@ -35,7 +35,9 @@
 						</h:panelGroup>
 	
 						<div class="row">
-							<h:outputText escape="false" value="#{feed.title}" />
+							<a href="#{feed.link}" target="_blank">
+								<h:outputText escape="false" value="#{feed.title}" />
+							</a>
 						</div>
 	
 						<div class="row margin-top-more">

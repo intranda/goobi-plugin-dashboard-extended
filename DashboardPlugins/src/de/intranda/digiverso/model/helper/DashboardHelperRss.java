@@ -1,9 +1,11 @@
 package de.intranda.digiverso.model.helper;
 
+import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
@@ -14,6 +16,7 @@ import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
 import de.intranda.digiverso.model.rss.RssEntry;
+import de.sub.goobi.helper.HttpClientHelper;
 
 public class DashboardHelperRss {
 
@@ -31,11 +34,8 @@ public class DashboardHelperRss {
 		SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
 
 		try {
-			// Connect
-			URLConnection feedUrl = new URL(getFeedUrl()).openConnection();
 			SyndFeedInput input = new SyndFeedInput();
-			// Build the feed list
-			SyndFeed feed = input.build(new XmlReader(feedUrl));
+			SyndFeed feed = input.build(new StringReader(HttpClientHelper.getStringFromUrl(getFeedUrl())));
 
 			@SuppressWarnings("unchecked")
 			List<SyndEntry> feedList = feed.getEntries();
@@ -52,7 +52,12 @@ public class DashboardHelperRss {
 				String title = entry.getTitle();
 				rss.setTitle(title);
 				rss.setAuthor(entry.getAuthor());
-				rss.setPublishedDate(df.format(entry.getPublishedDate()));
+				try {
+					Date d = entry.getPublishedDate();
+					rss.setPublishedDate(df.format(d));
+				} catch (Exception e) {
+				}
+				rss.setLink(entry.getLink());
 				String description = entry.getDescription().getValue();
 				rss.setDescription(description);
 				feeds.add(rss);

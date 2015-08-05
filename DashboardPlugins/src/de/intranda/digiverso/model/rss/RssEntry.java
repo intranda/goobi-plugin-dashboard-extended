@@ -6,6 +6,7 @@ public class RssEntry {
 	private String author;
 	private String publishedDate;
 	private String description;
+	private String link;
 
 	public RssEntry() {
 	}
@@ -40,5 +41,13 @@ public class RssEntry {
 
 	public void setDescription(String s) {
 		description = s;
+	}
+	
+	public String getLink() {
+		return link;
+	}
+	
+	public void setLink(String link) {
+		this.link = link;
 	}
 }
