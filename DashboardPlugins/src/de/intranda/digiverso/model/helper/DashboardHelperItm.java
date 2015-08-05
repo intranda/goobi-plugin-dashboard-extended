@@ -1,11 +1,6 @@
 package de.intranda.digiverso.model.helper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
@@ -16,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import de.intranda.digiverso.model.itm.DashQueuesObj;
 import de.intranda.digiverso.model.itm.IJob;
 import de.intranda.digiverso.model.itm.JobImpl;
+import de.sub.goobi.helper.HttpClientHelper;
 
 public class DashboardHelperItm {
 
@@ -42,28 +38,24 @@ public class DashboardHelperItm {
 			Gson gson = new Gson();
 
 			// read all plugin types of the itm
-			URL url = new URL(basisUrl + "action=getPlugins");
-			String response = getStringFromUrl(url);
+			String response = HttpClientHelper.getStringFromUrl(basisUrl + "action=getPlugins");
 			itmPluginList = gson.fromJson(response, new TypeToken<List<DashQueuesObj>>() {
 			}.getType());
 
 			if (itmPluginList != null) {
 				// read all job queues for this plugin type
 				for (DashQueuesObj dqo : itmPluginList) {
-					url = new URL(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=DONE");
-					response = getStringFromUrl(url);
+					response = HttpClientHelper.getStringFromUrl(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=DONE");
 					List<IJob> jobsDone = gson.fromJson(response, new TypeToken<List<JobImpl>>() {
 					}.getType());
 					dqo.setListDone(jobsDone);
 
-					url = new URL(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=ERROR");
-					response = getStringFromUrl(url);
+					response = HttpClientHelper.getStringFromUrl(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=ERROR");
 					List<IJob> jobsError = gson.fromJson(response, new TypeToken<List<JobImpl>>() {
 					}.getType());
 					dqo.setListError(jobsError);
 
-					url = new URL(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=PROCESSING");
-					response = getStringFromUrl(url);
+					response = HttpClientHelper.getStringFromUrl(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=PROCESSING");
 					List<IJob> jobsProcessing = gson.fromJson(response, new TypeToken<List<JobImpl>>() {
 					}.getType());
 					dqo.setListProcessing(jobsProcessing);
@@ -73,21 +65,6 @@ public class DashboardHelperItm {
 			// System.out.println(itmPluginList);
 			lastRead = System.currentTimeMillis();
 		}
-	}
-
-	private static String getStringFromUrl(URL url) {
-		try (InputStream is = url.openStream(); BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
-			String buffer;
-			StringBuilder builder = new StringBuilder();
-			while ((buffer = br.readLine()) != null) {
-				builder.append(buffer);
-			}
-			return builder.toString();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "";
 	}
 
 	public DashQueuesObj getCurrentItmPlugin() {
