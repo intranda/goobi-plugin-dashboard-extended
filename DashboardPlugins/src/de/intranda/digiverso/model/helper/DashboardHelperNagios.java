@@ -1,6 +1,5 @@
 package de.intranda.digiverso.model.helper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import com.google.gson.Gson;
 
 import de.intranda.digiverso.model.nagios.Host;
 import de.intranda.digiverso.model.nagios.Nagios;
+import de.sub.goobi.helper.HttpClientHelper;
 
 public class DashboardHelperNagios {
 
@@ -32,17 +32,13 @@ public class DashboardHelperNagios {
 	        int numberOfHosts = config.getMaxIndex("nagios-host");
 	        for (int i = 0; i <= numberOfHosts; i++) {
 	            String url = config.getString("nagios-host(" + i + ")");
-	            try {
-	            	String serverURL = "http://monitoring.intranda.com/icinga/cgi-bin/status.cgi?host=" + url + "&jsonoutput";
-	    			String json = HttpDownloadUtility.downloadFile(serverURL, serverLogin, serverPassword);
-			    	Gson gson = new Gson();
-			    	Host host = new Host(url);
-		            host.setNagios(gson.fromJson(json, Nagios.class));
-			    	hosts.add(host);
-		        } catch (IOException e) {
-					e.printStackTrace();
-				}
-	        }
+	            String serverURL = "http://monitoring.intranda.com/icinga/cgi-bin/status.cgi?host=" + url + "&jsonoutput";
+	    		String json = HttpClientHelper.getStringFromUrl(serverURL, serverLogin, serverPassword, "monitoring.intranda.com", "80");
+			    Gson gson = new Gson();
+			    Host host = new Host(url);
+		        host.setNagios(gson.fromJson(json, Nagios.class));
+			    hosts.add(host);
+		    }
 			lastRead = System.currentTimeMillis();
 		}
 	}

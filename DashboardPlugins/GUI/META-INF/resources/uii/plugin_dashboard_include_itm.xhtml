@@ -114,10 +114,10 @@
 								<ui:repeat var="item" value="#{NavigationForm.uiStatus.dashboard_itm eq 'done'?DashboardForm.plugin.itmHelper.currentItmPlugin.listDone:DashboardForm.plugin.itmHelper.currentItmPlugin.listProcessing}" varStatus="status">
 									<tr>
 										<td>#{item.goobiId}</td>
-										<td>#{item.goobiProcessTitle}</td>
+										<td class="tableColumnMaxWidthLong" title="#{item.goobiProcessTitle}">#{item.goobiProcessTitle}</td>
 										<td>#{item.size}</td>
 										<td>#{item.abbyyPages}</td>
-										<td>#{item.status}</td>
+										<td class="tableColumnMaxWidthLong" title="#{item.status}">#{item.status}</td>
 									</tr>
 								</ui:repeat>
 							</tbody>
@@ -130,9 +130,9 @@
 								<ui:repeat var="item" value="#{DashboardForm.plugin.itmHelper.currentItmPlugin.listError}" varStatus="status">
 									<tr>
 										<td>#{item.goobiId}</td>
-										<td>#{item.goobiProcessTitle}</td>
-										<td>#{item.errorMessage}</td>
-										<td>#{item.status}</td>
+										<td class="tableColumnMaxWidthLong" title="#{item.goobiProcessTitle}">#{item.goobiProcessTitle}</td>
+										<td class="tableColumnMaxWidthLong" title="#{item.errorMessage}" >#{item.errorMessage}</td>
+										<td class="tableColumnMaxWidthLong" title="#{item.status}">#{item.status}</td>
 									</tr>
 								</ui:repeat>
 							</tbody>
