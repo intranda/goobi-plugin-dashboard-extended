@@ -1,5 +1,6 @@
 package de.intranda.digiverso.model.helper;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
@@ -25,8 +26,8 @@ public class DashboardHelperProcesses {
 		series.setLabel("Months");
 
 		List list = ProcessManager.runSQL(
-				"Select year(erstellungsdatum), month(erstellungsdatum), count(*) FROM prozesse GROUP BY year(erstellungsdatum), month(erstellungsdatum);");
-		
+				"Select year(erstellungsdatum), month(erstellungsdatum), count(*) FROM prozesse GROUP BY year(erstellungsdatum), month(erstellungsdatum) ORDER by erstellungsdatum desc LIMIT 24;");
+		Collections.reverse(list);
 		for (Object obj : list) {
 			Object[] o = (Object[]) obj;
 			String label = o[0] + "/" + o[1];
