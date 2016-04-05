@@ -6,8 +6,6 @@
 
     <composite:implementation>
 
-		<h:form id="myform" styleClass="form-horizontal form-bordered" onkeypress="submitOnEnter(event);">
-
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="box box-color orange box-bordered">
@@ -18,40 +16,45 @@
 							</h3>
 						</div>
 						<div class="box-content nopadding">
-
-							<div class="form-group">
-								<h:outputLabel styleClass="control-label col-sm-5" value="#{msgs.nachEinemBandSuchen}:" />
-								<div class="col-sm-7">
+							<h:form id="myform" styleClass="form-vertical form-striped form-bordered" onkeypress="submitOnEnter(event);">
+								<div class="form-group">
+									<h:outputLabel styleClass="control-label " value="#{msgs.nachEinemBandSuchen}:" />
 									<x:inputText styleClass="form-control" value="#{ProzessverwaltungForm.filter}" />
 								</div>
-							</div>
-
-
-							<div class="form-group">
-								<h:outputLabel styleClass="control-label col-sm-5" value="#{msgs.showClosedProcesses}:" />
-								<div class="col-sm-7">
-									<h:selectBooleanCheckbox style="margin-left: 0px;" value="#{ProzessverwaltungForm.showClosedProcesses}" />
+	
+	
+								<div class="form-group">
+									<h:outputLabel styleClass="control-label " value="#{msgs.anzeige}:" />
+									<div class="checkbox">
+										<label>
+											<h:selectBooleanCheckbox value="#{ProzessverwaltungForm.showClosedProcesses}" />
+											#{msgs.showClosedProcesses}
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<h:selectBooleanCheckbox value="#{ProzessverwaltungForm.showArchivedProjects}" />
+											#{msgs.showArchivedProjects}
+										</label>
+									</div>
 								</div>
-							</div>
-
-
-
-							<div class="form-actions">
-								<!-- search -->
-								<h:commandLink styleClass="btn btn-success submitOnEnter pull-right font-size-s margin-bottom-most" id="absenden" type="submit"
-									action="#{ProzessverwaltungForm.FilterAlleStart}">
-									<i class="fa fa-search margin-right-5"></i>
-									<h:outputText value="#{msgs.search}" />
-									<f:setPropertyActionListener target="#{NavigationForm.aktuell}" value="a22" />
-								</h:commandLink>
-							</div>
-
+	
+								<div class="form-actions">
+									<!-- search -->
+									<h:commandLink styleClass="btn btn-success submitOnEnter pull-right font-size-s margin-bottom-most" id="absenden" type="submit"
+										action="#{ProzessverwaltungForm.FilterAlleStart}">
+										<i class="fa fa-search margin-right-5"></i>
+										<h:outputText value="#{msgs.search}" />
+										<x:updateActionListener property="#{ProzessverwaltungForm.modusAnzeige}" value="aktuell" />
+										<f:setPropertyActionListener target="#{NavigationForm.aktuell}" value="a22" />
+									</h:commandLink>
+								</div>
+							</h:form>
 						</div>
 					</div>
 				</div>
 
 			</div>
-		</h:form>
         
     </composite:implementation>
 

@@ -2,17 +2,17 @@ package de.intranda.goobi.plugins;
 
 import java.util.List;
 
-import net.xeoh.plugins.base.annotations.PluginImplementation;
-
 import org.goobi.beans.Step;
 import org.goobi.production.enums.PluginType;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 
 import de.intranda.digiverso.model.helper.DashboardHelperItm;
 import de.intranda.digiverso.model.helper.DashboardHelperNagios;
+import de.intranda.digiverso.model.helper.DashboardHelperProcesses;
 import de.intranda.digiverso.model.helper.DashboardHelperRss;
 import de.intranda.digiverso.model.helper.DashboardHelperTasks;
 import de.sub.goobi.config.ConfigPlugins;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 @PluginImplementation
 public class ExtendedDashboard implements IDashboardPlugin {
@@ -20,6 +20,7 @@ public class ExtendedDashboard implements IDashboardPlugin {
 	private DashboardHelperRss rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(this));
 	private DashboardHelperItm itmHelper = new DashboardHelperItm(ConfigPlugins.getPluginConfig(this));
 	private DashboardHelperNagios nagiosHelper = new DashboardHelperNagios(ConfigPlugins.getPluginConfig(this));
+	private DashboardHelperProcesses processHelper = new DashboardHelperProcesses(ConfigPlugins.getPluginConfig(this));
 	private static final String PLUGIN_NAME = "intranda_dashboard_extended";
 	
 	@Override
@@ -57,4 +58,14 @@ public class ExtendedDashboard implements IDashboardPlugin {
 	public DashboardHelperNagios getNagiosHelper() {
 		return nagiosHelper;
 	}
+	
+	public DashboardHelperProcesses getProcessHelper() {
+		return processHelper;
+	}
+	
+	public void update(){
+		//System.out.println("ich polle");
+		// do nothing
+	}
+	
 }

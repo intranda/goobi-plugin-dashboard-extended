@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+
+		<h:panelGroup>
+			<div class="box box-color box-bordered">
+				<div class="box-title">
+					<h3>
+						<i class="fa fa-list"></i>
+						<h:outputText value="#{msgs.processesPerMonth}" />
+					</h3>
+				</div>
+				<div class="box-content">
+					<h:form id="statisticplugin" rendered="#{NavigationForm.aktuell == 'a41'}">
+						<h:inputText value="#{DashboardForm.plugin.processHelper.data}" id="datafield" style="display:none" />
+					</h:form>
+					
+					<div style="overflow-x: auto; height: 350px;">
+						<div id="flot-4" class='flot'></div>
+					</div>
+
+
+					<script type="text/javascript">
+							function plotTable() {
+								var data = $
+										.parseJSON(document
+												.getElementById('statisticplugin:datafield').value);
+								
+								$('#flot-4').css('width', maxdata * 50 + 'px');
+								function plotWithOptions() {
+									$.plot($("#flot-4"), [ data ], {
+										xaxis : {
+											min : 0,
+											ticks : axisdata,
+											max : maxdata,
+											tickSize : 30
+										},
+
+										series : {
+											stack : 0,
+											lines : {
+												show : false,
+												fill : true,
+												steps : false,
+												
+											},
+											bars : {
+												show : true,
+												barWidth : 0.8,
+												fill:.75
+											}
+
+										}
+									});
+								}
+								plotWithOptions();
+
+							}
+
+							// AJAX Eventlistener
+							jsf.ajax.addOnEvent(function(data) {
+								var ajaxstatus = data.status; // Can be "begin", "complete" and "success"
+
+								switch (ajaxstatus) {
+								case "begin": // This is called right before ajax request is been sent.
+									break;
+
+								case "complete": // This is called right after ajax response is received.
+
+									break;
+
+								case "success": // This is called when ajax response is successfully processed.
+									// NOOP.
+									plotTable();
+									break;
+								}
+							});
+						</script>
+
+
+
+				</div>
+			</div>
+		</h:panelGroup>
+		
+		<h:panelGroup>
+			<div class="box box-color box-bordered">
+				<div class="box-title">
+					<h3>
+						<i class="fa fa-list"></i>
+						<h:outputText value="#{msgs.processesPerMonth}" />
+					</h3>
+				</div>
+				<div class="box-content nopadding">
+
+					<h:form>
+						<table class="table table-hover responsive">
+							<tbody>
+
+								<ui:repeat var="item" value="#{DashboardForm.plugin.processHelper.processesPerMonth}">
+									<tr>
+										<td>#{item[0]}</td>
+										<td>#{item[1]}</td>
+										<td>#{item[2]}</td>
+									</tr>
+								</ui:repeat>
+							</tbody>
+						</table>
+					</h:form>
+				</div>
+			</div>
+		</h:panelGroup>
+        
+    </composite:implementation>
+
+</ui:composition>
+
+

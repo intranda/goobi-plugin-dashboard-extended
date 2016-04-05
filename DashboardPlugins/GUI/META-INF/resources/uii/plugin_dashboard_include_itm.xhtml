@@ -1,5 +1,5 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk">
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:p="http://primefaces.org/ui">
 
 	<composite:interface>
 	</composite:interface>
@@ -63,8 +63,9 @@
 				</div>
 				<div class="box-content nopadding">
 
-					<h:panelGroup styleClass="padding:10px;display:block;" rendered="#{DashboardForm.plugin.itmHelper.itmPlugins == null}">
-						<h:outputText styleClass="alert alert-warning alert-dismissable margin-bottom-10" value="#{msgs.dashboard_noItmConnection}" />
+					<h:panelGroup style="padding:20px;display:block;" rendered="#{DashboardForm.plugin.itmHelper.itmPlugins == null}">
+						<h:outputText styleClass="alert alert-info alert-dismissable margin-bottom-10" value="#{msgs.dashboard_noItmConnection}" />
+ 						<p:poll interval="3" listener="#{DashboardForm.plugin.update}" update="dashboard-itm" rendered="#{DashboardForm.plugin.itmHelper.itmPlugins == null}"/> 
 					</h:panelGroup>
 		
 					<!-- no queue loaded - show list of all itm plugins -->

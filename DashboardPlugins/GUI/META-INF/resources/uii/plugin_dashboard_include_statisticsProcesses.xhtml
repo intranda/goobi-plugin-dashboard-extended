@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:x="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui">
+
+	<composite:interface>
+	</composite:interface>
+
+	<composite:implementation>
+
+		<style>
+		.jqplot-title {
+			font-size: 28px;
+		}
+		</style>
+
+		<h:panelGroup>
+			<div class="box box-color box-bordered">
+				<div class="box-title">
+					<h3>
+						<i class="fa fa-list"></i>
+						<h:outputText value="#{msgs.dashboard_processesPerMonth}" />
+					</h3>
+				</div>
+				<div class="box-content">
+					<p:chart type="line"
+						model="#{DashboardForm.plugin.processHelper.processesPerMonth}"
+						style="height:300px;"/>
+				</div>
+			</div>
+		</h:panelGroup>
+
+		<script type="text/javascript">
+		    function ext() {
+		    	
+// 		    	this.cfg.title='mein neues Diagramm';
+		    	
+		    	this.cfg.grid = {             
+	    	        background: 'transparent',
+	    	        drawGridlines: true,
+    	       		gridLineWidth: 0.25,
+	    	        gridLineColor: '#ccc',
+	    	        drawBorder: true,
+	    	        borderWidth: 0.25,
+	    	        shadow: false,
+	    	    };
+		    	
+		    	this.cfg.axes.yaxis.label='#{msgs.prozesse}';
+		    	this.cfg.axes.xaxis.label='#{msgs.monate}';
+
+		    	this.cfg.seriesColors=['#368EE0', '#00749F', '#73C774', '#C7754C', '#17BDB8'];
+		    	
+		    	this.cfg.seriesDefaults = {
+	                shadow: false,
+	                pointLabels: { show: true }
+	            };
+		    	
+		    	this.cfg.axesDefaults = {
+		            labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+		            
+		          };
+		    	
+		    	this.cfg.axes = {
+		    		xaxis:{
+				    	renderer:$.jqplot.CategoryAxisRenderer,
+				    	tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+			            tickOptions: {
+			              angle: -50,
+			              fontSize: '8pt',
+			              fontFamily: 'Goobi2',
+			              textColor: '#000000',
+			            }
+				    },
+				    yaxis:{
+				    	tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+			            tickOptions: {
+			              fontSize: '8pt',
+			              fontFamily: 'Goobi2',
+			              textColor: '#000000',
+			            },
+		              	min:0,
+		            }
+		          };
+		    	
+		    }
+		</script>
+
+	</composite:implementation>
+
+</ui:composition>
+
+

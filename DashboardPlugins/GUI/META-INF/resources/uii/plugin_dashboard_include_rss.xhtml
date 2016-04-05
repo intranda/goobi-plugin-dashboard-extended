@@ -1,18 +1,17 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk">
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:p="http://primefaces.org/ui">
 
     <composite:interface>
     </composite:interface>
 
     <composite:implementation>
-
+		<h:form id="dashboard-rss">
 		<div class="box box-color box-bordered">
 			<div class="box-title">
 				<h3>
 					<i class="fa fa-globe"></i>
 					<h:outputText value="#{msgs[DashboardForm.plugin.rssHelper.feedTitle]}"/>
 				</h3>
-				<h:form>
 					<div class="actions">
 						<a href="#{DashboardForm.plugin.rssHelper.feedUrl}" class="btn btn-mini" title="#{msg.rssSubscribe}" target="_blank"> <i class="fa fa-rss" />
 						</a>
@@ -23,31 +22,38 @@
 								value="#{NavigationForm.uiStatus.dashboard_rss eq 'down'?'up':'down'}" />
 						</h:commandLink>
 					</div>
-				</h:form>
 			</div>
 			<div class="box-content">
-				<ui:repeat value="#{DashboardForm.plugin.rssHelper.feed}" var="feed" varStatus="status">
-	
-					<h:panelGroup rendered="#{status.index lt 3 or NavigationForm.uiStatus.dashboard_rss eq 'down'}" styleClass="margin-sides-10 block">
-	
-						<h:panelGroup rendered="#{not status.first}">
-							<hr style="margin: 10px" />
+			
+				<h:panelGroup style="padding:0px;display:block;" rendered="#{DashboardForm.plugin.rssHelper.feed == null}">
+					<h:outputText styleClass="alert alert-info alert-dismissable margin-bottom-10" value="#{msgs.dashboard_rssNotLoaded}" />
+					<p:poll interval="3" listener="#{DashboardForm.plugin.update}" update="dashboard-rss" rendered="#{DashboardForm.plugin.rssHelper.feed == null}"/>
+				</h:panelGroup>
+			
+				<h:panelGroup styleClass="padding:10px;display:block;" rendered="#{DashboardForm.plugin.rssHelper.feed != null}">
+					<ui:repeat value="#{DashboardForm.plugin.rssHelper.feed}" var="feed" varStatus="status">
+		
+						<h:panelGroup rendered="#{status.index lt 3 or NavigationForm.uiStatus.dashboard_rss eq 'down'}" styleClass="margin-sides-10 block">
+		
+							<h:panelGroup rendered="#{not status.first}">
+								<hr style="margin: 10px" />
+							</h:panelGroup>
+		
+							<div class="row">
+								<a href="#{feed.link}" target="_blank">
+									<h:outputText escape="false" value="#{feed.title}" />
+								</a>
+							</div>
+		
+							<div class="row margin-top-more">
+								<h:outputText escape="false" value="#{feed.description}" />
+							</div>
 						</h:panelGroup>
-	
-						<div class="row">
-							<a href="#{feed.link}" target="_blank">
-								<h:outputText escape="false" value="#{feed.title}" />
-							</a>
-						</div>
-	
-						<div class="row margin-top-more">
-							<h:outputText escape="false" value="#{feed.description}" />
-						</div>
-					</h:panelGroup>
-				</ui:repeat>
+					</ui:repeat>
+				</h:panelGroup>
 			</div>
 		</div>
-        
+        </h:form>
     </composite:implementation>
 
 </ui:composition>
