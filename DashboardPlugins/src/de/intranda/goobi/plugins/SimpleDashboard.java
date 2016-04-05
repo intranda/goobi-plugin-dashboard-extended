@@ -15,7 +15,7 @@ import de.sub.goobi.config.ConfigPlugins;
 @PluginImplementation
 public class SimpleDashboard implements IDashboardPlugin {
 
-	private DashboardHelperRss rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(this));
+	private DashboardHelperRss rssHelper;
 	private static final String PLUGIN_NAME = "intranda_dashboard_simple";
 
 	@Override
@@ -43,6 +43,9 @@ public class SimpleDashboard implements IDashboardPlugin {
 	}
 	
 	public DashboardHelperRss getRssHelper() {
+		if (rssHelper==null){
+			rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(this));
+		}
 		return rssHelper;
 	}
 }

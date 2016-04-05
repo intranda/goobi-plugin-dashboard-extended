@@ -17,10 +17,10 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 @PluginImplementation
 public class ExtendedDashboard implements IDashboardPlugin {
 
-	private DashboardHelperRss rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(this));
-	private DashboardHelperItm itmHelper = new DashboardHelperItm(ConfigPlugins.getPluginConfig(this));
-	private DashboardHelperNagios nagiosHelper = new DashboardHelperNagios(ConfigPlugins.getPluginConfig(this));
-	private DashboardHelperProcesses processHelper = new DashboardHelperProcesses(ConfigPlugins.getPluginConfig(this));
+	private DashboardHelperRss rssHelper; 
+	private DashboardHelperItm itmHelper;
+	private DashboardHelperNagios nagiosHelper;
+	private DashboardHelperProcesses processHelper;
 	private static final String PLUGIN_NAME = "intranda_dashboard_extended";
 	
 	@Override
@@ -48,18 +48,30 @@ public class ExtendedDashboard implements IDashboardPlugin {
 	}
 
 	public DashboardHelperRss getRssHelper() {
+		if (rssHelper==null){
+			rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(this));
+		}
 		return rssHelper;
 	}
 	
 	public DashboardHelperItm getItmHelper() {
+		if (itmHelper==null){
+			itmHelper = new DashboardHelperItm(ConfigPlugins.getPluginConfig(this));
+		}
 		return itmHelper;
 	}
 	
 	public DashboardHelperNagios getNagiosHelper() {
+		if (nagiosHelper==null){
+			nagiosHelper = new DashboardHelperNagios(ConfigPlugins.getPluginConfig(this));
+		}
 		return nagiosHelper;
 	}
 	
 	public DashboardHelperProcesses getProcessHelper() {
+		if (processHelper==null){
+			processHelper = new DashboardHelperProcesses(ConfigPlugins.getPluginConfig(this));
+		}
 		return processHelper;
 	}
 	
