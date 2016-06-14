@@ -26,7 +26,7 @@ public class DashboardHelperProcesses {
 		series.setLabel("Months");
 
 		List list = ProcessManager.runSQL(
-				"Select year(erstellungsdatum), month(erstellungsdatum), count(*) FROM prozesse GROUP BY year(erstellungsdatum), month(erstellungsdatum) ORDER by erstellungsdatum desc LIMIT 24;");
+				"Select year(erstellungsdatum), month(erstellungsdatum), count(*) FROM prozesse WHERE IstTemplate=false GROUP BY year(erstellungsdatum), month(erstellungsdatum) ORDER by erstellungsdatum desc LIMIT 24;");
 		Collections.reverse(list);
 		for (Object obj : list) {
 			Object[] o = (Object[]) obj;
