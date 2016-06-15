@@ -28,7 +28,6 @@ public class SimpleDashboard implements IDashboardPlugin {
 		return PLUGIN_NAME;
 	}
 
-	@Override
 	public String getDescription() {
 		return PLUGIN_NAME;
 	}
