@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config_plugin>
+	
+	<!-- intranda TaskManager -->
+	<itm-show>true</itm-show>
+	<itm-cache-time>180000</itm-cache-time>
+	<itm-url>http://localhost:8080/itm/</itm-url>
+	
+	<!-- Nagios Monitoring -->
+	<nagios-show>false</nagios-show>
+	<nagios-cache-time>180000</nagios-cache-time>
+	<nagios-host>host.example.org</nagios-host>
+	<nagios-login>user</nagios-login>
+	<nagios-password>pass</nagios-password>
+	
+	<!-- RSS-Feed e.g. of last imports -->
+	<rss-show>true</rss-show>
+	<rss-cache-time>900000</rss-cache-time>
+	<rss-url>http://www.intranda.com/feed/</rss-url>
+	<rss-title>News by intrandai GmbH</rss-title>
+		
+</config_plugin>
+
