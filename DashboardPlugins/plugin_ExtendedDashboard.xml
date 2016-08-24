@@ -18,7 +18,7 @@
 	<rss-show>true</rss-show>
 	<rss-cache-time>900000</rss-cache-time>
 	<rss-url>http://www.intranda.com/feed/</rss-url>
-	<rss-title>News by intrandai GmbH</rss-title>
+	<rss-title>News by intranda GmbH</rss-title>
 		
 </config_plugin>
 
