@@ -34,7 +34,7 @@ public class SimpleDashboard implements IDashboardPlugin {
 
 	@Override
 	public String getGuiPath() {
-		return "plugin_dashboard_simple.xhtml";
+		return "/uii/plugin_dashboard_simple.xhtml";
 	}
 
 	public List<Step> getAssignedSteps() {

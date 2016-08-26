@@ -39,7 +39,7 @@ public class ExtendedDashboard implements IDashboardPlugin {
 
 	@Override
 	public String getGuiPath() {
-		return "plugin_dashboard_extended.xhtml";
+		return "/uii/plugin_dashboard_extended.xhtml";
 	}
 
 	public List<Step> getAssignedSteps() {
