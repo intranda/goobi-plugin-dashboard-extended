@@ -1,0 +1,132 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:x="http://myfaces.apache.org/tomahawk"
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-color box-bordered">
+                    <div class="box-title">
+                        <h3>
+                            <i class="fa fa-table"></i>
+                            <h:outputText
+                                value="#{msgs.batch}"
+                                class="margin-right-5" />
+                        </h3>
+
+
+                    </div>
+                    <div class="box-content nopadding">
+
+                        <h:panelGrid
+                            columns="2"
+                            styleClass="table table-hover table-bordered"
+                            columnClasses="columnLabel, columnValue">
+
+                            <h:outputText value="#{msgs.startDate}" />
+                            <h:outputText value="#{DashboardForm.plugin.selectedStartDate}" />
+
+                            <h:outputText value="#{msgs.today}" />
+                            <h:outputText value="#{DashboardForm.plugin.today}" />
+
+                            <h:outputText value="#{msgs.endDate}" />
+                            <h:outputText value="#{DashboardForm.plugin.selectedEndDate}" />
+
+
+                        </h:panelGrid>
+
+                    </div>
+                </div>
+
+
+                <div class="box box-color box-bordered">
+                    <div class="box-title">
+                        <h3>
+                            <i class="fa fa-table"></i>
+                            <h:outputText
+                                value="#{msgs.batch}"
+                                class="margin-right-5" />
+                        </h3>
+
+
+                    </div>
+                    <div class="box-content nopadding">
+                        <x:dataTable style="width:100%"
+                            var="batch"
+                            value="#{DashboardForm.plugin.batchesInInterval}">
+                            <x:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.id}" />
+                                </f:facet>
+                                <h:outputText value="#{batch.id}" />
+                            </x:column>
+
+                            <x:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.batchName}" />
+                                </f:facet>
+                                <h:outputText value="#{batch.batchName}" />
+                            </x:column>
+
+                            <x:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.startDate}" />
+                                </f:facet>
+                                <h:outputText value="#{batch.startDate}" />
+                            </x:column>
+
+                            <x:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.endDate}" />
+                                </f:facet>
+                                <h:outputText value="#{batch.endDate}" />
+                            </x:column>
+
+                            <x:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.totalProcesses}" />
+                                </f:facet>
+                                <h:outputText value="#{batch.totalProcesses}" />
+                            </x:column>
+
+                            <x:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.progressUnprocessed}" />
+                                </f:facet>
+                                <h:outputText value="#{batch.progressUnprocessed}" />
+                            </x:column>
+
+                            <x:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.progressProcessed}" />
+                                </f:facet>
+                                <h:outputText value="#{batch.progressProcessed}" />
+                            </x:column>
+
+                            <x:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.progressReturned}" />
+                                </f:facet>
+                                <h:outputText value="#{batch.progressReturned}" />
+                            </x:column>
+                        </x:dataTable>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </composite:implementation>
+
+</ui:composition>
