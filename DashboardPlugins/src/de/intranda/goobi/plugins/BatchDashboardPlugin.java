@@ -49,7 +49,7 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
 
     }
 
-    private void loadBatchesInInterval() {
+    public void loadBatchesInInterval() {
         // the first query collects all batches within given interval, the second query loads additional data to each batch
 
         /*
