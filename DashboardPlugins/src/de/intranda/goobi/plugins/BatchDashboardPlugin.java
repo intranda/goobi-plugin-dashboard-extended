@@ -18,6 +18,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import de.intranda.digiverso.model.helper.DashboardHelperBatch;
+import de.sub.goobi.config.ConfigurationHelper;
 import de.sub.goobi.persistence.managers.MySQLHelper;
 import lombok.Data;
 import lombok.extern.log4j.Log4j;
@@ -66,30 +67,58 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
          */
 
         StringBuilder batches = new StringBuilder();
-        batches.append("SELECT max(id) as id, ");
-        batches.append("max(batchName) as batchName, ");
-        batches.append("max(startDate) as startDate, ");
-        batches.append("max(endDate) as endDate, ");
-        batches.append("count(prozesseId) as totalProcesses ");
-        batches.append("FROM batches join prozesse ");
-        batches.append("on prozesse.batchID = batches.id WHERE ");
-        batches.append("(startDate BETWEEN DATE(\"");
-        batches.append(formatter.print(selectedStartDate));
-        batches.append("\") AND DATE(\"");
-        batches.append(formatter.print(selectedEndDate));
-        batches.append("\")) OR ");
-        batches.append("(endDate BETWEEN DATE(\"");
-        batches.append(formatter.print(selectedStartDate));
-        batches.append("\") AND DATE(\"");
-        batches.append(formatter.print(selectedEndDate));
-        batches.append("\")) OR ");
-        batches.append("(startDate < DATE(\"");
-        batches.append(formatter.print(selectedStartDate));
-        batches.append("\") AND endDate > DATE(\"");
-        batches.append(formatter.print(selectedEndDate));
-        batches.append("\")) ");
-        batches.append("group by batches.id");
+       
 
+        if (ConfigurationHelper.getInstance().isUseH2DB()) {
+	        batches.append("SELECT max(id) as id, ");
+	        batches.append("max(batchName) as batchName, ");
+	        batches.append("max(startDate) as startDate, ");
+	        batches.append("max(endDate) as endDate, ");
+	        batches.append("count(prozesseId) as totalProcesses ");
+	        batches.append("FROM batches join prozesse ");
+	        batches.append("on prozesse.batchID = batches.id WHERE ");
+	        batches.append("(startDate BETWEEN '");
+	        batches.append(formatter.print(selectedStartDate));
+	        batches.append("' AND '");
+	        batches.append(formatter.print(selectedEndDate));
+	        batches.append("') OR ");
+	        batches.append("(endDate BETWEEN '");
+	        batches.append(formatter.print(selectedStartDate));
+	        batches.append("' AND '");
+	        batches.append(formatter.print(selectedEndDate));
+	        batches.append("') OR ");
+	        batches.append("(startDate between '0000-01-01' AND '");
+	        batches.append(formatter.print(selectedStartDate));
+	        batches.append("' AND endDate between '");
+	        batches.append(formatter.print(selectedEndDate));
+	        batches.append("' AND '9999-12-31') ");
+	        batches.append("group by batches.id");
+        } else {
+        	 	batches.append("SELECT max(id) as id, ");
+             batches.append("max(batchName) as batchName, ");
+             batches.append("max(startDate) as startDate, ");
+             batches.append("max(endDate) as endDate, ");
+             batches.append("count(prozesseId) as totalProcesses ");
+             batches.append("FROM batches join prozesse ");
+             batches.append("on prozesse.batchID = batches.id WHERE ");
+             batches.append("(startDate BETWEEN DATE(\"");
+             batches.append(formatter.print(selectedStartDate));
+             batches.append("\") AND DATE(\"");
+             batches.append(formatter.print(selectedEndDate));
+             batches.append("\")) OR ");
+             batches.append("(endDate BETWEEN DATE(\"");
+             batches.append(formatter.print(selectedStartDate));
+             batches.append("\") AND DATE(\"");
+             batches.append(formatter.print(selectedEndDate));
+             batches.append("\")) OR ");
+             batches.append("(startDate < DATE(\"");
+             batches.append(formatter.print(selectedStartDate));
+             batches.append("\") AND endDate > DATE(\"");
+             batches.append(formatter.print(selectedEndDate));
+             batches.append("\")) ");
+             batches.append("group by batches.id");
+        }
+        
         String batchDetails =
                 "select bearbeitungsstatus as one, count(schritteid) as two from schritte left join prozesse on schritte.prozesseid = prozesse.prozesseid where prozesse.batchId = ? group by bearbeitungsstatus";
 
