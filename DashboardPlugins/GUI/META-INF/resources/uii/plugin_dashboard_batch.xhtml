@@ -142,6 +142,46 @@
                     </div>
                 </h:form>
 
+                <div class="box box-color box-bordered">
+                    <div class="box-title">
+                        <h3>
+                            <i class="fa fa-table"></i>
+                            <h:outputText
+                                value="#{msgs.batchDetails}"
+                                class="margin-right-5" />
+                        </h3>
+
+
+                    </div>
+                    <div class="box-content nopadding">
+
+                        <h:panelGrid
+                            columns="2"
+                            styleClass="table table-hover table-bordered"
+                            columnClasses="columnLabel, columnValue">
+
+                            <h:outputText value="#{msgs.batchesNotStarted}" />
+                            <h:outputText value="#{DashboardForm.plugin.batchesNotStarted}" />
+
+                            <h:outputText value="#{msgs.batchesInwork}" />
+                            <h:outputText value="#{DashboardForm.plugin.batchesInwork}" />
+
+                            <h:outputText value="#{msgs.finishedBatches}" />
+                            <h:outputText value="#{DashboardForm.plugin.finishedBatches}" />
+
+
+                            <h:outputText value="#{msgs.processesWithoutBatch}" />
+                            <h:outputText value="#{DashboardForm.plugin.processesWithoutBatch}" />
+
+                            <h:outputText value="#{msgs.processesWithErrors}" />
+                            <h:outputText value="#{DashboardForm.plugin.processesWithErrors}" />
+
+                            <h:outputText value="#{msgs.progress}" />
+                            <h:outputText value="#{DashboardForm.plugin.totalProgress}" />
+                        </h:panelGrid>
+
+                    </div>
+                </div>
             </div>
         </div>
     </composite:implementation>

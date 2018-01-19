@@ -1,6 +1,7 @@
 package de.intranda.goobi.plugins;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,6 +41,16 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
     // contains the list of all batches in the current interval
     private List<DashboardHelperBatch> batchesInInterval;
 
+    private int totalBatches;
+    private int processesWithoutBatch;
+    private int finishedBatches;
+    private int batchesInwork;
+    private int batchesNotStarted;
+
+    private int processesWithErrors;
+    private int totalProcesses;
+    private int completedProcesses;
+
     public BatchDashboardPlugin() {
         // set default search interval - replace it with configured value? 
         today = new DateTime();
@@ -47,14 +58,14 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
         selectedEndDate = today.plusMonths(1);
 
         loadBatchesInInterval();
-
+        loadOverviewData();
     }
 
     public void loadBatchesInInterval() {
         // the first query collects all batches within given interval, the second query loads additional data to each batch
 
         /*
-       SELECT max(id) as id, max(startDate) as startDate, max(endDate) as endDate, max(batchName) as batchName, count(prozesseId) as totalProcesses FROM batches join prozesse
+        SELECT max(id) as id, max(startDate) as startDate, max(endDate) as endDate, max(batchName) as batchName, count(prozesseId) as totalProcesses FROM batches join prozesse
         on prozesse.batchID = batches.id WHERE
         (startDate BETWEEN DATE("2017-01-01") AND DATE("2018-01-15")) OR
         (endDate BETWEEN DATE("2017-01-01") AND DATE("2018-01-15")) OR
@@ -67,58 +78,57 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
          */
 
         StringBuilder batches = new StringBuilder();
-       
 
         if (ConfigurationHelper.getInstance().isUseH2DB()) {
-	        batches.append("SELECT max(id) as id, ");
-	        batches.append("max(batchName) as batchName, ");
-	        batches.append("max(startDate) as startDate, ");
-	        batches.append("max(endDate) as endDate, ");
-	        batches.append("count(prozesseId) as totalProcesses ");
-	        batches.append("FROM batches join prozesse ");
-	        batches.append("on prozesse.batchID = batches.id WHERE ");
-	        batches.append("(startDate BETWEEN '");
-	        batches.append(formatter.print(selectedStartDate));
-	        batches.append("' AND '");
-	        batches.append(formatter.print(selectedEndDate));
-	        batches.append("') OR ");
-	        batches.append("(endDate BETWEEN '");
-	        batches.append(formatter.print(selectedStartDate));
-	        batches.append("' AND '");
-	        batches.append(formatter.print(selectedEndDate));
-	        batches.append("') OR ");
-	        batches.append("(startDate between '0000-01-01' AND '");
-	        batches.append(formatter.print(selectedStartDate));
-	        batches.append("' AND endDate between '");
-	        batches.append(formatter.print(selectedEndDate));
-	        batches.append("' AND '9999-12-31') ");
-	        batches.append("group by batches.id");
+            batches.append("SELECT max(id) as id, ");
+            batches.append("max(batchName) as batchName, ");
+            batches.append("max(startDate) as startDate, ");
+            batches.append("max(endDate) as endDate, ");
+            batches.append("count(prozesseId) as totalProcesses ");
+            batches.append("FROM batches join prozesse ");
+            batches.append("on prozesse.batchID = batches.id WHERE ");
+            batches.append("(startDate BETWEEN '");
+            batches.append(formatter.print(selectedStartDate));
+            batches.append("' AND '");
+            batches.append(formatter.print(selectedEndDate));
+            batches.append("') OR ");
+            batches.append("(endDate BETWEEN '");
+            batches.append(formatter.print(selectedStartDate));
+            batches.append("' AND '");
+            batches.append(formatter.print(selectedEndDate));
+            batches.append("') OR ");
+            batches.append("(startDate between '0000-01-01' AND '");
+            batches.append(formatter.print(selectedStartDate));
+            batches.append("' AND endDate between '");
+            batches.append(formatter.print(selectedEndDate));
+            batches.append("' AND '9999-12-31') ");
+            batches.append("group by batches.id");
         } else {
-        	 	batches.append("SELECT max(id) as id, ");
-             batches.append("max(batchName) as batchName, ");
-             batches.append("max(startDate) as startDate, ");
-             batches.append("max(endDate) as endDate, ");
-             batches.append("count(prozesseId) as totalProcesses ");
-             batches.append("FROM batches join prozesse ");
-             batches.append("on prozesse.batchID = batches.id WHERE ");
-             batches.append("(startDate BETWEEN DATE(\"");
-             batches.append(formatter.print(selectedStartDate));
-             batches.append("\") AND DATE(\"");
-             batches.append(formatter.print(selectedEndDate));
-             batches.append("\")) OR ");
-             batches.append("(endDate BETWEEN DATE(\"");
-             batches.append(formatter.print(selectedStartDate));
-             batches.append("\") AND DATE(\"");
-             batches.append(formatter.print(selectedEndDate));
-             batches.append("\")) OR ");
-             batches.append("(startDate < DATE(\"");
-             batches.append(formatter.print(selectedStartDate));
-             batches.append("\") AND endDate > DATE(\"");
-             batches.append(formatter.print(selectedEndDate));
-             batches.append("\")) ");
-             batches.append("group by batches.id");
+            batches.append("SELECT max(id) as id, ");
+            batches.append("max(batchName) as batchName, ");
+            batches.append("max(startDate) as startDate, ");
+            batches.append("max(endDate) as endDate, ");
+            batches.append("count(prozesseId) as totalProcesses ");
+            batches.append("FROM batches join prozesse ");
+            batches.append("on prozesse.batchID = batches.id WHERE ");
+            batches.append("(startDate BETWEEN DATE(\"");
+            batches.append(formatter.print(selectedStartDate));
+            batches.append("\") AND DATE(\"");
+            batches.append(formatter.print(selectedEndDate));
+            batches.append("\")) OR ");
+            batches.append("(endDate BETWEEN DATE(\"");
+            batches.append(formatter.print(selectedStartDate));
+            batches.append("\") AND DATE(\"");
+            batches.append(formatter.print(selectedEndDate));
+            batches.append("\")) OR ");
+            batches.append("(startDate < DATE(\"");
+            batches.append(formatter.print(selectedStartDate));
+            batches.append("\") AND endDate > DATE(\"");
+            batches.append(formatter.print(selectedEndDate));
+            batches.append("\")) ");
+            batches.append("group by batches.id");
         }
-        
+
         String batchDetails =
                 "select bearbeitungsstatus as one, count(schritteid) as two from schritte left join prozesse on schritte.prozesseid = prozesse.prozesseid where prozesse.batchId = ? group by bearbeitungsstatus";
 
@@ -167,6 +177,84 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
         }
     }
 
+    private void loadOverviewData() {
+
+        totalBatches = 0;
+        processesWithoutBatch = 0;
+        finishedBatches = 0;
+        batchesInwork = 0;
+        batchesNotStarted = 0;
+        processesWithErrors = 0;
+        totalProcesses = 0;
+        completedProcesses = 0;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("select sum(completed) as completed, max(inwork) as inWork, max(locked) as locked, batchId from ( ");
+        sb.append("(select x.completed as completed, x.batchId, null as inwork, null as locked from (select count(s.SchritteID) as completed, ");
+        sb.append("b.id as batchId from schritte s left join prozesse p on s.ProzesseID = p.ProzesseID ");
+        sb.append("join batches b on p.batchID = b.id where s.BearbeitungsStatus = 3 ");
+        sb.append("group by b.id) x) ");
+        sb.append("union all ");
+        sb.append("(select null, y.batchId, y.inwork as inwork, null as locked from (select count(s.SchritteID) as inwork, b.id as batchId ");
+        sb.append("from schritte s left join prozesse p on s.ProzesseID = p.ProzesseID join batches b on p.batchID = b.id where ");
+        sb.append("s.BearbeitungsStatus = 2 or s.BearbeitungsStatus = 1  or s.BearbeitungsStatus = 4 group by b.id) y) ");
+        sb.append("union all ");
+        sb.append("(select null, z.batchId, null as inwork, z.inwork as locked from (select count(s.SchritteID) as inwork, b.id as batchId ");
+        sb.append("from schritte s left join prozesse p on s.ProzesseID = p.ProzesseID ");
+        sb.append("join batches b on p.batchID = b.id where s.BearbeitungsStatus = 0 ");
+        sb.append("group by b.id) z) ");
+        sb.append(") a ");
+        sb.append("group by batchID ");
+
+        Connection connection = null;
+        try {
+            connection = MySQLHelper.getInstance().getConnection();
+
+            PreparedStatement statement = connection.prepareStatement(sb.toString());
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                totalBatches = totalBatches + 1;
+                int completed = rs.getInt("completed");
+                int inWork = rs.getInt("inWork");
+                int locked = rs.getInt("locked");
+                if (locked == 0 && inWork == 0) {
+                    // completed
+                    finishedBatches = finishedBatches + 1;
+                } else if (inWork != 0) {
+                    // inwork
+                    batchesInwork = batchesInwork + 1;
+                } else if (completed == 0 && inWork == 0) {
+                    // not started
+                    batchesNotStarted = batchesNotStarted + 1;
+                } else {
+                    // error, should not occur
+                    log.error("Something happened during creation of batch details");
+                }
+            }
+
+            QueryRunner run = new QueryRunner();
+            processesWithoutBatch = run.query(connection, "SELECT count(ProzesseID) from prozesse WHERE batchID is null",
+                    MySQLHelper.resultSetToIntegerHandler);
+            processesWithErrors = run.query(connection, "select count(distinct(ProzesseID)) from schritte where Bearbeitungsstatus = 4",
+                    MySQLHelper.resultSetToIntegerHandler);
+            totalProcesses = run.query(connection, "select count(ProzesseID) from prozesse", MySQLHelper.resultSetToIntegerHandler);
+            completedProcesses = run.query(connection, "select count(ProzesseID) from prozesse where sortHelperStatus = ?",
+                    MySQLHelper.resultSetToIntegerHandler, "100000000");
+        } catch (SQLException e) {
+            log.error(e);
+        } finally {
+            if (connection != null) {
+                try {
+                    MySQLHelper.closeConnection(connection);
+                } catch (SQLException e) {
+                    log.error(e);
+                }
+            }
+        }
+    }
+
     @Override
     public PluginType getType() {
         return PluginType.Dashboard;
@@ -184,6 +272,13 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
     @Override
     public String getGuiPath() {
         return "/uii/plugin_dashboard_batch.xhtml";
+    }
+
+    public double getTotalProgress() {
+        if (totalProcesses == 0) {
+            return 0;
+        }
+        return (completedProcesses * 100) / totalProcesses;
     }
 
     private static ResultSetHandler<List<StringPair>> rsh = new ResultSetHandler<List<StringPair>>() {
