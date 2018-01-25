@@ -55,7 +55,7 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
         // set default search interval - replace it with configured value? 
         today = new DateTime();
         selectedStartDate = today.minusMonths(1);
-        selectedEndDate = today.plusMonths(1);
+        selectedEndDate = today.plusMonths(5);
 
         loadBatchesInInterval();
         loadOverviewData();
