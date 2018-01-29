@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -17,7 +16,6 @@ import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.DurationFieldType;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -71,9 +69,9 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
     }
    
     public void loadAllData() {
+    		loadDatesInIntervall();
         loadBatchesInInterval();
         loadOverviewData();
-        loadDatesInIntervall();
     }
     
     private void loadDatesInIntervall() {
@@ -194,6 +192,20 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
                             batch.setNumberOfDeactivatedTasks(numberOfTasks);
                             break;
                     }
+                    
+                    // write start and end percentage
+                    batch.setPercentStart(0);
+                    batch.setPercentEnd(100);
+                    for (DashboardHelperBatchDate dhd : datesInInterval) {
+                    		DateTime ds = new DateTime(batch.getStartDate());
+                    		DateTime de = new DateTime(batch.getEndDate());
+                    		if (dhd.getLabel().equals(ds.toLocalDate().toString(fmt))) {
+                    			batch.setPercentStart(dhd.getPercent());
+                    		}
+                    		if (dhd.getLabel().equals(de.toLocalDate().toString(fmt))) {
+                    			batch.setPercentEnd(dhd.getPercent());
+                    		}
+					}
                 }
             }
         } catch (SQLException e) {

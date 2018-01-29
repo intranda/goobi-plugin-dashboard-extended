@@ -282,10 +282,6 @@
 			//ctxRed.strokeStyle="red";
 			ctxRed.stroke();
 			
-			// draw text
-			// ctx.font = "15px Arial";
-			// ctx.fillText("Hello World",10,50); 
-			
 			// draw a rectangle
 			// ctx.beginPath();
 			// ctx.lineWidth="6";
@@ -293,12 +289,22 @@
 			// ctx.rect(5,5,290,140);
 			// ctx.stroke();
 			
-			// run through a loop
-			// var schritt;
-			// for (schritt = 0; schritt < 5; schritt++) {
-			//  console.log('Gehe einen Schritt: ' + schritt);
-			// }
-		    
+			// run through all batches
+		    var batches = JSON.parse('#{DashboardForm.plugin.batchesAsJson}');
+			for (var i = 0; i < batches.length; i++) {
+			    var batch = batches[i];
+			    console.log(batch.batchName + " - " + batch.startDate + " - " + batch.endDate);
+			 	
+			    var positionStart = Math.round(canvas.width/100*batch.percentStart);
+			    var positionEnd = Math.round(canvas.width/100*batch.percentEnd);
+			    
+				ctx.beginPath();
+				ctx.lineWidth="3";
+				ctx.strokeStyle="red";
+				ctx.rect(positionStart,(i*20),positionEnd,(i*20));
+				ctx.stroke();
+				
+			}
 			
 			
 		//]]>
