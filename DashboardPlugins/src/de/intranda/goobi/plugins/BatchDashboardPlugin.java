@@ -24,6 +24,7 @@ import org.joda.time.format.DateTimeFormatter;
 import com.google.gson.Gson;
 
 import de.intranda.digiverso.model.helper.DashboardHelperBatch;
+import de.intranda.digiverso.model.helper.DashboardHelperBatchDate;
 import de.sub.goobi.config.ConfigurationHelper;
 import de.sub.goobi.persistence.managers.MySQLHelper;
 import lombok.Data;
@@ -36,6 +37,7 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 public class BatchDashboardPlugin implements IDashboardPlugin {
     private static final DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 
+    private Gson gson = new Gson();
     private static final String PLUGIN_NAME = "intranda_dashboard_batches";
 
     // get start- and end date from date picker?
@@ -45,7 +47,9 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
 
     // contains the list of all batches in the current interval
     private List<DashboardHelperBatch> batchesInInterval;
-
+    // contains the list of all days between the current interval
+    private List<DashboardHelperBatchDate> datesInInterval;
+    
     private int totalBatches;
     private int processesWithoutBatch;
     private int finishedBatches;
@@ -60,13 +64,30 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
         // set default search interval - replace it with configured value? 
         today = new DateTime();
         selectedStartDate = today.minusMonths(1);
-        selectedEndDate = today.plusMonths(5);
-
+        selectedEndDate = today.plusMonths(2);
+        loadAllData();
+    }
+   
+    public void loadAllData() {
         loadBatchesInInterval();
         loadOverviewData();
+        loadDatesInIntervall();
     }
+    
+    private void loadDatesInIntervall() {
+    		DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
+		datesInInterval = new ArrayList<DashboardHelperBatchDate>();
+		int days = Days.daysBetween(selectedStartDate, selectedEndDate).getDays()+1;
+		for (int i=0; i < days; i++) {
+			DateTime d = selectedStartDate.withFieldAdded(DurationFieldType.days(), i);
+			DashboardHelperBatchDate dhd = new DashboardHelperBatchDate();
+			dhd.setLabel(d.toLocalDate().toString(fmt));
+			dhd.setPercent(100*(i+1)/days);
+			datesInInterval.add(dhd);
+		}
+	}
 
-    public void loadBatchesInInterval() {
+	private void loadBatchesInInterval() {
         // the first query collects all batches within given interval, the second query loads additional data to each batch
 
         /*
@@ -304,20 +325,11 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
     };
 
 	public String getBatchesAsJson() {
-		Gson gson = new Gson();
 		return gson.toJson(batchesInInterval);
 	}
 	
 	public String getAllDatesAsJson() {
-		DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
-		List<String> dates = new ArrayList<String>();
-		int days = Days.daysBetween(selectedStartDate, selectedEndDate).getDays()+1;
-		for (int i=0; i < days; i++) {
-			DateTime d = selectedStartDate.withFieldAdded(DurationFieldType.days(), i);
-		    dates.add(d.toLocalDate().toString(fmt));
-		}
-		Gson gson = new Gson();
-		return gson.toJson(dates);
+		return gson.toJson(datesInInterval);
 	}
     
 }

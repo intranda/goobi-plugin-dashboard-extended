@@ -62,7 +62,7 @@
                             <div class="actions">
                                 <h:commandLink
                                     id="reload"
-                                    action="#{DashboardForm.plugin.loadBatchesInInterval}"
+                                    action="#{DashboardForm.plugin.loadAllData}"
                                     styleClass="btn btn-mini"
                                     title="#{msgs.reload}"
                                     rel="tooltip">
@@ -211,29 +211,30 @@
 		//<![CDATA[
 
 			// json 1
-			var john = JSON.parse('{ "name":"John", "age":30, "city":"New York"}');
-			console.log(john.name + ", " + john.age); 
+			// var john = JSON.parse('{ "name":"John", "age":30, "city":"New York"}');
+			// console.log(john.name + ", " + john.age); 
 			
 			// json 2
-			var json = '{ "name":"Steffen", "age":41, "city":"Göttingen"}';
-			var steffen = JSON.parse(json);
-			console.log(steffen.name + ", " + steffen.age); 
+			// var json = '{ "name":"Steffen", "age":41, "city":"Göttingen"}';
+			// var steffen = JSON.parse(json);
+			// console.log(steffen.name + ", " + steffen.age); 
 			
 			// json 3
-			var batchJson = '{"dates": ["01.01.", "02.01.", "03.01"],"batches": [{"start":"a1", "end":"a2","locked":"a10","done":"a20","inwork":"a30"},{"start":"b1", "end":"b2","locked":"b10","done":"b20","inwork":"b30"},{"start":"c1", "end":"c2","locked":"c10","done":"c20","inwork":"c30"}]}';
-			var batchObject = JSON.parse(batchJson);
-			console.log(batchObject.dates); 
+			// var batchJson = '{"dates": ["01.01.", "02.01.", "03.01"],"batches": [{"start":"a1", "end":"a2","locked":"a10","done":"a20","inwork":"a30"},{"start":"b1", "end":"b2","locked":"b10","done":"b20","inwork":"b30"},{"start":"c1", "end":"c2","locked":"c10","done":"c20","inwork":"c30"}]}';
+			// var batchObject = JSON.parse(batchJson);
+			// console.log(batchObject.dates); 
 			
 			// list all dates
-			for (var i = 0; i < batchObject.dates.length; i++) {
-			    var date = batchObject.dates[i];
-			    console.log(date);
-			}
+			// for (var i = 0; i < batchObject.dates.length; i++) {
+			//    var date = batchObject.dates[i];
+			// 	  console.log(date);
+			// }
+
 			// list all batches
-			for (var i = 0; i < batchObject.batches.length; i++) {
-			    var batch = batchObject.batches[i];
-			    console.log(batch.start + " - " + batch.end);
-			}
+			// for (var i = 0; i < batchObject.batches.length; i++) {
+			//    var batch = batchObject.batches[i];
+			//    console.log(batch.start + " - " + batch.end);
+			// }
 			
 			// preparation of the canvas
 			var c = document.getElementById("myCanvas");
@@ -242,28 +243,44 @@
 			//$(c).height();
 			c.height=5*200;
 			
+			// json dates
+			var dates = JSON.parse('#{DashboardForm.plugin.allDatesAsJson}');
+			// console.log(dates); 
+			for (var i = 0; i < dates.length; i++) {
+			    var date = dates[i];
+			    var percent = 100*(i)/dates.length;
+			    var position = c.width*percent/100;
+			    var position2 = c.width*i/dates.length;
+			    console.log(date.label + " - " + percent + " - " + position + " - " + position2);
+			 	// draw a line
+				var line = c.getContext("2d");
+				line.moveTo(position,0);
+				line.lineTo(position,5);
+				line.stroke();
+			}
+			
 			// draw a line
-			var ctx = c.getContext("2d");
-			ctx.moveTo(0,0);
-			ctx.lineTo(200,100);
-			ctx.stroke();
+			// var ctx = c.getContext("2d");
+			// ctx.moveTo(0,0);
+			// ctx.lineTo(200,100);
+			// ctx.stroke();
 			
 			// draw text
-			ctx.font = "15px Arial";
-			ctx.fillText("Hello World",10,50); 
+			// ctx.font = "15px Arial";
+			// ctx.fillText("Hello World",10,50); 
 			
 			// draw a rectangle
-			ctx.beginPath();
-			ctx.lineWidth="6";
-			ctx.strokeStyle="red";
-			ctx.rect(5,5,290,140);
-			ctx.stroke();
+			// ctx.beginPath();
+			// ctx.lineWidth="6";
+			// ctx.strokeStyle="red";
+			// ctx.rect(5,5,290,140);
+			// ctx.stroke();
 			
 			// run through a loop
-			var schritt;
-			for (schritt = 0; schritt < 5; schritt++) {
-			  console.log('Gehe einen Schritt: ' + schritt);
-			}
+			// var schritt;
+			// for (schritt = 0; schritt < 5; schritt++) {
+			//  console.log('Gehe einen Schritt: ' + schritt);
+			// }
 		       
 		//]]>
 		</script>

@@ -19,7 +19,7 @@ public class DashboardHelperBatch {
     private int numberOfFinishedTasks; // green bar
     private int numberOfErrorTasks; // part of yellow bar
     private int numberOfDeactivatedTasks; // deactivated tasks are ignored
-
+    
     // get size of red bar as percentage 
     public double getProgressUnprocessed() {
         
