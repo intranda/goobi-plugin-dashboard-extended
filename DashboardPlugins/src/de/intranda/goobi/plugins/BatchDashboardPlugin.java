@@ -15,8 +15,13 @@ import org.goobi.production.cli.helper.StringPair;
 import org.goobi.production.enums.PluginType;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.DurationFieldType;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import com.google.gson.Gson;
 
 import de.intranda.digiverso.model.helper.DashboardHelperBatch;
 import de.sub.goobi.config.ConfigurationHelper;
@@ -298,4 +303,21 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
         }
     };
 
+	public String getBatchesAsJson() {
+		Gson gson = new Gson();
+		return gson.toJson(batchesInInterval);
+	}
+	
+	public String getAllDatesAsJson() {
+		DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
+		List<String> dates = new ArrayList<String>();
+		int days = Days.daysBetween(selectedStartDate, selectedEndDate).getDays()+1;
+		for (int i=0; i < days; i++) {
+			DateTime d = selectedStartDate.withFieldAdded(DurationFieldType.days(), i);
+		    dates.add(d.toLocalDate().toString(fmt));
+		}
+		Gson gson = new Gson();
+		return gson.toJson(dates);
+	}
+    
 }
