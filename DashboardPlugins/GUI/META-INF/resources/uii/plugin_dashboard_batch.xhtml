@@ -153,8 +153,8 @@
 
 
                     </div>
-                    <div class="box-content nopadding">
-                      <canvas id="myCanvas" width="500" height="400" style="border:1px solid #000000;margin-top:30px;width:100%;"></canvas> 
+                    <div id="myCanvasDiv" class="box-content nopadding">
+                      <canvas id="myCanvas" width="1000" height="400" style="margin-top:10px"></canvas> 
                     </div>
                 </div>
                 
@@ -203,9 +203,6 @@
         
         <hr/>
         <h:outputText value="#{DashboardForm.plugin.batchesAsJson}"/>
-        <hr/>
-        <h:outputText value="#{DashboardForm.plugin.allDatesAsJson}"/>
-        <hr/>
         
         <script type="text/javascript">	
 		//<![CDATA[
@@ -237,33 +234,53 @@
 			// }
 			
 			// preparation of the canvas
-			var c = document.getElementById("myCanvas");
-			c.width=$(c).width();
-			//c.height=$(c).height();
-			//$(c).height();
-			c.height=5*200;
+			var canvasDiv = document.getElementById('myCanvasDiv');
+			var canvas = document.getElementById('myCanvas');
+			canvas.width = $(canvasDiv).width() * 2;
+			canvas.height = $(canvasDiv).height() * 2;
+			canvas.style.width = $(canvasDiv).width()  + "px";
+			canvas.style.height = $(canvasDiv).height() + "px";
+			// rescale for retina displays
+			var ctx = canvas.getContext("2d");
+			ctx.scale(2,2);
 			
-			// json dates
+			// draw horizontal line for dates
+			ctx.moveTo(0,22);
+			ctx.lineTo(canvas.width,22);
+			ctx.stroke();
+			
+			// run through all dates
 			var dates = JSON.parse('#{DashboardForm.plugin.allDatesAsJson}');
-			// console.log(dates); 
 			for (var i = 0; i < dates.length; i++) {
 			    var date = dates[i];
-			    var percent = 100*(i)/dates.length;
-			    var position = c.width*percent/100;
-			    var position2 = c.width*i/dates.length;
-			    console.log(date.label + " - " + percent + " - " + position + " - " + position2);
-			 	// draw a line
-				var line = c.getContext("2d");
-				line.moveTo(position,0);
-				line.lineTo(position,5);
-				line.stroke();
+			    var percent = 100*(i)/(dates.length-1);
+			    var position = Math.round(canvas.width*i/(dates.length-1));
+			    // console.log(date.label + " - " + percent + " - " + position);
+			 	
+			    // draw small ticks for each date
+			    ctx.moveTo(position,20);
+			    ctx.lineTo(position,25);
+			    ctx.stroke();
+				
+			    // write start and end date
+			    if (i==1){
+					ctx.font = "10px Arial";
+					ctx.fillText(date.label,5,10); 
+				}
+			    if (i==dates.length-1){
+					ctx.font = "10px Arial";
+					ctx.fillText(date.label,$(canvasDiv).width()-58,10); 
+				}
 			}
 			
-			// draw a line
-			// var ctx = c.getContext("2d");
-			// ctx.moveTo(0,0);
-			// ctx.lineTo(200,100);
-			// ctx.stroke();
+			// draw a line for today
+			var today = JSON.parse('#{DashboardForm.plugin.todayAsJson}');
+			var positionToday = Math.round(canvas.width/100*today.percent);
+			var ctxRed = canvas.getContext("2d");
+			ctxRed.moveTo(positionToday,10);
+			ctxRed.lineTo(positionToday,100);
+			//ctxRed.strokeStyle="red";
+			ctxRed.stroke();
 			
 			// draw text
 			// ctx.font = "15px Arial";
@@ -281,7 +298,9 @@
 			// for (schritt = 0; schritt < 5; schritt++) {
 			//  console.log('Gehe einen Schritt: ' + schritt);
 			// }
-		       
+		    
+			
+			
 		//]]>
 		</script>
 		

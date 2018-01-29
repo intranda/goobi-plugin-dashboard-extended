@@ -49,6 +49,8 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
     private List<DashboardHelperBatch> batchesInInterval;
     // contains the list of all days between the current interval
     private List<DashboardHelperBatchDate> datesInInterval;
+    private DashboardHelperBatchDate dateToday;
+    DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
     
     private int totalBatches;
     private int processesWithoutBatch;
@@ -75,8 +77,9 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
     }
     
     private void loadDatesInIntervall() {
-    		DateTimeFormatter fmt = DateTimeFormat.forPattern("dd.MM.yyyy");
-		datesInInterval = new ArrayList<DashboardHelperBatchDate>();
+	    	datesInInterval = new ArrayList<DashboardHelperBatchDate>();
+    		dateToday = new DashboardHelperBatchDate();
+    		dateToday.setLabel(today.toLocalDate().toString(fmt));
 		int days = Days.daysBetween(selectedStartDate, selectedEndDate).getDays()+1;
 		for (int i=0; i < days; i++) {
 			DateTime d = selectedStartDate.withFieldAdded(DurationFieldType.days(), i);
@@ -84,6 +87,9 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
 			dhd.setLabel(d.toLocalDate().toString(fmt));
 			dhd.setPercent(100*(i+1)/days);
 			datesInInterval.add(dhd);
+			if (dhd.getLabel().equals(dateToday.getLabel())) {
+				dateToday.setPercent(dhd.getPercent());
+			}
 		}
 	}
 
@@ -332,4 +338,7 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
 		return gson.toJson(datesInInterval);
 	}
     
+	public String getTodayAsJson() {
+		return gson.toJson(dateToday);
+	}
 }
