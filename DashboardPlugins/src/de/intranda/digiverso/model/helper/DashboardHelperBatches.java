@@ -65,8 +65,8 @@ public class DashboardHelperBatches {
 		today = new DateTime().withTime(0, 0, 0, 0);
 		;
 		// set default search interval - replace it with configured value?
-		selectedStartDate = today.minusMonths(1);
-		selectedEndDate = today.plusMonths(2);
+		selectedStartDate = today.minusMonths(config.getInt("batches-timerange-start", 3));
+		selectedEndDate = today.plusMonths(config.getInt("batches-timerange-end", 3));
 		// load batches and dates
 		loadDatesInIntervall();
 		loadBatchesInInterval();

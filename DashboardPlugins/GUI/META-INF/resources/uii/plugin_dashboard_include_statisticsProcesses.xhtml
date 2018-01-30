@@ -11,6 +11,8 @@
 
 	<composite:implementation>
 
+		<h:panelGroup rendered="#{DashboardForm.plugin.processHelper.showStatistics}">
+
 		<style>
 		.jqplot-title {
 			font-size: 28px;
@@ -87,7 +89,7 @@
 		    	
 		    }
 		</script>
-
+		</h:panelGroup>
 	</composite:implementation>
 
 </ui:composition>

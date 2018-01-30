@@ -87,6 +87,10 @@ public class ExtendedDashboard implements IDashboardPlugin {
 		return processHelper;
 	}
 	
+	public boolean isShowSearch() {
+		return ConfigPlugins.getPluginConfig(this).getBoolean("search-show", true);
+	}
+	
 	public void update(){
 		//System.out.println("ich polle");
 		// do nothing

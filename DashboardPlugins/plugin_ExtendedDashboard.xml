@@ -3,7 +3,7 @@
 <config_plugin>
 	
 	<!-- intranda TaskManager -->
-	<itm-show>true</itm-show>
+	<itm-show>false</itm-show>
 	<itm-cache-time>180000</itm-cache-time>
 	<itm-url>http://localhost:8080/itm/</itm-url>
 	
@@ -15,7 +15,7 @@
 	<nagios-password>pass</nagios-password>
 	
 	<!-- RSS-Feed e.g. of last imports -->
-	<rss-show>false</rss-show>
+	<rss-show>true</rss-show>
 	<rss-cache-time>900000</rss-cache-time>
 	<rss-url>http://www.intranda.com/feed/</rss-url>
 	<rss-title>News by intranda GmbH</rss-title>
@@ -26,7 +26,11 @@
 	<tasks-show>true</tasks-show>
 	<!-- Statistics -->
 	<statistics-show>true</statistics-show>
+	
 	<!-- Batches -->
 	<batches-show>true</batches-show>
+	<batches-timerange-start>2</batches-timerange-start>
+	<batches-timerange-end>4</batches-timerange-end>
+	
 </config_plugin>
 

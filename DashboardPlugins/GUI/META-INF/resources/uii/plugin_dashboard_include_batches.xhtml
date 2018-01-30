@@ -9,13 +9,15 @@
 
 		<h:panelGroup rendered="#{DashboardForm.plugin.batchHelper.showBatches}">
 
+			<div id="batchestooltip" style="background-color: white; border:1px solid #ddd; padding: 5px; display: none;position:fixed;z-index: 999" />
+
 			<div class="col-sm-8">
 				<h:form>
 					<div class="box box-color box-bordered">
 						<div class="box-title">
 							<h3>
 								<i class="fa fa-table"></i>
-								<h:outputText value="#{msgs.batchDetails}" class="margin-right-5" />
+								<h:outputText value="#{msgs.plugin_dashboard_batches_current}" class="margin-right-5" />
 							</h3>
 							<div class="actions">
 								<h:commandLink id="reload" action="#{DashboardForm.plugin.batchHelper.loadAllData}" styleClass="btn btn-mini"
@@ -25,80 +27,10 @@
 								</h:commandLink>
 							</div>
 						</div>
-						<div id="myCanvasDiv" class="box-content">
-							<canvas id="myCanvas" width="1000" height="400"
-								style="margin-top: 5px"></canvas>
+						<div id="myCanvasDiv" class="box-content" style="padding:5px;">
+							<canvas id="myCanvas" width="1000" height="400" style="margin-top: 5px;" onmousemove="batchesCanvasMouseOver(event)"></canvas>
 						</div>
 					</div>
-				
-				
-<!-- 					<div class="box box-color box-bordered"> -->
-<!-- 						<div class="box-title"> -->
-<!-- 							<h3> -->
-<!-- 								<i class="fa fa-table"></i> -->
-<!-- 								<h:outputText value="#{msgs.batch}" class="margin-right-5" /> -->
-<!-- 							</h3> -->
-<!-- 						</div> -->
-<!-- 						<div class="box-content nopadding"> -->
-<!-- 							<x:dataTable style="width:100%" var="batch" value="#{DashboardForm.plugin.batchHelper.batchesInInterval}"> -->
-<!-- 								<x:column> -->
-<!-- 									<f:facet name="header"> -->
-<!-- 										<h:outputText value="#{msgs.id}" /> -->
-<!-- 									</f:facet> -->
-<!-- 									<h:outputText value="#{batch.id}" /> -->
-<!-- 								</x:column> -->
-
-<!-- 								<x:column> -->
-<!-- 									<f:facet name="header"> -->
-<!-- 										<h:outputText value="#{msgs.batchName}" /> -->
-<!-- 									</f:facet> -->
-<!-- 									<h:outputText value="#{batch.batchName}" /> -->
-<!-- 								</x:column> -->
-
-<!-- 								<x:column> -->
-<!-- 									<f:facet name="header"> -->
-<!-- 										<h:outputText value="#{msgs.startDate}" /> -->
-<!-- 									</f:facet> -->
-<!-- 									<h:outputText value="#{batch.startDateJson}" /> -->
-<!-- 								</x:column> -->
-
-<!-- 								<x:column> -->
-<!-- 									<f:facet name="header"> -->
-<!-- 										<h:outputText value="#{msgs.endDate}" /> -->
-<!-- 									</f:facet> -->
-<!-- 									<h:outputText value="#{batch.endDateJson}" /> -->
-<!-- 								</x:column> -->
-
-<!-- 								<x:column> -->
-<!-- 									<f:facet name="header"> -->
-<!-- 										<h:outputText value="#{msgs.totalProcesses}" /> -->
-<!-- 									</f:facet> -->
-<!-- 									<h:outputText value="#{batch.totalProcesses}" /> -->
-<!-- 								</x:column> -->
-
-<!-- 								<x:column> -->
-<!-- 									<f:facet name="header"> -->
-<!-- 										<h:outputText value="#{msgs.progressUnprocessed}" /> -->
-<!-- 									</f:facet> -->
-<!-- 									<h:outputText value="#{batch.progressUnprocessed}" /> -->
-<!-- 								</x:column> -->
-
-<!-- 								<x:column> -->
-<!-- 									<f:facet name="header"> -->
-<!-- 										<h:outputText value="#{msgs.progressProcessed}" /> -->
-<!-- 									</f:facet> -->
-<!-- 									<h:outputText value="#{batch.progressProcessed}" /> -->
-<!-- 								</x:column> -->
-
-<!-- 								<x:column> -->
-<!-- 									<f:facet name="header"> -->
-<!-- 										<h:outputText value="#{msgs.progressReturned}" /> -->
-<!-- 									</f:facet> -->
-<!-- 									<h:outputText value="#{batch.progressReturned}" /> -->
-<!-- 								</x:column> -->
-<!-- 							</x:dataTable> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
 				</h:form>
 			</div>
 
@@ -108,52 +40,34 @@
 					<div class="box-title">
 						<h3>
 							<i class="fa fa-table"></i>
-							<h:outputText value="#{msgs.batch}" class="margin-right-5" />
+							<h:outputText value="#{msgs.plugin_dashboard_batches_overview}" class="margin-right-5" />
 						</h3>
 					</div>
 					<div class="box-content nopadding">
 						<h:panelGrid columns="2" styleClass="table table-hover table-bordered" columnClasses="columnLabel, columnValue">
 
-							<h:outputText value="#{msgs.startDate}" />
+							<h:outputText value="#{msgs.plugin_dashboard_batches_timerange_start}" />
 							<h:outputText value="#{DashboardForm.plugin.batchHelper.selectedStartDayAsString}" />
 
-							<h:outputText value="#{msgs.today}" />
-							<h:outputText value="#{DashboardForm.plugin.batchHelper.todayAsString}" />
-
-							<h:outputText value="#{msgs.endDate}" />
+							<h:outputText value="#{msgs.plugin_dashboard_batches_timerange_end}" />
 							<h:outputText value="#{DashboardForm.plugin.batchHelper.selectedEndDayAsString}" />
-						</h:panelGrid>
-					</div>
-				</div>
-
-				<div class="box box-color box-bordered">
-					<div class="box-title">
-						<h3>
-							<i class="fa fa-table"></i>
-							<h:outputText value="#{msgs.batchDetails}" class="margin-right-5" />
-						</h3>
-					</div>
-					<div class="box-content nopadding">
-
-						<h:panelGrid columns="2" styleClass="table table-hover table-bordered" columnClasses="columnLabel, columnValue">
-
-							<h:outputText value="#{msgs.batchesNotStarted}" />
+						
+							<h:outputText value="#{msgs.plugin_dashboard_batches_notStarted}" />
 							<h:outputText value="#{DashboardForm.plugin.batchHelper.batchesNotStarted}" />
 
-							<h:outputText value="#{msgs.batchesInwork}" />
+							<h:outputText value="#{msgs.plugin_dashboard_batches_inWork}" />
 							<h:outputText value="#{DashboardForm.plugin.batchHelper.batchesInwork}" />
 
-							<h:outputText value="#{msgs.finishedBatches}" />
+							<h:outputText value="#{msgs.plugin_dashboard_batches_finished}" />
 							<h:outputText value="#{DashboardForm.plugin.batchHelper.finishedBatches}" />
 
-
-							<h:outputText value="#{msgs.processesWithoutBatch}" />
+							<h:outputText value="#{msgs.plugin_dashboard_batches_processesWithoutBatch}" />
 							<h:outputText value="#{DashboardForm.plugin.batchHelper.processesWithoutBatch}" />
 
-							<h:outputText value="#{msgs.processesWithErrors}" />
+							<h:outputText value="#{msgs.plugin_dashboard_batches_processesWithErrors}" />
 							<h:outputText value="#{DashboardForm.plugin.batchHelper.processesWithErrors}" />
 
-							<h:outputText value="#{msgs.progress}" />
+							<h:outputText value="#{msgs.plugin_dashboard_batches_progress}" />
 							<h:outputText value="#{DashboardForm.plugin.batchHelper.totalProgress}" />
 						</h:panelGrid>
 
@@ -161,135 +75,187 @@
 				</div>
 			</div>
 			<!-- ###################################### // Small box on right side ########################################### -->
-			
+
 			<script type="text/javascript">
-			//<![CDATA[
+				//<![CDATA[
 
-            // get all json information
-            var dates = JSON.parse('#{DashboardForm.plugin.batchHelper.allDatesAsJson}');
-            var batches = JSON.parse('#{DashboardForm.plugin.batchHelper.batchesAsJson}');
-            var today = JSON.parse('#{DashboardForm.plugin.batchHelper.todayAsJson}');
+                // get all json information
+                var dates = JSON.parse('#{DashboardForm.plugin.batchHelper.allDatesAsJson}');
+                var batches = JSON.parse('#{DashboardForm.plugin.batchHelper.batchesAsJson}');
+                var today = JSON.parse('#{DashboardForm.plugin.batchHelper.todayAsJson}');
 
-            // define some layout variables
-            var layoutTopStart = 45;
-            var layoutHeightBars = 30;
-            var layoutMarginBars = 30;
+                // define some layout variables
+                var layoutTopStart = 45;
+                var layoutHeightBars = 30;
+                var layoutMarginBars = 30;
 
-            // preparation of the canvas
-            var canvasDiv = document.getElementById('myCanvasDiv');
-            var canvas = document.getElementById('myCanvas');
-            canvas.width = $(canvasDiv).width() * 2;
-            //canvas.height = $(canvasDiv).height() * 2;
-            canvas.height = batches.length * (layoutHeightBars + layoutMarginBars) + 50;
-            canvas.style.width = $(canvasDiv).width() + "px";
-            canvas.style.height = $(canvasDiv).height() + "px";
-            var ctx = canvas.getContext("2d");
+                // preparation of the canvas
+                var canvasDiv = document.getElementById('myCanvasDiv');
+                canvas = document.getElementById('myCanvas');
+                canvas.width = $(canvasDiv).width() * 2;
+                //canvas.height = $(canvasDiv).height() * 2;
+                canvas.height = batches.length * (layoutHeightBars + layoutMarginBars) + 50;
+                canvas.style.width = $(canvasDiv).width() + "px";
+                canvas.style.height = $(canvasDiv).height() + "px";
+                var ctx = canvas.getContext("2d");
 
-            // draw margin around the image
-            ctx.beginPath();
-            ctx.lineWidth = "1";
-            ctx.strokeStyle = "grey";
-            ctx.rect(0, 0, canvas.width, canvas.height);
-            ctx.stroke();
-            
-            // draw horizontal line for dates
-            ctx.moveTo(0, layoutTopStart);
-            ctx.lineTo(canvas.width, layoutTopStart);
-            ctx.stroke();
+                // draw margin around the image
+                ctx.beginPath();
+                ctx.lineWidth = "1";
+                ctx.strokeStyle = "grey";
+                ctx.rect(0, 0, canvas.width, canvas.height);
+                ctx.stroke();
 
-            // run through all dates to draw some ticks
-            var dateWidth = canvas.width / (dates.length - 1);
-            var dateVals = {};
-            for (var i = 0; i < dates.length; i++) {
-	            var date = dates[i];
-	            dateVals[date] = i * dateWidth;
-	            ctx.moveTo(i * dateWidth, layoutTopStart - 3);
-	            ctx.lineTo(i * dateWidth, layoutTopStart + 3);
-	            ctx.stroke();
+                // draw horizontal line for dates
+                ctx.moveTo(0, layoutTopStart);
+                ctx.lineTo(canvas.width, layoutTopStart);
+                ctx.stroke();
 
-	            // write start and end date
-	            if (i == 0) {
-		            ctx.font = "20px Arial";
-		            ctx.fillText(date, 5, layoutTopStart - 15);
+                // run through all dates to draw some ticks
+                var dateWidth = canvas.width / (dates.length - 1);
+                var dateVals = {};
+                myRects = [];
+                ctx.font = "20px Arial";
+                for (var i = 0; i < dates.length; i++) {
+	                var date = dates[i];
+	                dateVals[date] = i * dateWidth;
+	                ctx.moveTo(i * dateWidth, layoutTopStart - 3);
+	                ctx.lineTo(i * dateWidth, layoutTopStart + 3);
+	                ctx.stroke();
+
+	                // write start and end date
+	                if (i == 0) {
+	                		ctx.fillText(date, 5, layoutTopStart - 15);
+	                }
+	                if (i == dates.length - 1) {
+		                ctx.fillText(date, canvas.width - 110, layoutTopStart - 15);
+	                }
+                }
+
+                // draw a line for today
+                var xToday = dateVals[today];
+                //ctx.strokeStyle = "red";
+                ctx.moveTo(xToday, 10);
+                ctx.lineTo(xToday, canvas.height - 10);
+                ctx.stroke();
+                ctx.fillText(today, xToday + 10, layoutTopStart - 15);
+                ctx.strokeStyle = "grey";
+
+                // run through all batches
+                for (var i = 0; i < batches.length; i++) {
+	                var batch = batches[i];
+	                // set start date
+	                var xStart = dateVals[batch.startDateJson];
+	                if (!xStart) {
+		                xStart = 0;
+	                }
+	                // set end date
+	                var xLength = dateVals[batch.endDateJson] - xStart;
+	                if (!xLength) {
+		                xLength = canvas.width + 10;
+	                }
+	                var yStart = i * (layoutMarginBars + layoutHeightBars) + 60;
+
+	                // draw the rectangle
+	                ctx.beginPath();
+	                ctx.lineWidth = "1";
+	                ctx.strokeStyle = "grey";
+	                ctx.rect(xStart, yStart, xLength, layoutHeightBars);
+	                ctx.stroke();
+					// remember the coordinates for later tooltip use
+	                myRects.push({
+	                		x: xStart/2,
+	                		y: yStart/2,
+	                		w: xLength/2,
+	                		h: layoutHeightBars/2,
+	                		startdate: batch.startDateJson,
+	                		enddate: batch.endDateJson,
+	                		title: batch.batchName
+	                })
+
+	                var tasksLocked = batch.numberOfLockedTasks;
+	                var tasksFinished = batch.numberOfFinishedTasks;
+	                var tasksOpen = batch.numberOfOpenTasks;
+	                var tasksInWork = batch.numberOfTasksInWork;
+	                var tasksError = batch.numberOfErrorTasks;
+	                var tasksSum = tasksLocked + tasksFinished + tasksOpen + tasksInWork + tasksError;
+
+	                var xGreenStart = xStart;
+	                var xGreenEnd = xLength * (tasksFinished) / tasksSum;
+	                var xOrangeStart = xGreenStart + xGreenEnd;
+	                var xOrangeEnd = xLength * (tasksOpen + tasksInWork + tasksError) / tasksSum;
+	                var xRedStart = xOrangeStart + xOrangeEnd;
+	                var xRedEnd = xLength * (tasksLocked) / tasksSum;
+
+// 	                console.log("=====================================================================");
+// 	                console.log(i + ": " + batch.batchName + " - " + batch.startDate + " - " + batch.endDate);
+// 	                console.log(tasksLocked + " - " + tasksFinished + " - " + tasksOpen + " - " + tasksInWork + " - " + tasksError);
+// 	                console.log(tasksFinished + " - " + (tasksOpen + tasksInWork + tasksError) + " - " + tasksLocked);
+// 	                console.log(xGreenStart + " - " + xGreenEnd + " - " + xOrangeEnd + " - " + xRedEnd);
+
+	                ctx.beginPath();
+	                ctx.fillStyle = "#5CB85C";
+	                ctx.fillRect(xGreenStart, yStart, xGreenEnd, layoutHeightBars);
+	                ctx.stroke();
+	                ctx.beginPath();
+	                ctx.fillStyle = "#F0AD4E";
+	                ctx.fillRect(xOrangeStart, yStart, xOrangeEnd, layoutHeightBars);
+	                ctx.stroke();
+	                ctx.beginPath();
+	                ctx.fillStyle = "#D9534F";
+	                ctx.fillRect(xRedStart, yStart, xRedEnd, layoutHeightBars);
+	                ctx.stroke();
+                }
+
+                // rescale all the canvas painting for retina displays
+                //ctx.scale(2, 2);
+                
+                function batchesCanvasMouseOver(event) {
+                		var found = false;
+                		for (var i = 0; i < myRects.length; i++) {
+     	            		var rect = myRects[i];
+     	             	var mousepos = getMousePos(event);
+     	            	 	mousepos.w = 0;
+     	           	 	mousepos.h = 0;
+     	             	if(collision(rect,mousepos)){
+     	            	 		showTooltip(rect, event);
+     	            	 		found=true;
+     	             	}
+                		}
+                		if (!found){
+	            			$("#batchestooltip").hide();
+                		}
+                }
+                
+                function showTooltip(rect, event) {
+                    var $tooltip = $("#batchestooltip");
+	                var $canvas = $(event.target);
+	                $tooltip.offset({
+		            		top : event.offsetY - $tooltip.height() - 15 + $canvas.offset().top,
+	                    left : event.offsetX + 5 + $canvas.offset().left
+	                });
+	                $tooltip.html('<table><tr><td colspan="2" style="padding: 2px;"><b>' + rect.title + '</b></td></tr><tr><td style="padding: 2px;">#{msgs.startdate}: </td><td style="padding: 2px;">' + rect.startdate + '</td></tr><tr><td style="padding: 2px;">#{msgs.enddate}: </td><td style="padding: 2px;">' + rect.enddate + '</td></tr></table>');
+	                $tooltip.show();
 	            }
-	            if (i == dates.length - 1) {
-		            ctx.font = "20px Arial";
-		            ctx.fillText(date, canvas.width - 110, layoutTopStart - 15);
-	            }
-            }
 
-            // draw a line for today
-            var xToday = dateVals[today];
-            ctx.moveTo(xToday, 10);
-            ctx.lineTo(xToday, canvas.height);
-            ctx.strokeStyle = "grey";
-            ctx.stroke();
+                function getMousePos(evt) {
+                    var rect = canvas.getBoundingClientRect();
+                    return {
+                      x: evt.clientX - rect.left,
+                      y: evt.clientY - rect.top
+                    };
+                  }
+                
+                function collision(rect1, rect2) {
+            			return rect2.x < rect1.x + rect1.w &&
+            		   		rect2.x + rect2.w > rect1.x &&
+            		   		rect2.y < rect1.y + rect1.h &&
+            		   		rect2.h + rect2.y > rect1.y;
+            		}
+                
+                //]]>
+			</script>
 
-            // run through all batches
-            for (var i = 0; i < batches.length; i++) {
-	            var batch = batches[i];
-	            // set start date
-	            var xStart = dateVals[batch.startDateJson];
-	            if (!xStart) {
-		            xStart = 0;
-	            }
-	            // set end date
-	            var xLength = dateVals[batch.endDateJson] - xStart;
-	            if (!xLength) {
-		            xLength = canvas.width + 10;
-	            }
-	            var yStart = i * (layoutMarginBars + layoutHeightBars) + 60;
-
-	            // draw the rectangle
-	            ctx.beginPath();
-	            ctx.lineWidth = "1";
-	            ctx.strokeStyle = "grey";
-	            ctx.rect(xStart, yStart, xLength, layoutHeightBars);
-	            ctx.stroke();
-
-	            var tasksLocked = batch.numberOfLockedTasks;
-	            var tasksFinished = batch.numberOfFinishedTasks;
-	            var tasksOpen = batch.numberOfOpenTasks;
-	            var tasksInWork = batch.numberOfTasksInWork;
-	            var tasksError = batch.numberOfErrorTasks;
-				var tasksSum = tasksLocked + tasksFinished + tasksOpen + tasksInWork + tasksError;
-	            
-	            var xGreenStart = xStart;
-	            var xGreenEnd = xLength * (tasksFinished) / tasksSum;
-	            var xOrangeStart = xGreenStart + xGreenEnd;
-	            var xOrangeEnd = xLength * (tasksOpen + tasksInWork + tasksError) / tasksSum;
-	            var xRedStart = xOrangeStart + xOrangeEnd;
-	            var xRedEnd = xLength * (tasksLocked) / tasksSum;
-	            
-	            console.log("=====================================================================");
-	            console.log(i + ": " + batch.batchName + " - " + batch.startDate + " - " + batch.endDate);
-	            //console.log(tasksLocked + " - " + tasksFinished + " - " + tasksOpen + " - " + tasksInWork + " - " + tasksError);
-	            console.log(tasksFinished + " - " + (tasksOpen + tasksInWork + tasksError) + " - " + tasksLocked);
-	            console.log(xGreenStart + " - " + xGreenEnd + " - " + xOrangeEnd + " - " + xRedEnd);
-	            
-	            ctx.beginPath();
-	            ctx.fillStyle="#5CB85C";
-	            ctx.fillRect(xGreenStart, yStart, xGreenEnd, layoutHeightBars);
-	            ctx.stroke();
-	            ctx.beginPath();
-	            ctx.fillStyle="#F0AD4E";
-	            ctx.fillRect(xOrangeStart, yStart, xOrangeEnd, layoutHeightBars);
-	            ctx.stroke();
-	            ctx.beginPath();
-	            ctx.fillStyle="#D9534F";
-	            ctx.fillRect(xRedStart, yStart, xRedEnd, layoutHeightBars);
-	            ctx.stroke();
-	            
-	            // console.log("x: " + xStart + " - " + xLength);
-	            // console.log("y: " + yStart + " - " + layoutHeightBars);
-
-            }
-
-            // rescale all the canvas painting for retina displays
-            ctx.scale(2, 2);
-            //]]>
-		</script>
-		
 		</h:panelGroup>
 	</composite:implementation>
 

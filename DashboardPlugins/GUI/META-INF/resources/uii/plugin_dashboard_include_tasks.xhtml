@@ -6,7 +6,7 @@
 
     <composite:implementation>
 
-		<h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.assignedSteps.size() gt 0}">
+		<h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showTasks and DashboardForm.plugin.tasksHelper.assignedSteps.size() gt 0}">
 			<div class="box box-color box-bordered">
 				<div class="box-title">
 					<h3>
