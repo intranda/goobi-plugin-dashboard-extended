@@ -8,11 +8,13 @@
 	<composite:implementation>
 
 		<div class="row">
+			<ui:include src="plugin_dashboard_include_batches.xhtml" />
+		</div>
+		
+		<div class="row">
 			<div class="col-sm-4">
-			
 				<ui:include src="plugin_dashboard_include_tasks.xhtml" />
 				<ui:include src="plugin_dashboard_include_search.xhtml" />				
-			
 			</div>
 
 			<div class="col-sm-4">
@@ -30,10 +32,10 @@
 				<h:panelGroup rendered="#{DashboardForm.plugin.nagiosHelper.showNagios and LoginForm.maximaleBerechtigung le 2}">
 					<ui:include src="plugin_dashboard_include_nagios.xhtml" />	
 				</h:panelGroup>	
-				
 			</div>
-
 		</div>
+		
+		
 	</composite:implementation>
 
 </ui:composition>

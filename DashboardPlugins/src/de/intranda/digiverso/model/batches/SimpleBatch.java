@@ -1,11 +1,11 @@
-package de.intranda.digiverso.model.helper;
+package de.intranda.digiverso.model.batches;
 
 import java.util.Date;
 
 import lombok.Data;
 
 @Data
-public class DashboardHelperBatch {
+public class SimpleBatch {
 
     private Integer id;
     private String batchName;

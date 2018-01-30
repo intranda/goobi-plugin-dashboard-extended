@@ -15,10 +15,18 @@
 	<nagios-password>pass</nagios-password>
 	
 	<!-- RSS-Feed e.g. of last imports -->
-	<rss-show>true</rss-show>
+	<rss-show>false</rss-show>
 	<rss-cache-time>900000</rss-cache-time>
 	<rss-url>http://www.intranda.com/feed/</rss-url>
 	<rss-title>News by intranda GmbH</rss-title>
-		
+	
+	<!-- Search -->
+	<search-show>true</search-show>
+	<!-- Tasks -->
+	<tasks-show>true</tasks-show>
+	<!-- Statistics -->
+	<statistics-show>true</statistics-show>
+	<!-- Batches -->
+	<batches-show>true</batches-show>
 </config_plugin>
 

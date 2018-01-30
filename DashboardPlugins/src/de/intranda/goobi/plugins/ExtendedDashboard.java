@@ -6,6 +6,7 @@ import org.goobi.beans.Step;
 import org.goobi.production.enums.PluginType;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 
+import de.intranda.digiverso.model.helper.DashboardHelperBatches;
 import de.intranda.digiverso.model.helper.DashboardHelperItm;
 import de.intranda.digiverso.model.helper.DashboardHelperNagios;
 import de.intranda.digiverso.model.helper.DashboardHelperProcesses;
@@ -22,6 +23,8 @@ public class ExtendedDashboard implements IDashboardPlugin {
 	private DashboardHelperNagios nagiosHelper;
 	private DashboardHelperProcesses processHelper;
 	private static final String PLUGIN_NAME = "intranda_dashboard_extended";
+	private DashboardHelperBatches batchHelper;
+	private DashboardHelperTasks tasksHelper;
 	
 	@Override
 	public PluginType getType() {
@@ -42,15 +45,25 @@ public class ExtendedDashboard implements IDashboardPlugin {
 		return "/uii/plugin_dashboard_extended.xhtml";
 	}
 
-	public List<Step> getAssignedSteps() {
-		return DashboardHelperTasks.getAssignedSteps();
-	}
-
 	public DashboardHelperRss getRssHelper() {
 		if (rssHelper==null){
 			rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(this));
 		}
 		return rssHelper;
+	}
+	
+	public DashboardHelperTasks getTasksHelper() {
+		if (tasksHelper==null){
+			tasksHelper = new DashboardHelperTasks(ConfigPlugins.getPluginConfig(this));
+		}
+		return tasksHelper;
+	}
+	
+	public DashboardHelperBatches getBatchHelper() {
+		if (batchHelper==null){
+			batchHelper = new DashboardHelperBatches(ConfigPlugins.getPluginConfig(this));
+		}
+		return batchHelper;
 	}
 	
 	public DashboardHelperItm getItmHelper() {
