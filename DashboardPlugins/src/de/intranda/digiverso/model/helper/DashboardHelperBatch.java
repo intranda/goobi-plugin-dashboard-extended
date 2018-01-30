@@ -20,16 +20,14 @@ public class DashboardHelperBatch {
     private int numberOfErrorTasks; // part of yellow bar
     private int numberOfDeactivatedTasks; // deactivated tasks are ignored
     
-    private double percentStart;
-    private double percentEnd;
+    private String startDateJson;
+    private String endDateJson;
     
     // get size of red bar as percentage 
     public double getProgressUnprocessed() {
-        
         double value = (numberOfLockedTasks * 100) / (numberOfLockedTasks + numberOfOpenTasks
                 + numberOfTasksInWork + numberOfFinishedTasks + numberOfErrorTasks);
         return value;
-
     }
 
     // get size of yellow bar as percentage
@@ -43,7 +41,7 @@ public class DashboardHelperBatch {
     // get size of red bar as percentage
     public double getProgressReturned() {
         double value = 100 - getProgressUnprocessed() - getProgressProcessed();
-        return value;
+		return value;
     }
 
 }

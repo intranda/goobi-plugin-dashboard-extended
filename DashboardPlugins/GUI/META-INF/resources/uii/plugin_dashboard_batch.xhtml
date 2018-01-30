@@ -1,335 +1,279 @@
-<ui:composition
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:x="http://myfaces.apache.org/tomahawk"
-    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
-    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-    xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:x="http://myfaces.apache.org/tomahawk"
+	xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
 
-    <composite:interface>
-    </composite:interface>
+	<composite:interface>
+	</composite:interface>
 
-    <composite:implementation>
+	<composite:implementation>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="box box-color box-bordered">
-                    <div class="box-title">
-                        <h3>
-                            <i class="fa fa-table"></i>
-                            <h:outputText
-                                value="#{msgs.batch}"
-                                class="margin-right-5" />
-                        </h3>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box box-color box-bordered">
+					<div class="box-title">
+						<h3>
+							<i class="fa fa-table"></i>
+							<h:outputText value="#{msgs.batch}" class="margin-right-5" />
+						</h3>
 
 
-                    </div>
-                    <div class="box-content nopadding">
+					</div>
+					<div class="box-content nopadding">
 
-                        <h:panelGrid
-                            columns="2"
-                            styleClass="table table-hover table-bordered"
-                            columnClasses="columnLabel, columnValue">
+						<h:panelGrid columns="2"
+							styleClass="table table-hover table-bordered"
+							columnClasses="columnLabel, columnValue">
 
-                            <h:outputText value="#{msgs.startDate}" />
-                            <h:outputText value="#{DashboardForm.plugin.selectedStartDate}" />
+							<h:outputText value="#{msgs.startDate}" />
+							<h:outputText value="#{DashboardForm.plugin.selectedStartDayAsString}" />
 
-                            <h:outputText value="#{msgs.today}" />
-                            <h:outputText value="#{DashboardForm.plugin.today}" />
+							<h:outputText value="#{msgs.today}" />
+							<h:outputText value="#{DashboardForm.plugin.todayAsString}" />
 
-                            <h:outputText value="#{msgs.endDate}" />
-                            <h:outputText value="#{DashboardForm.plugin.selectedEndDate}" />
+							<h:outputText value="#{msgs.endDate}" />
+							<h:outputText value="#{DashboardForm.plugin.selectedEndDayAsString}" />
+						</h:panelGrid>
 
+					</div>
+				</div>
 
-                        </h:panelGrid>
+				<h:form>
+					<div class="box box-color box-bordered">
+						<div class="box-title">
+							<h3>
+								<i class="fa fa-table"></i>
+								<h:outputText value="#{msgs.batch}" class="margin-right-5" />
+							</h3>
 
-                    </div>
-                </div>
+							<div class="actions">
+								<h:commandLink id="reload"
+									action="#{DashboardForm.plugin.loadAllData}"
+									styleClass="btn btn-mini" title="#{msgs.reload}" rel="tooltip">
+									<i class="fa fa-refresh" title="#{msgs.reload}" rel="tooltip" />
+									<f:passThroughAttribute name="data-toggle" value="tooltip" />
+								</h:commandLink>
+							</div>
 
-                <h:form>
-                    <div class="box box-color box-bordered">
-                        <div class="box-title">
-                            <h3>
-                                <i class="fa fa-table"></i>
-                                <h:outputText
-                                    value="#{msgs.batch}"
-                                    class="margin-right-5" />
-                            </h3>
+						</div>
+						<div class="box-content nopadding">
+							<x:dataTable style="width:100%" var="batch"
+								value="#{DashboardForm.plugin.batchesInInterval}">
+								<x:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs.id}" />
+									</f:facet>
+									<h:outputText value="#{batch.id}" />
+								</x:column>
 
-                            <div class="actions">
-                                <h:commandLink
-                                    id="reload"
-                                    action="#{DashboardForm.plugin.loadAllData}"
-                                    styleClass="btn btn-mini"
-                                    title="#{msgs.reload}"
-                                    rel="tooltip">
-                                    <i
-                                        class="fa fa-refresh"
-                                        title="#{msgs.reload}"
-                                        rel="tooltip" />
-                                    <f:passThroughAttribute
-                                        name="data-toggle"
-                                        value="tooltip" />
-                                </h:commandLink>
-                            </div>
+								<x:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs.batchName}" />
+									</f:facet>
+									<h:outputText value="#{batch.batchName}" />
+								</x:column>
 
-                        </div>
-                        <div class="box-content nopadding">
-                            <x:dataTable
-                                style="width:100%"
-                                var="batch"
-                                value="#{DashboardForm.plugin.batchesInInterval}">
-                                <x:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.id}" />
-                                    </f:facet>
-                                    <h:outputText value="#{batch.id}" />
-                                </x:column>
+								<x:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs.startDate}" />
+									</f:facet>
+									<h:outputText value="#{batch.startDateJson}" />
+								</x:column>
 
-                                <x:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.batchName}" />
-                                    </f:facet>
-                                    <h:outputText value="#{batch.batchName}" />
-                                </x:column>
+								<x:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs.endDate}" />
+									</f:facet>
+									<h:outputText value="#{batch.endDateJson}" />
+								</x:column>
 
-                                <x:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.startDate}" />
-                                    </f:facet>
-                                    <h:outputText value="#{batch.startDate}" />
-                                </x:column>
+								<x:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs.totalProcesses}" />
+									</f:facet>
+									<h:outputText value="#{batch.totalProcesses}" />
+								</x:column>
 
-                                <x:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.endDate}" />
-                                    </f:facet>
-                                    <h:outputText value="#{batch.endDate}" />
-                                </x:column>
+								<x:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs.progressUnprocessed}" />
+									</f:facet>
+									<h:outputText value="#{batch.progressUnprocessed}" />
+								</x:column>
 
-                                <x:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.totalProcesses}" />
-                                    </f:facet>
-                                    <h:outputText value="#{batch.totalProcesses}" />
-                                </x:column>
+								<x:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs.progressProcessed}" />
+									</f:facet>
+									<h:outputText value="#{batch.progressProcessed}" />
+								</x:column>
 
-                                <x:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.progressUnprocessed}" />
-                                    </f:facet>
-                                    <h:outputText value="#{batch.progressUnprocessed}" />
-                                </x:column>
+								<x:column>
+									<f:facet name="header">
+										<h:outputText value="#{msgs.progressReturned}" />
+									</f:facet>
+									<h:outputText value="#{batch.progressReturned}" />
+								</x:column>
+							</x:dataTable>
+						</div>
+					</div>
+				</h:form>
 
-                                <x:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.progressProcessed}" />
-                                    </f:facet>
-                                    <h:outputText value="#{batch.progressProcessed}" />
-                                </x:column>
-
-                                <x:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.progressReturned}" />
-                                    </f:facet>
-                                    <h:outputText value="#{batch.progressReturned}" />
-                                </x:column>
-                            </x:dataTable>
-                        </div>
-                    </div>
-                </h:form>
-
-                <div class="box box-color box-bordered">
-                    <div class="box-title">
-                        <h3>
-                            <i class="fa fa-table"></i>
-                            <h:outputText
-                                value="#{msgs.batchDetails}"
-                                class="margin-right-5" />
-                        </h3>
+				<div class="box box-color box-bordered">
+					<div class="box-title">
+						<h3>
+							<i class="fa fa-table"></i>
+							<h:outputText value="#{msgs.batchDetails}" class="margin-right-5" />
+						</h3>
 
 
-                    </div>
-                    <div id="myCanvasDiv" class="box-content nopadding">
-                      <canvas id="myCanvas" width="1000" height="400" style="margin-top:5px"></canvas> 
-                    </div>
-                </div>
-                
-                <div class="box box-color box-bordered">
-                    <div class="box-title">
-                        <h3>
-                            <i class="fa fa-table"></i>
-                            <h:outputText
-                                value="#{msgs.batchDetails}"
-                                class="margin-right-5" />
-                        </h3>
+					</div>
+					<div id="myCanvasDiv" class="box-content nopadding">
+						<canvas id="myCanvas" width="1000" height="400"
+							style="margin-top: 5px"></canvas>
+					</div>
+				</div>
+
+				<div class="box box-color box-bordered">
+					<div class="box-title">
+						<h3>
+							<i class="fa fa-table"></i>
+							<h:outputText value="#{msgs.batchDetails}" class="margin-right-5" />
+						</h3>
 
 
-                    </div>
-                    <div class="box-content nopadding">
+					</div>
+					<div class="box-content nopadding">
 
-                        <h:panelGrid
-                            columns="2"
-                            styleClass="table table-hover table-bordered"
-                            columnClasses="columnLabel, columnValue">
+						<h:panelGrid columns="2"
+							styleClass="table table-hover table-bordered"
+							columnClasses="columnLabel, columnValue">
 
-                            <h:outputText value="#{msgs.batchesNotStarted}" />
-                            <h:outputText value="#{DashboardForm.plugin.batchesNotStarted}" />
+							<h:outputText value="#{msgs.batchesNotStarted}" />
+							<h:outputText value="#{DashboardForm.plugin.batchesNotStarted}" />
 
-                            <h:outputText value="#{msgs.batchesInwork}" />
-                            <h:outputText value="#{DashboardForm.plugin.batchesInwork}" />
+							<h:outputText value="#{msgs.batchesInwork}" />
+							<h:outputText value="#{DashboardForm.plugin.batchesInwork}" />
 
-                            <h:outputText value="#{msgs.finishedBatches}" />
-                            <h:outputText value="#{DashboardForm.plugin.finishedBatches}" />
+							<h:outputText value="#{msgs.finishedBatches}" />
+							<h:outputText value="#{DashboardForm.plugin.finishedBatches}" />
 
 
-                            <h:outputText value="#{msgs.processesWithoutBatch}" />
-                            <h:outputText value="#{DashboardForm.plugin.processesWithoutBatch}" />
+							<h:outputText value="#{msgs.processesWithoutBatch}" />
+							<h:outputText
+								value="#{DashboardForm.plugin.processesWithoutBatch}" />
 
-                            <h:outputText value="#{msgs.processesWithErrors}" />
-                            <h:outputText value="#{DashboardForm.plugin.processesWithErrors}" />
+							<h:outputText value="#{msgs.processesWithErrors}" />
+							<h:outputText value="#{DashboardForm.plugin.processesWithErrors}" />
 
-                            <h:outputText value="#{msgs.progress}" />
-                            <h:outputText value="#{DashboardForm.plugin.totalProgress}" />
-                        </h:panelGrid>
+							<h:outputText value="#{msgs.progress}" />
+							<h:outputText value="#{DashboardForm.plugin.totalProgress}" />
+						</h:panelGrid>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <hr/>
-        <h:outputText value="#{DashboardForm.plugin.batchesAsJson}"/>
-        <hr/>
-        <h:outputText value="#{DashboardForm.plugin.allDatesAsJson}"/>
-        
-        <script type="text/javascript">	
-		//<![CDATA[
+					</div>
+				</div>
+			</div>
+		</div>
 
-			// json 1
-			// var john = JSON.parse('{ "name":"John", "age":30, "city":"New York"}');
-			// console.log(john.name + ", " + john.age); 
-			
-			// json 2
-			// var json = '{ "name":"Steffen", "age":41, "city":"Göttingen"}';
-			// var steffen = JSON.parse(json);
-			// console.log(steffen.name + ", " + steffen.age); 
-			
-			// json 3
-			// var batchJson = '{"dates": ["01.01.", "02.01.", "03.01"],"batches": [{"start":"a1", "end":"a2","locked":"a10","done":"a20","inwork":"a30"},{"start":"b1", "end":"b2","locked":"b10","done":"b20","inwork":"b30"},{"start":"c1", "end":"c2","locked":"c10","done":"c20","inwork":"c30"}]}';
-			// var batchObject = JSON.parse(batchJson);
-			// console.log(batchObject.dates); 
-			
-			// list all dates
-			// for (var i = 0; i < batchObject.dates.length; i++) {
-			//    var date = batchObject.dates[i];
-			// 	  console.log(date);
-			// }
+		<hr />
+		<h:outputText value="#{DashboardForm.plugin.batchesAsJson}" />
+		<hr />
+		<h:outputText value="#{DashboardForm.plugin.allDatesAsJson}" />
 
-			// list all batches
-			// for (var i = 0; i < batchObject.batches.length; i++) {
-			//    var batch = batchObject.batches[i];
-			//    console.log(batch.start + " - " + batch.end);
-			// }
-			
-			// preparation of the canvas
-			var canvasDiv = document.getElementById('myCanvasDiv');
-			var canvas = document.getElementById('myCanvas');
-			canvas.width = $(canvasDiv).width() * 2;
-			canvas.height = $(canvasDiv).height() * 2;
-			canvas.style.width = $(canvasDiv).width()  + "px";
-			canvas.style.height = $(canvasDiv).height() + "px";
-			// rescale for retina displays
-			var ctx = canvas.getContext("2d");
-			
-			
-			// draw horizontal line for dates
-			ctx.moveTo(0,28);
-			ctx.lineTo(canvas.width,28);
-			ctx.stroke();
-			
-			// run through all dates
-			var dates = JSON.parse('#{DashboardForm.plugin.allDatesAsJson}');
-			for (var i = 0; i < dates.length; i++) {
-			    var date = dates[i];
-			    var percent = 100*(i)/(dates.length-1);
-			    var position = Math.round(canvas.width*i/(dates.length-1));
-			    // console.log(date.label + " - " + percent + " - " + position);
-			 	
-			    // draw small ticks for each date
-			    ctx.moveTo(position,25);
-			    ctx.lineTo(position,30);
-			    ctx.stroke();
-				
-			    // write start and end date
-			    if (i==0){
+		<script type="text/javascript">
+			//<![CDATA[
+
+            // get all json information
+            var dates = JSON.parse('#{DashboardForm.plugin.allDatesAsJson}');
+            var batches = JSON.parse('#{DashboardForm.plugin.batchesAsJson}');
+            var today = JSON.parse('#{DashboardForm.plugin.todayAsJson}');
+
+            // define some layout variables
+            var layoutTopStart = 25;
+            var layoutHeightBars = 30;
+            var layoutMarginBars = 30;
+
+            // preparation of the canvas
+            var canvasDiv = document.getElementById('myCanvasDiv');
+            var canvas = document.getElementById('myCanvas');
+            canvas.width = $(canvasDiv).width() * 2;
+            canvas.height = $(canvasDiv).height() * 2;
+            canvas.style.width = $(canvasDiv).width() + "px";
+            canvas.style.height = $(canvasDiv).height() + "px";
+            var ctx = canvas.getContext("2d");
+
+            // draw horizontal line for dates
+            ctx.strokeStyle="grey";
+            ctx.moveTo(0, layoutTopStart);
+            ctx.lineTo(canvas.width, layoutTopStart);
+            ctx.stroke();
+
+            // run through all dates to draw some ticks
+            var dateWidth = canvas.width / (dates.length - 1);
+            var dateVals = {};
+            for (var i = 0; i < dates.length; i++) {
+	            var date = dates[i];
+	            dateVals[date] = i * dateWidth;
+	            ctx.moveTo(i * dateWidth, layoutTopStart - 3);
+	            ctx.lineTo(i * dateWidth, layoutTopStart + 3);
+	            ctx.stroke();
+	            
+	         	// write start and end date
+			    if (i==1){
 					ctx.font = "20px Arial";
-					ctx.fillText(date.label,5,20); 
+					ctx.fillText(date,5,layoutTopStart - 10); 
 				}
 			    if (i==dates.length-1){
 					ctx.font = "20px Arial";
-					ctx.fillText(date.label,$(canvas).width()-58,20); 
+					ctx.fillText(date,canvas.width-110,layoutTopStart - 10); 
 				}
-			}
-			
-			var dateWidth= canvas.width / dates.length;
-			var dateVals = {};
-			for (var i = 0; i < dates.length; i++) {
-				var date = dates[i];
-				dateVals[date.label] = i*dateWidth;
-				ctx.moveTo(i*dateWidth,45);
-			    ctx.lineTo(i*dateWidth,55);
-			    ctx.stroke();
-			}
-			
-			var startX = dateVals[batch.startDate.label]
-			
-			// draw a line for today
-			var today = JSON.parse('#{DashboardForm.plugin.todayAsJson}');
-			var positionToday = Math.round(canvas.width/100*today.percent);
-			var ctxRed = canvas.getContext("2d");
-			ctxRed.moveTo(positionToday,10);
-			ctxRed.lineTo(positionToday,100);
-			//ctxRed.strokeStyle="red";
-			ctxRed.stroke();
-			
-			// draw a rectangle
-			// ctx.beginPath();
-			// ctx.lineWidth="6";
-			// ctx.strokeStyle="red";
-			// ctx.rect(5,5,290,140);
-			// ctx.stroke();
-			
-			// run through all batches
-		    var batches = JSON.parse('#{DashboardForm.plugin.batchesAsJson}');
-			for (var i = 0; i < batches.length; i++) {
-			    var batch = batches[i];
-			    
-			    var xPositionStart = Math.round(canvas.width/100*batch.percentStart);
-			    var xPositionEnd = Math.round(canvas.width/100*batch.percentEnd);
-			    var yPositionStart = i*20;
-			    var yPositionEnd = i*20;
-			    
-			    console.log("=====================================================================");
-			    console.log(i + ": " + batch.batchName + " - " + batch.startDate + " - " + batch.endDate);
-			    console.log("x: " + xPositionStart + " - " + xPositionEnd + " (" + batch.percentStart + "-" + batch.percentEnd + ")");
-			    console.log("y: " + yPositionStart + " - " + yPositionEnd);
-			    
-				ctx.beginPath();
-				ctx.lineWidth="3";
-				ctx.strokeStyle="red";
-				ctx.rect(xPositionStart,yPositionStart,xPositionEnd,yPositionEnd);
-				ctx.stroke();
-				
-			}
-			
-			ctx.scale(2,2);
-		//]]>
+            }
+
+            // draw a line for today
+            var xToday = dateVals[today];
+            ctx.moveTo(xToday, 10);
+            ctx.lineTo(xToday, 100);
+            ctx.strokeStyle="blue";
+            ctx.stroke();
+            
+            // run through all batches
+            for (var i = 0; i < batches.length; i++) {
+	            var batch = batches[i];
+	            // set start date
+	            var xStart = dateVals[batch.startDateJson];
+	            if (!xStart) {
+		            xStart = 0;
+	            }
+	            // set end date
+	            var xLength = dateVals[batch.endDateJson] - xStart;
+	            if (!xLength) {
+		            xLength = canvas.width + 10;
+	            }
+	            var yStart = i * (layoutMarginBars + layoutHeightBars) + 60;
+	            
+	            // console.log("=====================================================================");
+	            // console.log(i + ": " + batch.batchName + " - " + batch.startDate + " - " + batch.endDate);
+	            // console.log("x: " + xStart + " - " + xLength);
+	            // console.log("y: " + yStart + " - " + layoutHeightBars);
+
+	            ctx.beginPath();
+	            ctx.lineWidth = "1";
+	            ctx.strokeStyle = "red";
+	            ctx.rect(xStart, yStart, xLength, layoutHeightBars);
+	            ctx.stroke();
+
+            }
+
+            // rescale all the canvas painting for retina displays
+            ctx.scale(2, 2);
+            //]]>
 		</script>
-		
-    </composite:implementation>
+
+	</composite:implementation>
 
 </ui:composition>
