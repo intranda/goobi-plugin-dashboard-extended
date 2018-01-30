@@ -154,7 +154,7 @@
 
                     </div>
                     <div id="myCanvasDiv" class="box-content nopadding">
-                      <canvas id="myCanvas" width="1000" height="400" style="margin-top:10px"></canvas> 
+                      <canvas id="myCanvas" width="1000" height="400" style="margin-top:5px"></canvas> 
                     </div>
                 </div>
                 
@@ -203,6 +203,8 @@
         
         <hr/>
         <h:outputText value="#{DashboardForm.plugin.batchesAsJson}"/>
+        <hr/>
+        <h:outputText value="#{DashboardForm.plugin.allDatesAsJson}"/>
         
         <script type="text/javascript">	
 		//<![CDATA[
@@ -242,11 +244,11 @@
 			canvas.style.height = $(canvasDiv).height() + "px";
 			// rescale for retina displays
 			var ctx = canvas.getContext("2d");
-			ctx.scale(2,2);
+			
 			
 			// draw horizontal line for dates
-			ctx.moveTo(0,22);
-			ctx.lineTo(canvas.width,22);
+			ctx.moveTo(0,28);
+			ctx.lineTo(canvas.width,28);
 			ctx.stroke();
 			
 			// run through all dates
@@ -258,20 +260,32 @@
 			    // console.log(date.label + " - " + percent + " - " + position);
 			 	
 			    // draw small ticks for each date
-			    ctx.moveTo(position,20);
-			    ctx.lineTo(position,25);
+			    ctx.moveTo(position,25);
+			    ctx.lineTo(position,30);
 			    ctx.stroke();
 				
 			    // write start and end date
-			    if (i==1){
-					ctx.font = "10px Arial";
-					ctx.fillText(date.label,5,10); 
+			    if (i==0){
+					ctx.font = "20px Arial";
+					ctx.fillText(date.label,5,20); 
 				}
 			    if (i==dates.length-1){
-					ctx.font = "10px Arial";
-					ctx.fillText(date.label,$(canvasDiv).width()-58,10); 
+					ctx.font = "20px Arial";
+					ctx.fillText(date.label,$(canvas).width()-58,20); 
 				}
 			}
+			
+			var dateWidth= canvas.width / dates.length;
+			var dateVals = {};
+			for (var i = 0; i < dates.length; i++) {
+				var date = dates[i];
+				dateVals[date.label] = i*dateWidth;
+				ctx.moveTo(i*dateWidth,45);
+			    ctx.lineTo(i*dateWidth,55);
+			    ctx.stroke();
+			}
+			
+			var startX = dateVals[batch.startDate.label]
 			
 			// draw a line for today
 			var today = JSON.parse('#{DashboardForm.plugin.todayAsJson}');
@@ -293,20 +307,26 @@
 		    var batches = JSON.parse('#{DashboardForm.plugin.batchesAsJson}');
 			for (var i = 0; i < batches.length; i++) {
 			    var batch = batches[i];
-			    console.log(batch.batchName + " - " + batch.startDate + " - " + batch.endDate);
-			 	
-			    var positionStart = Math.round(canvas.width/100*batch.percentStart);
-			    var positionEnd = Math.round(canvas.width/100*batch.percentEnd);
+			    
+			    var xPositionStart = Math.round(canvas.width/100*batch.percentStart);
+			    var xPositionEnd = Math.round(canvas.width/100*batch.percentEnd);
+			    var yPositionStart = i*20;
+			    var yPositionEnd = i*20;
+			    
+			    console.log("=====================================================================");
+			    console.log(i + ": " + batch.batchName + " - " + batch.startDate + " - " + batch.endDate);
+			    console.log("x: " + xPositionStart + " - " + xPositionEnd + " (" + batch.percentStart + "-" + batch.percentEnd + ")");
+			    console.log("y: " + yPositionStart + " - " + yPositionEnd);
 			    
 				ctx.beginPath();
 				ctx.lineWidth="3";
 				ctx.strokeStyle="red";
-				ctx.rect(positionStart,(i*20),positionEnd,(i*20));
+				ctx.rect(xPositionStart,yPositionStart,xPositionEnd,yPositionEnd);
 				ctx.stroke();
 				
 			}
 			
-			
+			ctx.scale(2,2);
 		//]]>
 		</script>
 		

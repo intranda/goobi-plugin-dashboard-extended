@@ -61,15 +61,17 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
     private int completedProcesses;
 
     public BatchDashboardPlugin() {
-        // set default search interval - replace it with configured value? 
-        today = new DateTime();
-        selectedStartDate = today.minusMonths(1);
-        selectedEndDate = today.plusMonths(2);
+        
         loadAllData();
     }
    
     public void loadAllData() {
-    		loadDatesInIntervall();
+    		today = new DateTime().withTime(0, 0, 0, 0);;
+    		// set default search interval - replace it with configured value? 
+        selectedStartDate = today.minusMonths(1);
+        selectedEndDate = today.plusMonths(2);
+    		// load batches and dates
+        loadDatesInIntervall();
         loadBatchesInInterval();
         loadOverviewData();
     }
@@ -197,8 +199,8 @@ public class BatchDashboardPlugin implements IDashboardPlugin {
                     batch.setPercentStart(0);
                     batch.setPercentEnd(100);
                     for (DashboardHelperBatchDate dhd : datesInInterval) {
-                    		DateTime ds = new DateTime(batch.getStartDate());
-                    		DateTime de = new DateTime(batch.getEndDate());
+                    		DateTime ds = new DateTime(batch.getStartDate()).withTime(0, 0, 0, 0);
+                    		DateTime de = new DateTime(batch.getEndDate()).withTime(0, 0, 0, 0);
                     		if (dhd.getLabel().equals(ds.toLocalDate().toString(fmt))) {
                     			batch.setPercentStart(dhd.getPercent());
                     		}
