@@ -28,7 +28,7 @@
 							</div>
 						</div>
 						<div id="myCanvasDiv" class="box-content" style="padding:5px;">
-							<canvas id="myCanvas" width="1000" height="400" style="margin-left:5px;margin-top: 5px;" onmousemove="batchesCanvasMouseOver(event)"></canvas>
+							<canvas id="myCanvas" width="1000" height="50" style="margin-left:0px;margin-top: 5px;" onmousemove="batchesCanvasMouseOver(event)"></canvas>
 						</div>
 					</div>
 				</h:form>
@@ -78,141 +78,152 @@
 
 			<script type="text/javascript">
 				//<![CDATA[
-
-                // get all json information
-                var dates = JSON.parse('#{DashboardForm.plugin.batchHelper.allDatesAsJson}');
-                var batches = JSON.parse('#{DashboardForm.plugin.batchHelper.batchesAsJson}');
-                var today = JSON.parse('#{DashboardForm.plugin.batchHelper.todayAsJson}');
-
-                // define some layout variables
-                var layoutTopStart = 45;
-                var layoutHeightBars = 30;
-                var layoutMarginBars = 30;
-
-                // preparation of the canvas
-                var canvasDiv = document.getElementById('myCanvasDiv');
-                canvas = document.getElementById('myCanvas');
-                canvas.width = $(canvasDiv).width() * 2;
-                //canvas.height = $(canvasDiv).height() * 2;
-                canvas.height = batches.length * (layoutHeightBars + layoutMarginBars) + 50;
-                canvas.style.width = $(canvasDiv).width() + "px";
-                
-                canvas.style.height = (canvas.height/2) + "px";
-//                 canvas.style.height = $(canvasDiv).height() + "px";
-                var ctx = canvas.getContext("2d");
-
-                // draw margin around the image
-                ctx.beginPath();
-                ctx.lineWidth = "1";
-                ctx.strokeStyle = "grey";
-                ctx.rect(0, 0, canvas.width, canvas.height);
-                ctx.stroke();
-
-                // draw horizontal line for dates
-                ctx.moveTo(0, layoutTopStart);
-                ctx.lineTo(canvas.width, layoutTopStart);
-                ctx.stroke();
-
-                // run through all dates to draw some ticks
-                var dateWidth = canvas.width / (dates.length - 1);
-                var dateVals = {};
-                myRects = [];
-                ctx.font = "20px Goobi2";
-                for (var i = 0; i < dates.length; i++) {
-	                var date = dates[i];
-	                dateVals[date] = i * dateWidth;
-	                ctx.moveTo(i * dateWidth, layoutTopStart - 3);
-	                ctx.lineTo(i * dateWidth, layoutTopStart + 3);
-	                ctx.stroke();
-
-	                // write start and end date
-	                if (i == 0) {
-	                		ctx.fillText(date, 5, layoutTopStart - 15);
-	                }
-	                if (i == dates.length - 1) {
-		                ctx.fillText(date, canvas.width - 110, layoutTopStart - 15);
-	                }
-                }
-
-                // draw a line for today
-                var xToday = dateVals[today];
-                //ctx.strokeStyle = "red";
-                ctx.moveTo(xToday, 10);
-                ctx.lineTo(xToday, canvas.height - 10);
-                ctx.stroke();
-                ctx.fillText(today, xToday + 10, layoutTopStart - 15);
-                ctx.strokeStyle = "grey";
-
-                // run through all batches
-                for (var i = 0; i < batches.length; i++) {
-	                var batch = batches[i];
-	                // set start date
-	                var xStart = dateVals[batch.startDateJson];
-	                if (!xStart) {
-		                xStart = 0;
-	                }
-	                // set end date
-	                var xLength = dateVals[batch.endDateJson] - xStart;
-	                if (!xLength) {
-	                		//xLength = dateVals[];
-		                xLength = dateVals[dates[dates.length-1]] - xStart;
-	                }
-	                var yStart = i * (layoutMarginBars + layoutHeightBars) + 60;
-
-	                // draw the rectangle
+	
+			    $( window ).on( "load", function() {
+			    		drawDashboardChart();
+			    });
+    				
+				function drawDashboardChart() {
+					
+	                // get all json information
+	                var dates = JSON.parse('#{DashboardForm.plugin.batchHelper.allDatesAsJson}');
+	                var batches = JSON.parse('#{DashboardForm.plugin.batchHelper.batchesAsJson}');
+	                var today = JSON.parse('#{DashboardForm.plugin.batchHelper.todayAsJson}');
+	
+	                // define some layout variables
+	                var layoutTopStart = 45;
+	                var layoutHeightBars = 30;
+	                var layoutMarginBars = 30;
+	
+	                // preparation of the canvas
+	                var canvasDiv = document.getElementById('myCanvasDiv');
+	                canvas = document.getElementById('myCanvas');
+	                canvas.width = $(canvasDiv).width() * 2;
+	                //canvas.height = $(canvasDiv).height() * 2;
+	                canvas.height = batches.length * (layoutHeightBars + layoutMarginBars) + 50;
+	                canvas.style.width = $(canvasDiv).width() + "px";
+	                canvas.style.height = (canvas.height/2) + "px";
+	//              canvas.style.height = $(canvasDiv).height() + "px";
+					if ($(document).height() > $(window).height()) {
+						canvas.style.marginLeft = '0px';
+					}else{
+						canvas.style.marginLeft = '5px';
+					}
+	
+					var ctx = canvas.getContext("2d");
+	
+	                // draw margin around the image
 	                ctx.beginPath();
 	                ctx.lineWidth = "1";
 	                ctx.strokeStyle = "grey";
-	                ctx.rect(xStart, yStart, xLength, layoutHeightBars);
+	                ctx.rect(0, 0, canvas.width, canvas.height);
 	                ctx.stroke();
-					// remember the coordinates for later tooltip use
-	                myRects.push({
-	                		x: xStart/2,
-	                		y: yStart/2,
-	                		w: xLength/2,
-	                		h: layoutHeightBars/2,
-	                		startdate: batch.startDateJson,
-	                		enddate: batch.endDateJson,
-	                		title: batch.batchName
-	                })
-
-	                var tasksLocked = batch.numberOfLockedTasks;
-	                var tasksFinished = batch.numberOfFinishedTasks;
-	                var tasksOpen = batch.numberOfOpenTasks;
-	                var tasksInWork = batch.numberOfTasksInWork;
-	                var tasksError = batch.numberOfErrorTasks;
-	                var tasksSum = tasksLocked + tasksFinished + tasksOpen + tasksInWork + tasksError;
-
-	                var xGreenStart = xStart;
-	                var xGreenEnd = xLength * (tasksFinished) / tasksSum;
-	                var xOrangeStart = xGreenStart + xGreenEnd;
-	                var xOrangeEnd = xLength * (tasksOpen + tasksInWork + tasksError) / tasksSum;
-	                var xRedStart = xOrangeStart + xOrangeEnd;
-	                var xRedEnd = xLength * (tasksLocked) / tasksSum;
-
-//  	                console.log("=====================================================================");
-//  	                console.log(i + ": " + batch.batchName + " - " + batch.startDate + " - " + batch.endDate);
-// 	                console.log(tasksLocked + " - " + tasksFinished + " - " + tasksOpen + " - " + tasksInWork + " - " + tasksError);
-//  	                console.log(tasksFinished + " - " + (tasksOpen + tasksInWork + tasksError) + " - " + tasksLocked);
-//  	                console.log(xGreenStart + " - " + xGreenEnd + " - " + xOrangeEnd + " - " + xRedEnd);
-
-	                ctx.beginPath();
-	                ctx.fillStyle = "#5CB85C";
-	                ctx.fillRect(xGreenStart, yStart, xGreenEnd, layoutHeightBars);
+	
+	                // draw horizontal line for dates
+	                ctx.moveTo(0, layoutTopStart);
+	                ctx.lineTo(canvas.width, layoutTopStart);
 	                ctx.stroke();
-	                ctx.beginPath();
-	                ctx.fillStyle = "#F0AD4E";
-	                ctx.fillRect(xOrangeStart, yStart, xOrangeEnd, layoutHeightBars);
+	
+	                // run through all dates to draw some ticks
+	                var dateWidth = canvas.width / (dates.length - 1);
+	                var dateVals = {};
+	                myRects = [];
+	                ctx.font = "20px Goobi2";
+	                for (var i = 0; i < dates.length; i++) {
+		                var date = dates[i];
+		                dateVals[date] = i * dateWidth;
+		                ctx.moveTo(i * dateWidth, layoutTopStart - 3);
+		                ctx.lineTo(i * dateWidth, layoutTopStart + 3);
+		                ctx.stroke();
+	
+		                // write start and end date
+		                if (i == 0) {
+		                		ctx.fillText(date, 5, layoutTopStart - 15);
+		                }
+		                if (i == dates.length - 1) {
+			                ctx.fillText(date, canvas.width - 110, layoutTopStart - 15);
+		                }
+	                }
+	
+	                // draw a line for today
+	                var xToday = dateVals[today];
+	                //ctx.strokeStyle = "red";
+	                ctx.moveTo(xToday, 10);
+	                ctx.lineTo(xToday, canvas.height - 10);
 	                ctx.stroke();
-	                ctx.beginPath();
-	                ctx.fillStyle = "#D9534F";
-	                ctx.fillRect(xRedStart, yStart, xRedEnd, layoutHeightBars);
-	                ctx.stroke();
-                }
-
-                // rescale all the canvas painting for retina displays
-                //ctx.scale(2, 2);
-                
+	                ctx.fillText(today, xToday + 10, layoutTopStart - 15);
+	                ctx.strokeStyle = "grey";
+	
+	                // run through all batches
+	                for (var i = 0; i < batches.length; i++) {
+		                var batch = batches[i];
+		                // set start date
+		                var xStart = dateVals[batch.startDateJson];
+		                if (!xStart) {
+			                xStart = 0;
+		                }
+		                // set end date
+		                var xLength = dateVals[batch.endDateJson] - xStart;
+		                if (!xLength) {
+		                		//xLength = dateVals[];
+			                xLength = dateVals[dates[dates.length-1]] - xStart;
+		                }
+		                var yStart = i * (layoutMarginBars + layoutHeightBars) + 60;
+	
+		                // draw the rectangle
+		                ctx.beginPath();
+		                ctx.lineWidth = "1";
+		                ctx.strokeStyle = "grey";
+		                ctx.rect(xStart, yStart, xLength, layoutHeightBars);
+		                ctx.stroke();
+						// remember the coordinates for later tooltip use
+		                myRects.push({
+		                		x: xStart/2,
+		                		y: yStart/2,
+		                		w: xLength/2,
+		                		h: layoutHeightBars/2,
+		                		startdate: batch.startDateJson,
+		                		enddate: batch.endDateJson,
+		                		title: batch.batchName
+		                })
+	
+		                var tasksLocked = batch.numberOfLockedTasks;
+		                var tasksFinished = batch.numberOfFinishedTasks;
+		                var tasksOpen = batch.numberOfOpenTasks;
+		                var tasksInWork = batch.numberOfTasksInWork;
+		                var tasksError = batch.numberOfErrorTasks;
+		                var tasksSum = tasksLocked + tasksFinished + tasksOpen + tasksInWork + tasksError;
+	
+		                var xGreenStart = xStart;
+		                var xGreenEnd = xLength * (tasksFinished) / tasksSum;
+		                var xOrangeStart = xGreenStart + xGreenEnd;
+		                var xOrangeEnd = xLength * (tasksOpen + tasksInWork + tasksError) / tasksSum;
+		                var xRedStart = xOrangeStart + xOrangeEnd;
+		                var xRedEnd = xLength * (tasksLocked) / tasksSum;
+	
+	//  	                console.log("=====================================================================");
+	//  	                console.log(i + ": " + batch.batchName + " - " + batch.startDate + " - " + batch.endDate);
+	// 	                console.log(tasksLocked + " - " + tasksFinished + " - " + tasksOpen + " - " + tasksInWork + " - " + tasksError);
+	//  	                console.log(tasksFinished + " - " + (tasksOpen + tasksInWork + tasksError) + " - " + tasksLocked);
+	//  	                console.log(xGreenStart + " - " + xGreenEnd + " - " + xOrangeEnd + " - " + xRedEnd);
+	
+		                ctx.beginPath();
+		                ctx.fillStyle = "#5CB85C";
+		                ctx.fillRect(xGreenStart, yStart, xGreenEnd, layoutHeightBars);
+		                ctx.stroke();
+		                ctx.beginPath();
+		                ctx.fillStyle = "#F0AD4E";
+		                ctx.fillRect(xOrangeStart, yStart, xOrangeEnd, layoutHeightBars);
+		                ctx.stroke();
+		                ctx.beginPath();
+		                ctx.fillStyle = "#D9534F";
+		                ctx.fillRect(xRedStart, yStart, xRedEnd, layoutHeightBars);
+		                ctx.stroke();
+	                }
+	
+	                // rescale all the canvas painting for retina displays
+	                //ctx.scale(2, 2);
+				}
                 function batchesCanvasMouseOver(event) {
                 		var found = false;
                 		for (var i = 0; i < myRects.length; i++) {
@@ -255,6 +266,10 @@
             		   		rect2.y < rect1.y + rect1.h &&
             		   		rect2.h + rect2.y > rect1.y;
             		}
+                
+                $( window ).resize(function() {
+                		drawDashboardChart();
+                	});
                 
                 //]]>
 			</script>
