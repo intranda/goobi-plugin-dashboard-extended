@@ -290,7 +290,7 @@ public class DashboardHelperBatches {
 		}
 	}
 	
-	public double getTotalProgress() {
+	public int getTotalProgress() {
 		if (totalProcesses == 0) {
 			return 0;
 		}
