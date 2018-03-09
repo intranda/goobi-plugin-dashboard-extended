@@ -1,8 +1,5 @@
 package de.intranda.goobi.plugins;
 
-import java.util.List;
-
-import org.goobi.beans.Step;
 import org.goobi.production.enums.PluginType;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 
@@ -47,28 +44,28 @@ public class ExtendedDashboard implements IDashboardPlugin {
 
 	public DashboardHelperRss getRssHelper() {
 		if (rssHelper==null){
-			rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(this));
+			rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
 		}
 		return rssHelper;
 	}
 	
 	public DashboardHelperTasks getTasksHelper() {
 		if (tasksHelper==null){
-			tasksHelper = new DashboardHelperTasks(ConfigPlugins.getPluginConfig(this));
+			tasksHelper = new DashboardHelperTasks(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
 		}
 		return tasksHelper;
 	}
 	
 	public DashboardHelperBatches getBatchHelper() {
 		if (batchHelper==null){
-			batchHelper = new DashboardHelperBatches(ConfigPlugins.getPluginConfig(this));
+			batchHelper = new DashboardHelperBatches(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
 		}
 		return batchHelper;
 	}
 	
 	public DashboardHelperItm getItmHelper() {
 		if (itmHelper==null){
-			itmHelper = new DashboardHelperItm(ConfigPlugins.getPluginConfig(this));
+			itmHelper = new DashboardHelperItm(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
 		}
 		return itmHelper;
 	}
@@ -82,13 +79,13 @@ public class ExtendedDashboard implements IDashboardPlugin {
 	
 	public DashboardHelperProcesses getProcessHelper() {
 		if (processHelper==null){
-			processHelper = new DashboardHelperProcesses(ConfigPlugins.getPluginConfig(this));
+			processHelper = new DashboardHelperProcesses(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
 		}
 		return processHelper;
 	}
 	
 	public boolean isShowSearch() {
-		return ConfigPlugins.getPluginConfig(this).getBoolean("search-show", true);
+		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("search-show", true);
 	}
 	
 	public void update(){

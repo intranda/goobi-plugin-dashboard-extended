@@ -1,16 +1,12 @@
 package de.intranda.goobi.plugins;
 
-import java.util.List;
-
-import net.xeoh.plugins.base.annotations.PluginImplementation;
-
-import org.goobi.beans.Step;
 import org.goobi.production.enums.PluginType;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 
 import de.intranda.digiverso.model.helper.DashboardHelperRss;
 import de.intranda.digiverso.model.helper.DashboardHelperTasks;
 import de.sub.goobi.config.ConfigPlugins;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 @PluginImplementation
 public class SimpleDashboard implements IDashboardPlugin {
@@ -41,14 +37,14 @@ public class SimpleDashboard implements IDashboardPlugin {
 	
 	public DashboardHelperTasks getTasksHelper() {
 		if (tasksHelper==null){
-			tasksHelper = new DashboardHelperTasks(ConfigPlugins.getPluginConfig(this));
+			tasksHelper = new DashboardHelperTasks(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
 		}
 		return tasksHelper;
 	}
 	
 	public DashboardHelperRss getRssHelper() {
 		if (rssHelper==null){
-			rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(this));
+			rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
 		}
 		return rssHelper;
 	}
