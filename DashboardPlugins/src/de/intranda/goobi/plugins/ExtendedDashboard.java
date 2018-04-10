@@ -72,7 +72,7 @@ public class ExtendedDashboard implements IDashboardPlugin {
 	
 	public DashboardHelperNagios getNagiosHelper() {
 		if (nagiosHelper==null){
-			nagiosHelper = new DashboardHelperNagios(ConfigPlugins.getPluginConfig(this));
+			nagiosHelper = new DashboardHelperNagios(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
 		}
 		return nagiosHelper;
 	}
