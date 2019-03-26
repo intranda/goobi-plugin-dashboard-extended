@@ -5,11 +5,16 @@ import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.log4j.Logger;
+import org.goobi.managedbeans.DatabasePaginator;
+import org.goobi.managedbeans.LoginBean;
+import org.goobi.managedbeans.ProcessBean;
+import org.goobi.production.flow.statistics.hibernate.FilterHelper;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
 
 import com.sun.syndication.io.SyndFeedOutput;
 
+import de.sub.goobi.helper.Helper;
 import de.sub.goobi.persistence.managers.ProcessManager;
 
 public class DashboardHelperProcesses {
@@ -19,6 +24,12 @@ public class DashboardHelperProcesses {
 
 	public DashboardHelperProcesses(XMLConfiguration xmlConfiguration) {
 		config = xmlConfiguration;
+	}
+		
+	public void onload() { 
+		ProcessBean pb = (ProcessBean) Helper.getManagedBeanValue("#{ProzessverwaltungForm}");
+		pb.FilterVorlagen();
+//		pb.FilterAktuelleProzesse();
 	}
 
 	public LineChartModel getProcessesPerMonth() {
@@ -43,6 +54,14 @@ public class DashboardHelperProcesses {
 	
 	public boolean isShowStatistics() {
 		return config.getBoolean("statistics-show", true);
+	}
+	
+	public boolean isShowProcessTemplates() {
+		if (config.getBoolean("processTemplates-show", true)) {
+			onload();
+			return true;
+		}
+		return false;
 	}
 	
 //	public LineChartModel getProcessesPerMonth() {

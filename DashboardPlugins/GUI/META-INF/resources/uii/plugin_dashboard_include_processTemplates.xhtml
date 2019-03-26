@@ -1,0 +1,326 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:p="http://primefaces.org/ui"
+	xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<composite:interface>
+	</composite:interface>
+
+	<composite:implementation>
+
+		<h:panelGroup rendered="#{LoginForm.hasRole('Workflow_Processes') or LoginForm.hasRole('Workflow_ProcessTemplates')}">
+		
+			<h:panelGroup rendered="#{DashboardForm.plugin.processHelper.showProcessTemplates}">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="box box-color box-bordered">
+							<div class="box-title">
+								<h3>
+									<i class="fa fa-tasks"></i>
+									<h:outputText value="#{msgs.prozessvorlagen}" />
+								</h3>
+							</div>
+							<div class="box-content nopadding">
+								<div class="dataTables_wrapper">
+									
+									<h:form id="processTemplateForm">
+	
+										<!-- +++++++++++++++++  Display as table ++++++++++++++++++++++++ -->
+										<x:dataTable id="processTable" rowIndexVar="count"
+											styleClass="table table-hover table-nomargin dataTable table-bordered responsive" var="item"
+											value="#{ProzessverwaltungForm.paginator.list}"
+											rendered="#{ProzessverwaltungForm.modusAnzeige=='vorlagen' or not ProzessverwaltungForm.anzeigeAnpassen['gridview']}">
+	
+											<!-- +++++++++++++++++  ProzessID ++++++++++++++++++++++++ -->
+											<x:column styleClass="tableColumnOverflow width80"
+												rendered="#{ProzessverwaltungForm.anzeigeAnpassen['processId']}"
+												headerstyleClass="#{ProzessverwaltungForm.sortierung=='idDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='idAsc'?'sorting_asc':'sorting'}">
+												<f:facet name="header">
+													<h:commandLink styleClass="font-black-block" action="#{ProzessverwaltungForm.FilterAlleStart}">
+														<h:outputText value="#{msgs.id}" />
+														<f:setPropertyActionListener target="#{ProzessverwaltungForm.sortierung}"
+															value="#{ProzessverwaltungForm.sortierung=='idAsc'?'idDesc':'idAsc'}" />
+														<f:ajax render=":processTemplateForm" />
+													</h:commandLink>
+												</f:facet>
+												<h:outputText value="#{item.id}" />
+											</x:column>
+										 
+											 <x:column rendered="true" id="ajaxcolumn" styleClass="tableColumnOverflow maxWidth300"
+												headerstyleClass="#{ProzessverwaltungForm.sortierung=='titelDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='titelAsc'?'sorting_asc':'sorting'}">
+												<f:facet name="header">
+													<h:commandLink styleClass="font-black-block" action="#{ProzessverwaltungForm.FilterAlleStart}">
+														<h:outputText value="#{ProzessverwaltungForm.modusAnzeige=='aktuell'?msgs.prozessTitel:msgs.titel}" />
+														<f:setPropertyActionListener target="#{ProzessverwaltungForm.sortierung}"
+															value="#{ProzessverwaltungForm.sortierung=='titelAsc'?'titelDesc':'titelAsc'}" />
+														<f:ajax render=":myform" />
+													</h:commandLink>
+												</f:facet>
+												<h:outputText value="#{item.titel}" />
+											</x:column>
+	
+											<!-- +++++++++++++++++  Custom columns ++++++++++++++++++++++++ -->
+											<c:forEach items="#{LoginForm.listOfCustomColumns}" var="var">
+												<x:column rendered="#{ProzessverwaltungForm.modusAnzeige!='vorlagen'}">
+													<f:facet name="header">
+														<h:outputText value="#{msgs[fn:substring(var, fn:indexOf(var,'.') lt 0 ? 1 : fn:indexOf(var,'.') + 1, var.length() - fn.indexOf(var,'.') - 1)]}" />
+													</f:facet>
+													<h:outputText value="#{item.getReplacedVariable(var)}" />
+												</x:column>
+											</c:forEach>
+											
+											<!-- +++++++++++++++++  Vorgangsdatum ++++++++++++++++++++++++ -->
+											<x:column styleClass="tableColumnOverflow width150"
+												rendered="#{ProzessverwaltungForm.anzeigeAnpassen['processDate']}"
+												headerstyleClass="#{ProzessverwaltungForm.sortierung=='vorgangsdatumDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='vorgangsdatumAsc'?'sorting_asc':'sorting'}">
+												<f:facet name="header">
+													<h:commandLink styleClass="font-black-block" action="#{ProzessverwaltungForm.FilterAlleStart}">
+														<h:outputText value="#{msgs.vorgangsdatum}" />
+														<f:setPropertyActionListener target="#{ProzessverwaltungForm.sortierung}"
+															value="#{ProzessverwaltungForm.sortierung=='vorgangsdatumAsc'?'vorgangsdatumDesc':'vorgangsdatumAsc'}" />
+														<f:ajax render=":processTemplateForm" />
+													</h:commandLink>
+												</f:facet>
+	
+												<h:outputText value="#{item.erstellungsdatumAsString}">
+													<!--                                         	<f:convertDateTime locale="#{SpracheForm.locale}" type="date" dateStyle="medium"/> -->
+												</h:outputText>
+											</x:column>
+	
+											<!-- +++++++++++++++++  Status ++++++++++++++++++++++++ -->
+											<x:column styleClass="tableColumnOverflow width200"
+												headerstyleClass="#{ProzessverwaltungForm.sortierung=='fortschrittDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='fortschrittAsc'?'sorting_asc':'sorting'}">
+												<f:facet name="header">
+													<h:commandLink styleClass="font-black-block" action="#{ProzessverwaltungForm.FilterAlleStart}">
+														<h:outputText value="#{msgs.status}" />
+														<f:setPropertyActionListener target="#{ProzessverwaltungForm.sortierung}"
+															value="#{ProzessverwaltungForm.sortierung=='fortschrittAsc'?'fortschrittDesc':'fortschrittAsc'}" />
+														<f:ajax render=":processTemplateForm" />
+													</h:commandLink>
+												</f:facet>
+	
+												<h:panelGroup rendered="#{item.fortschritt3 gt 0}" 
+														data-toggle="tooltip"
+														styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-done'):('progress-bar-success'))}"
+														style="width: #{item.fortschritt3}%;line-height:15px;">
+													<h:outputText value="&#160;" />
+						                            <f:passThroughAttribute name="data-trigger" value="hover" />
+						                            <f:passThroughAttribute name="data-container" value="body" />
+						                            <f:passThroughAttribute name="data-toggle" value="popover" />
+						                            <f:passThroughAttribute name="data-placement" value="top" />
+						                            <f:passThroughAttribute name="data-html" value="true" />
+						                            <f:passThroughAttribute name="data-content" value="&lt;b class='font-status-done'&gt;#{msgs.statusAbgeschlossen}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(3, ', ')}" />
+						                       </h:panelGroup>
+						                       
+						                       <h:panelGroup rendered="#{item.fortschritt2 gt 0}" 
+														data-toggle="tooltip"
+														styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-open'):('progress-bar-warning'))}"
+														style="width: #{item.fortschritt2}%;line-height:15px;">
+													<h:outputText value="&#160;" />	                            
+													<f:passThroughAttribute name="data-trigger" value="hover" />
+						                            <f:passThroughAttribute name="data-container" value="body" />
+						                            <f:passThroughAttribute name="data-toggle" value="popover" />
+						                            <f:passThroughAttribute name="data-placement" value="top" />
+						                            <f:passThroughAttribute name="data-html" value="true" />
+						                            <f:passThroughAttribute name="data-content" value="&lt;b class='font-status-open'&gt;#{msgs.statusOffen} / #{msgs.statusInBearbeitung}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(1, ', ')}#{item.getStepsAsString(1, ', ') ne '' and item.getStepsAsString(2, ', ') ne ''?', ':''} #{item.getStepsAsString(2, ', ')}" />
+						                       </h:panelGroup>
+						                       
+						                       <h:panelGroup rendered="#{item.fortschrittError gt 0}" 
+														data-toggle="tooltip"
+														styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-error'):('progress-bar-danger progressbar-status-error'))} "
+														style="width: #{item.fortschrittError}%;line-height:15px;">
+													<h:outputText value="&#160;" />
+													<f:passThroughAttribute name="data-trigger" value="hover" />
+						                            <f:passThroughAttribute name="data-container" value="body" />
+						                            <f:passThroughAttribute name="data-toggle" value="popover" />
+						                            <f:passThroughAttribute name="data-placement" value="top" />
+						                            <f:passThroughAttribute name="data-html" value="true" />
+						                            <f:passThroughAttribute name="data-content" value="&lt;b class='font-status-error'&gt;#{msgs.statusError}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(4, ', ')}" />
+						                       </h:panelGroup>
+						                      
+						                       <h:panelGroup rendered="#{item.fortschritt1 gt 0}" 
+														data-toggle="tooltip"
+														styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-locked'):('progress-bar-danger'))} "
+														style="width: #{item.fortschritt1}%;line-height:15px;">
+													<h:outputText value="&#160;" />
+						                            <f:passThroughAttribute name="data-trigger" value="hover" />
+						                            <f:passThroughAttribute name="data-container" value="body" />
+						                            <f:passThroughAttribute name="data-toggle" value="popover" />
+						                            <f:passThroughAttribute name="data-placement" value="top" />
+						                            <f:passThroughAttribute name="data-html" value="true" />
+						                            <f:passThroughAttribute name="data-content" value="&lt;b class='font-status-locked'&gt;#{msgs.statusGesperrt}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(0, ', ')}" />
+						                       </h:panelGroup>
+						                    </x:column>
+	
+											<x:column styleClass="tableColumnOverflow maxWidth120"
+												headerstyleClass="#{ProzessverwaltungForm.sortierung=='projektDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='projektAsc'?'sorting_asc':'sorting'}">
+												<f:facet name="header">
+													<!-- Header -->
+													<h:commandLink styleClass="font-black-block" action="#{ProzessverwaltungForm.FilterAlleStart}"
+														title="#{msgs.projekt}">
+														<h:outputText value="#{msgs.projekt}"/>
+														<f:setPropertyActionListener target="#{ProzessverwaltungForm.sortierung}"
+															value="#{ProzessverwaltungForm.sortierung=='projektAsc'?'projektDesc':'projektAsc'}" />
+														<f:ajax render=":processTemplateForm" />
+													</h:commandLink>
+												</f:facet>
+												<h:outputText value="#{item.projekt.titel}" />
+											</x:column>
+	
+											<x:column styleClass="">
+												<f:facet name="header">
+													<h:outputText value="#{msgs.auswahl}" />
+												</f:facet>
+	
+												<!-- ProzessKopie-Schaltknopf -->
+												<h:commandLink action="#{ProzesskopieForm.Prepare}" id="action22" rel="tooltip" onclick="preventDoubleSubmit(this);"
+													title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
+													rendered="#{ProzessverwaltungForm.modusAnzeige=='vorlagen' and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1}">
+													<i class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} " />
+													<f:passThroughAttribute name="data-toggle" value="tooltip" />
+													<x:updateActionListener property="#{ProzesskopieForm.prozessVorlage}" value="#{item}" />
+												</h:commandLink>
+	
+												<h:panelGroup
+													rendered="#{ProzessverwaltungForm.modusAnzeige=='vorlagen' and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() gt 1}">
+													<div class="btn-group" title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}" data-toggle="tooltip">
+														<a class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
+															style="padding-left: 4px; padding-right: 4px;" data-toggle="dropdown"> <span class="caret"></span>
+														</a>
+														<h:commandLink action="#{ProzesskopieForm.Prepare}" rel="tooltip">
+															<i class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} " 
+																style="padding-left: 7px; padding-right: 7px;"/>
+															<f:passThroughAttribute name="data-toggle" value="tooltip" />
+															<x:updateActionListener property="#{ProzesskopieForm.prozessVorlage}" value="#{item}" />
+														</h:commandLink>
+														<ul class="dropdown-menu  pull-right">
+															<ui:repeat var="proj" value="#{ProzesskopieForm.availableProjects}">
+																<li>
+																	<h:commandLink action="#{ProzesskopieForm.Prepare}">
+																		<h:outputText value="#{proj.titel}" />
+																		<x:updateActionListener property="#{item.projekt}" value="#{proj}" />
+																		<x:updateActionListener property="#{ProzesskopieForm.prozessVorlage}" value="#{item}" />
+																	</h:commandLink>
+																</li>
+															</ui:repeat>
+														</ul>
+													</div>
+												</h:panelGroup>
+	
+												<!-- MassenImport -->
+												<h:commandLink action="#{MassImportForm.Prepare}" id="action222" rel="tooltip" title="#{msgs.MassenImport}" onclick="preventDoubleSubmit(this);"
+													rendered="#{ProzessverwaltungForm.modusAnzeige=='vorlagen' and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() eq 1}">
+													<i class="btn fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} " />
+													<f:passThroughAttribute name="data-toggle" value="tooltip" />
+													<x:updateActionListener property="#{MassImportForm.template}" value="#{item}" />
+												</h:commandLink>
+												
+												<h:panelGroup
+													rendered="#{ProzessverwaltungForm.modusAnzeige=='vorlagen' and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() gt 1}">
+													<div class="btn-group" title="#{msgs.MassenImport}" data-toggle="tooltip">
+														<a class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
+															style="padding-left: 4px; padding-right: 4px;" data-toggle="dropdown"> <span class="caret"></span>
+														</a>
+														<h:commandLink action="#{MassImportForm.Prepare}" rel="tooltip" >
+															<i class="btn fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} " 
+																style="padding-left: 7px; padding-right: 7px;"/>
+															<f:passThroughAttribute name="data-toggle" value="tooltip" />
+															<x:updateActionListener property="#{MassImportForm.template}" value="#{item}" />
+														</h:commandLink>
+														<ul class="dropdown-menu  pull-right">
+															<ui:repeat var="proj" value="#{ProzesskopieForm.availableProjects}">
+																<li>
+																	<h:commandLink action="#{MassImportForm.Prepare}">
+																		<h:outputText value="#{proj.titel}" />
+																		<x:updateActionListener property="#{item.projekt}" value="#{proj}" />
+																		<x:updateActionListener property="#{item.projectId}" value="#{proj.id}" />
+																		<x:updateActionListener property="#{MassImportForm.template}" value="#{item}" />
+																	</h:commandLink>
+																</li>
+															</ui:repeat>
+														</ul>
+													</div>
+												</h:panelGroup>
+	
+	                                        </x:column>
+	
+										</x:dataTable>
+	
+										<div class="dataTables_paginate">
+											
+										
+										
+										
+										
+										<h:panelGroup
+			rendered="#{ProzessverwaltungForm.paginator.totalResults > LoginForm.myBenutzer.tabellengroesse}">
+
+			<div class="pull-right">
+
+				<h:commandLink styleClass="btn font-size-s margin-sides-10"
+					action="#{ProzessverwaltungForm.paginator.cmdMoveFirst}" id="navfirst">
+					<i class="fa fa-double-angle-left"></i>
+					<f:ajax render=":processTemplateForm" />
+				</h:commandLink>
+				<h:commandLink styleClass="btn btn-primary font-size-s navigator-previous"
+					action="#{ProzessverwaltungForm.paginator.cmdMovePrevious}" id="navprev">
+					<i class="fa fa-angle-left"></i>
+					<h:outputText value=" #{msgs.pagePrevious}"/>
+					<f:ajax render=":processTemplateForm" />
+				</h:commandLink>
+
+				<div class="margin-sides-10">
+					<!-- aktuelle Seite anzeigen -->
+					<x:outputText id="txtMoveTo1" forceId="true"
+						value="#{msgs.seite} #{ProzessverwaltungForm.paginator.pageNumberCurrent} #{msgs.von} #{ProzessverwaltungForm.paginator.pageNumberLast}"
+						onclick="document.getElementById('txtMoveTo2').style.display='inline';
+			       document.getElementById('txtMoveTo1').style.display='none'; 
+			       document.getElementById('txtMoveTo2').focus();
+			       document.getElementById('txtMoveTo2').select();" />
+
+					<!-- Seite direkt anspringen -->
+					<x:inputText id="txtMoveTo2" forceId="true"
+						value="#{ProzessverwaltungForm.paginator.txtMoveTo}" style="display:none;width:30px"
+						required="true"
+						onblur="document.getElementById('txtMoveTo2').style.display='none';document.getElementById('txtMoveTo1').style.display='inline';"
+						onkeypress="return submitEnter('cmdMoveTo',event)" />
+					<x:commandButton action="#{NavigationForm.Reload}" id="cmdMoveTo"
+						forceId="true" value="go" style="display:none" >
+						
+					</x:commandButton>
+				</div>
+
+				<h:commandLink styleClass="btn btn-primary font-size-s navigator-next"
+					action="#{ProzessverwaltungForm.paginator.cmdMoveNext}" id="navnext">
+					<h:outputText value="#{msgs.pageNext} "/>
+							<i class="fa fa-angle-right"></i>
+					<f:ajax render=":processTemplateForm" />
+				</h:commandLink>
+				<h:commandLink styleClass="btn font-size-s margin-sides-10"
+					action="#{ProzessverwaltungForm.paginator.cmdMoveLast}" id="navlast">
+					<i class="fa fa-double-angle-right"></i>
+					<f:ajax render=":processTemplateForm" />
+				</h:commandLink>
+			</div>
+		</h:panelGroup>
+										
+										
+										
+										</div>
+										
+									</h:form>
+	
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:panelGroup>
+		</h:panelGroup>
+	</composite:implementation>
+
+</ui:composition>
+
+

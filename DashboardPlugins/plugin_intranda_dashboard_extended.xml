@@ -33,5 +33,8 @@
 	<batches-timerange-start>2</batches-timerange-start>
 	<batches-timerange-end>4</batches-timerange-end>
 	
+	<!-- Process creation -->
+	<processTemplates-show>true</processTemplates-show>
+	
 </config_plugin>
 
