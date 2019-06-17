@@ -33,22 +33,7 @@
 											value="#{ProzessverwaltungForm.paginator.list}"
 											rendered="#{ProzessverwaltungForm.modusAnzeige=='vorlagen' or not ProzessverwaltungForm.anzeigeAnpassen['gridview']}">
 	
-											<!-- +++++++++++++++++  ProzessID ++++++++++++++++++++++++ -->
-											<x:column styleClass="tableColumnOverflow width80"
-												rendered="#{ProzessverwaltungForm.anzeigeAnpassen['processId']}"
-												headerstyleClass="#{ProzessverwaltungForm.sortierung=='idDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='idAsc'?'sorting_asc':'sorting'}">
-												<f:facet name="header">
-													<h:commandLink styleClass="font-black-block" action="#{ProzessverwaltungForm.FilterAlleStart}">
-														<h:outputText value="#{msgs.id}" />
-														<f:setPropertyActionListener target="#{ProzessverwaltungForm.sortierung}"
-															value="#{ProzessverwaltungForm.sortierung=='idAsc'?'idDesc':'idAsc'}" />
-														<f:ajax render=":processTemplateForm" />
-													</h:commandLink>
-												</f:facet>
-												<h:outputText value="#{item.id}" />
-											</x:column>
-										 
-											 <x:column rendered="true" id="ajaxcolumn" styleClass="tableColumnOverflow maxWidth300"
+											<x:column rendered="true" id="ajaxcolumn" styleClass="tableColumnOverflow maxWidth120"
 												headerstyleClass="#{ProzessverwaltungForm.sortierung=='titelDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='titelAsc'?'sorting_asc':'sorting'}">
 												<f:facet name="header">
 													<h:commandLink styleClass="font-black-block" action="#{ProzessverwaltungForm.FilterAlleStart}">
@@ -61,36 +46,8 @@
 												<h:outputText value="#{item.titel}" />
 											</x:column>
 	
-											<!-- +++++++++++++++++  Custom columns ++++++++++++++++++++++++ -->
-											<c:forEach items="#{LoginForm.listOfCustomColumns}" var="var">
-												<x:column rendered="#{ProzessverwaltungForm.modusAnzeige!='vorlagen'}">
-													<f:facet name="header">
-														<h:outputText value="#{msgs[fn:substring(var, fn:indexOf(var,'.') lt 0 ? 1 : fn:indexOf(var,'.') + 1, var.length() - fn.indexOf(var,'.') - 1)]}" />
-													</f:facet>
-													<h:outputText value="#{item.getReplacedVariable(var)}" />
-												</x:column>
-											</c:forEach>
-											
-											<!-- +++++++++++++++++  Vorgangsdatum ++++++++++++++++++++++++ -->
-											<x:column styleClass="tableColumnOverflow width150"
-												rendered="#{ProzessverwaltungForm.anzeigeAnpassen['processDate']}"
-												headerstyleClass="#{ProzessverwaltungForm.sortierung=='vorgangsdatumDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='vorgangsdatumAsc'?'sorting_asc':'sorting'}">
-												<f:facet name="header">
-													<h:commandLink styleClass="font-black-block" action="#{ProzessverwaltungForm.FilterAlleStart}">
-														<h:outputText value="#{msgs.vorgangsdatum}" />
-														<f:setPropertyActionListener target="#{ProzessverwaltungForm.sortierung}"
-															value="#{ProzessverwaltungForm.sortierung=='vorgangsdatumAsc'?'vorgangsdatumDesc':'vorgangsdatumAsc'}" />
-														<f:ajax render=":processTemplateForm" />
-													</h:commandLink>
-												</f:facet>
-	
-												<h:outputText value="#{item.erstellungsdatumAsString}">
-													<!--                                         	<f:convertDateTime locale="#{SpracheForm.locale}" type="date" dateStyle="medium"/> -->
-												</h:outputText>
-											</x:column>
-	
 											<!-- +++++++++++++++++  Status ++++++++++++++++++++++++ -->
-											<x:column styleClass="tableColumnOverflow width200"
+											<x:column styleClass="tableColumnOverflow maxWidth80"
 												headerstyleClass="#{ProzessverwaltungForm.sortierung=='fortschrittDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='fortschrittAsc'?'sorting_asc':'sorting'}">
 												<f:facet name="header">
 													<h:commandLink styleClass="font-black-block" action="#{ProzessverwaltungForm.FilterAlleStart}">
@@ -154,7 +111,7 @@
 						                       </h:panelGroup>
 						                    </x:column>
 	
-											<x:column styleClass="tableColumnOverflow maxWidth120"
+											<x:column styleClass="tableColumnOverflow maxWidth80"
 												headerstyleClass="#{ProzessverwaltungForm.sortierung=='projektDesc'?'sorting_desc':ProzessverwaltungForm.sortierung=='projektAsc'?'sorting_asc':'sorting'}">
 												<f:facet name="header">
 													<!-- Header -->
@@ -169,7 +126,7 @@
 												<h:outputText value="#{item.projekt.titel}" />
 											</x:column>
 	
-											<x:column styleClass="">
+											<x:column styleClass="tableColumnOverflow maxWidth80">
 												<f:facet name="header">
 													<h:outputText value="#{msgs.auswahl}" />
 												</f:facet>
