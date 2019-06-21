@@ -36,5 +36,10 @@
 	<!-- Process creation -->
 	<processTemplates-show>true</processTemplates-show>
 	
+	<!-- HTML box -->
+	<html-box-show>true</html-box-show>
+	<html-box-title>My HMTL box</html-box-title>
+	<html-box-content>My HTML content</html-box-content>
+	
 </config_plugin>
 

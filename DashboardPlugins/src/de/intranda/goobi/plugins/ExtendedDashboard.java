@@ -88,6 +88,18 @@ public class ExtendedDashboard implements IDashboardPlugin {
 		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("search-show", true);
 	}
 	
+	public boolean isShowHtmlBox() {
+		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("html-box-show", true);
+	}
+	
+	public String getHtmlBoxTitle() {
+		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getString("html-box-title", "- no title defined -");
+	}
+	
+	public String getHtmlBoxContent() {
+		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getString("html-box-content", "- no content to show here -");
+	}
+	
 	public void update(){
 		//System.out.println("ich polle");
 		// do nothing
