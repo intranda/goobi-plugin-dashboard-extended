@@ -38,8 +38,55 @@
 	
 	<!-- HTML box -->
 	<html-box-show>true</html-box-show>
-	<html-box-title>My HMTL box</html-box-title>
-	<html-box-content>My HTML content</html-box-content>
+	<html-box-title>Goobi to go - Sample accounts</html-box-title>
+	<html-box-content><![CDATA[
+		This is the Goobi workflow instance inside of your Goobi-to-go environment. It contains some demonstration material as well as sample user accounts. In the following table you can see the list of all user accounts which are available inside of this Goobi-to-go package. <br/><br/>
+		<table class="table table-hover table-nomargin dataTable table-bordered responsive">
+			<thead>
+				<tr>
+					<th>Login</th>
+					<th>Password</th>
+					<th>User description</th>
+				</tr>
+			</thead>
+			<tr>
+				<td>testscanning</td>
+				<td>test</td>
+				<td>User account for uploading content</td>
+			</tr>
+			<tr>
+				<td>testqc</td>
+				<td>test</td>
+				<td>User account for manual Image QA</td>
+			</tr>
+			<tr>
+				<td>testmetadata</td>
+				<td>test</td>
+				<td>Account for metadata enrichment work</td>
+			</tr>
+			<tr>
+				<td>testimaging</td>
+				<td>test</td>
+				<td>User account for manual image optimisation</td>
+			</tr>
+			<tr>
+				<td>testprojectmanagement</td>
+				<td>test</td>
+				<td>Project manager account</td>
+			</tr>
+			<tr>
+				<td>testadmin</td>
+				<td>test</td>
+				<td>Administrator account</td>
+			</tr>
+			<tr>
+				<td>goobi</td>
+				<td>goobi</td>
+				<td>Administrator account</td>
+			</tr>
+			
+		</table>
+	]]></html-box-content>
 	
 </config_plugin>
 
