@@ -25,11 +25,22 @@ public class DashboardHelperProcesses {
 	public DashboardHelperProcesses(XMLConfiguration xmlConfiguration) {
 		config = xmlConfiguration;
 	}
+	
+	public void loadProcessTemplates() {
+		ProcessBean pb = (ProcessBean) Helper.getManagedBeanValue("#{ProzessverwaltungForm}");
+		if (pb.getFilter()==null) {
+			pb.setFilter("");
+		}
+		if (pb.getFilter().length()>0 || !pb.getModusAnzeige().equals("vorlagen")){
+			pb.setFilter("");
+			pb.setModusAnzeige("vorlagen");
+			pb.FilterVorlagen();
+		}
+	}
 		
 	public void onload() { 
-		ProcessBean pb = (ProcessBean) Helper.getManagedBeanValue("#{ProzessverwaltungForm}");
-		pb.FilterVorlagen();
-//		pb.FilterAktuelleProzesse();
+//		ProcessBean pb = (ProcessBean) Helper.getManagedBeanValue("#{ProzessverwaltungForm}");
+//		pb.FilterVorlagen();
 	}
 
 	public LineChartModel getProcessesPerMonth() {

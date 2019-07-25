@@ -35,6 +35,9 @@
 	
 	<!-- Process creation -->
 	<processTemplates-show>true</processTemplates-show>
+	<processTemplates-show-statusColumn>true</processTemplates-show-statusColumn>
+	<processTemplates-show-projectColumn>true</processTemplates-show-projectColumn>
+	<processTemplates-show-massImportButton>true</processTemplates-show-massImportButton>
 	
 	<!-- HTML box -->
 	<html-box-show>true</html-box-show>

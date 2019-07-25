@@ -89,7 +89,7 @@ public class ExtendedDashboard implements IDashboardPlugin {
 	}
 	
 	public boolean isShowHtmlBox() {
-		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("html-box-show", true);
+		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("html-box-show", false);
 	}
 	
 	public String getHtmlBoxTitle() {
@@ -98,6 +98,18 @@ public class ExtendedDashboard implements IDashboardPlugin {
 	
 	public String getHtmlBoxContent() {
 		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getString("html-box-content", "- no content to show here -");
+	}
+	
+	public boolean getShowProcessTemplateStatusColumn() {
+		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("processTemplates-show-statusColumn", true);
+	}
+	
+	public boolean getShowProcessTemplateProjectColumn() {
+		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("processTemplates-show-projectColumn", true);
+	}
+	
+	public boolean getShowProcessTemplateMassImportButton() {
+		return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("processTemplates-show-massImportButton", true);
 	}
 	
 	public void update(){
