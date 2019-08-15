@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
+import org.primefaces.context.RequestContext;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -84,6 +85,10 @@ public class DashboardHelperRss {
 		if (isShowRss() && (lastRead == null || now - lastRead > config.getInt("rss-cache-time", 900000))) {
 			readRss();
 			lastRead = System.currentTimeMillis();
+		}
+		if (feeds!= null) {
+			RequestContext reqCtx = RequestContext.getCurrentInstance();
+			reqCtx.execute("poll.stop();");
 		}
 		return feeds;
 	}

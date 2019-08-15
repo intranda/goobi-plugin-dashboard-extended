@@ -2,6 +2,7 @@ package de.intranda.goobi.plugins;
 
 import org.goobi.production.enums.PluginType;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
+import org.primefaces.context.RequestContext;
 
 import de.intranda.digiverso.model.helper.DashboardHelperBatches;
 import de.intranda.digiverso.model.helper.DashboardHelperItm;
@@ -113,7 +114,7 @@ public class ExtendedDashboard implements IDashboardPlugin {
 	}
 	
 	public void update(){
-		//System.out.println("ich polle");
+		// System.out.println("ich polle");
 		// do nothing
 	}
 	

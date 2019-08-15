@@ -27,7 +27,7 @@
 			
 				<h:panelGroup style="padding:0px;display:block;" rendered="#{DashboardForm.plugin.rssHelper.feed == null}">
 					<h:outputText styleClass="alert alert-info alert-dismissable margin-bottom-10" value="#{msgs.dashboard_rssNotLoaded}" />
-					<p:poll interval="3" listener="#{DashboardForm.plugin.update}" update="dashboard-rss" rendered="#{DashboardForm.plugin.rssHelper.feed == null}"/>
+					<p:poll interval="3" stop="#{DashboardForm.plugin.rssHelper.feed != null}" listener="#{DashboardForm.plugin.update}" update="dashboard-rss" />
 				</h:panelGroup>
 			
 				<h:panelGroup styleClass="padding:10px;display:block;" rendered="#{DashboardForm.plugin.rssHelper.feed != null}">

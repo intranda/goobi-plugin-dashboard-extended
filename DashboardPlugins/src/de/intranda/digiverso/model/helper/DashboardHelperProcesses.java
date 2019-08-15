@@ -9,6 +9,7 @@ import org.goobi.managedbeans.DatabasePaginator;
 import org.goobi.managedbeans.LoginBean;
 import org.goobi.managedbeans.ProcessBean;
 import org.goobi.production.flow.statistics.hibernate.FilterHelper;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
 
@@ -40,9 +41,11 @@ public class DashboardHelperProcesses {
 		
 	public void onload() { 
 //		ProcessBean pb = (ProcessBean) Helper.getManagedBeanValue("#{ProzessverwaltungForm}");
+//		pb.setFilter("");
+//		pb.setModusAnzeige("vorlagen");
 //		pb.FilterVorlagen();
 	}
-
+	
 	public LineChartModel getProcessesPerMonth() {
 		LineChartModel model = new LineChartModel();
 		model.setExtender("ext");
