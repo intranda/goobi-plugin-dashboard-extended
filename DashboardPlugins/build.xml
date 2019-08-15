@@ -1,9 +1,7 @@
-<?xml version="1.0"?>
-
-<project name="goobi-plugin-dashboard-example">
+<project name="goobi-plugin-dashboard-example" default="devbuild">
 	<target name="devbuild">
 		<exec executable="mvn">
-			<arg value="package" />
+			<arg value="package"/>
 		</exec>
 		<copy file="module-gui/target/plugin_intranda_dashboard_example-GUI.jar" todir="/opt/digiverso/goobi/plugins/GUI/"/>
 		<copy file="module-main/target/plugin_intranda_dashboard_example.jar" todir="/opt/digiverso/goobi/plugins/dashboard/"/>
