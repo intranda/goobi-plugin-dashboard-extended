@@ -1,5 +1,30 @@
 package de.intranda.digiverso.model.itm;
 
+/**
+ * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
+ * 
+ * Visit the websites for more information. 
+ *          - https://goobi.io
+ *          - https://www.intranda.com
+ *          - https://github.com/intranda/goobi
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59
+ * Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ * Linking this library statically or dynamically with other modules is making a combined work based on this library. Thus, the terms and conditions
+ * of the GNU General Public License cover the whole combination. As a special exception, the copyright holders of this library give you permission to
+ * link this library with independent modules to produce an executable, regardless of the license terms of these independent modules, and to copy and
+ * distribute the resulting executable under terms of your choice, provided that you also meet, for each linked independent module, the terms and
+ * conditions of the license of that module. An independent module is a module which is not derived from or based on this library. If you modify this
+ * library, you may extend this exception to your version of the library, but you are not obliged to do so. If you do not wish to do so, delete this
+ * exception statement from your version.
+ */
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -12,11 +37,11 @@ import org.apache.commons.lang.WordUtils;
 
 public abstract class AbstractJob implements IJob {
     private static DecimalFormat formatter = null;
-    
+
     private int id;
     private long timestampStart;
     private long timestampEnd;
-    private int  priority;
+    private int priority;
     private String status;
     private String jobType;
     private String goobiId;
@@ -79,24 +104,24 @@ public abstract class AbstractJob implements IJob {
         Date date = new Date(getTimestampEnd());
         return format.format(date);
     }
-    
+
     @Override
     public String getTimestampStartAsDate() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMANY);
         Date date = new Date(getTimestampStart());
         return format.format(date);
     }
-    
+
     @Override
-    public String getGoobiId(){
-        if(this.goobiId == null || this.goobiId.isEmpty()){
-            if(this.getSourceDir() == null){
+    public String getGoobiId() {
+        if (this.goobiId == null || this.goobiId.isEmpty()) {
+            if (this.getSourceDir() == null) {
                 return null;
             }
             String id = "";
             Pattern p = Pattern.compile("\\d+");
             Matcher m = p.matcher(this.getSourceDir());
-            if(m.find()){
+            if (m.find()) {
                 id = m.group();
             }
             return id;
@@ -104,7 +129,7 @@ public abstract class AbstractJob implements IJob {
             return this.goobiId;
         }
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -190,9 +215,9 @@ public abstract class AbstractJob implements IJob {
         }
         return true;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return "itm-" + this.getJobType() + "-Job " + this.getId() + ": ";
     }
 
@@ -255,7 +280,7 @@ public abstract class AbstractJob implements IJob {
     public String getErrorMessage() {
         return errorMessage;
     }
-    
+
     @Override
     public String getErrorMessageShort() {
         return WordUtils.abbreviate(errorMessage, 15, 28, "...");
@@ -292,9 +317,9 @@ public abstract class AbstractJob implements IJob {
     public long getSize() {
         return size;
     }
-    
+
     @Override
-    public String getSizeInMB(){
+    public String getSizeInMB() {
         formatter = (DecimalFormat) NumberFormat.getInstance(Locale.GERMAN);
         return formatter.format(this.size / 1048576) + " MB";
     }
@@ -313,34 +338,34 @@ public abstract class AbstractJob implements IJob {
     }
 
     @Override
-    public int getProgress(){
+    public int getProgress() {
         //TODO: implement in all other jobs, not in abstractjob! Just for test issues!!!
-        if(IJob.STARTED.equals(this.status)) {
+        if (IJob.STARTED.equals(this.status)) {
             return 10;
         }
-        if(IJob.PROCESSING.equals(this.status)) {
+        if (IJob.PROCESSING.equals(this.status)) {
             return 50;
         }
-        if(IJob.DONE.equals(this.status)) {
+        if (IJob.DONE.equals(this.status)) {
             return 100;
         }
-        if("UPLOAD".equals(this.status)){
+        if ("UPLOAD".equals(this.status)) {
             return 30;
         }
-        if("DOWNLOAD".equals(this.status)){
+        if ("DOWNLOAD".equals(this.status)) {
             return 70;
         }
-        if(IJob.ERROR.equals(this.status)) {
+        if (IJob.ERROR.equals(this.status)) {
             return 0;
         }
         return 10;
     }
-    
-    @Override 
+
+    @Override
     public String getTemplate() {
         return template;
     }
-    
+
     @Override
     public int getPriority() {
         return priority;
@@ -348,23 +373,23 @@ public abstract class AbstractJob implements IJob {
 
     @Override
     public void setPriority(int priority) {
-        if(priority >= 0) {
+        if (priority >= 0) {
             this.priority = priority;
         } else {
             this.priority = 0;
         }
     }
-    
+
     @Override
-    public String getTargetDir(){
+    public String getTargetDir() {
         return targetDir;
     }
 
-    public void printSomething(){
+    public void printSomething() {
         System.out.println(this.errorMessage);
     }
-    
-    public static String toString(IJob job){
+
+    public static String toString(IJob job) {
         return "itm-" + job.getJobType() + "-Job " + job.getId() + " with template " + job.getTemplate() + ": ";
     }
 

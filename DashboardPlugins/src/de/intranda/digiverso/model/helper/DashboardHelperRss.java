@@ -1,8 +1,31 @@
 package de.intranda.digiverso.model.helper;
 
+/**
+ * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
+ * 
+ * Visit the websites for more information. 
+ *          - https://goobi.io
+ *          - https://www.intranda.com
+ *          - https://github.com/intranda/goobi
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59
+ * Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ * Linking this library statically or dynamically with other modules is making a combined work based on this library. Thus, the terms and conditions
+ * of the GNU General Public License cover the whole combination. As a special exception, the copyright holders of this library give you permission to
+ * link this library with independent modules to produce an executable, regardless of the license terms of these independent modules, and to copy and
+ * distribute the resulting executable under terms of your choice, provided that you also meet, for each linked independent module, the terms and
+ * conditions of the license of that module. An independent module is a module which is not derived from or based on this library. If you modify this
+ * library, you may extend this exception to your version of the library, but you are not obliged to do so. If you do not wish to do so, delete this
+ * exception statement from your version.
+ */
 import java.io.StringReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,94 +37,94 @@ import org.primefaces.context.RequestContext;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
-import com.sun.syndication.io.XmlReader;
 
 import de.intranda.digiverso.model.rss.RssEntry;
 import de.sub.goobi.helper.HttpClientHelper;
 
 public class DashboardHelperRss {
 
-	private XMLConfiguration config;
-	List<RssEntry> feeds;
-	private Long lastRead = null;
+    private XMLConfiguration config;
+    List<RssEntry> feeds;
+    private Long lastRead = null;
 
-	public DashboardHelperRss(XMLConfiguration pluginConfig) {
-		config = pluginConfig;
-	}
+    public DashboardHelperRss(XMLConfiguration pluginConfig) {
+        config = pluginConfig;
+    }
 
-	private void readRss() {
-		Thread rssThread = new Thread(new Runnable() {
-		     public void run() {
-		    	 List<RssEntry> internalFeeds = new ArrayList<>();
-		 		int count = 10; // desired number of feeds to retrieve
-		 		SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
+    private void readRss() {
+        Thread rssThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<RssEntry> internalFeeds = new ArrayList<>();
+                int count = 10; // desired number of feeds to retrieve
+                SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
 
-		 		try {
-		 			SyndFeedInput input = new SyndFeedInput();
-		 			SyndFeed feed = input.build(new StringReader(HttpClientHelper.getStringFromUrl(getFeedUrl())));
+                try {
+                    SyndFeedInput input = new SyndFeedInput();
+                    SyndFeed feed = input.build(new StringReader(HttpClientHelper.getStringFromUrl(getFeedUrl())));
 
-		 			@SuppressWarnings("unchecked")
-		 			List<SyndEntry> feedList = feed.getEntries();
-		 			int feedSize = feedList.size();
+                    @SuppressWarnings("unchecked")
+                    List<SyndEntry> feedList = feed.getEntries();
+                    int feedSize = feedList.size();
 
-		 			// Save only count requested
-		 			if (feedSize > count) {
-		 				feedSize = count;
-		 			}
+                    // Save only count requested
+                    if (feedSize > count) {
+                        feedSize = count;
+                    }
 
-		 			for (int i = 0; i < feedSize; i++) {
-		 				SyndEntry entry = (SyndEntry) feedList.get(i);
-		 				RssEntry rss = new RssEntry();
-		 				String title = entry.getTitle();
-		 				rss.setTitle(title);
-		 				rss.setAuthor(entry.getAuthor());
-		 				try {
-		 					Date d = entry.getPublishedDate();
-		 					rss.setPublishedDate(df.format(d));
-		 				} catch (Exception e) {
-		 				}
-		 				rss.setLink(entry.getLink());
-		 				String description = entry.getDescription().getValue();
-		 				rss.setDescription(description);
-		 				internalFeeds.add(rss);
-		 			}
-		 		} catch (Exception e) {
-		 			internalFeeds = new ArrayList<RssEntry>();
-		 			RssEntry rss = new RssEntry();
-		 			rss.setTitle("Error");
-		 			rss.setAuthor("");
-		 			rss.setDescription(e.getMessage());
-		 			internalFeeds.add(rss);
-		 		}
-		 		feeds = internalFeeds;
-		     }
-		});  
-		rssThread.start();
-	}
+                    for (int i = 0; i < feedSize; i++) {
+                        SyndEntry entry = feedList.get(i);
+                        RssEntry rss = new RssEntry();
+                        String title = entry.getTitle();
+                        rss.setTitle(title);
+                        rss.setAuthor(entry.getAuthor());
+                        try {
+                            Date d = entry.getPublishedDate();
+                            rss.setPublishedDate(df.format(d));
+                        } catch (Exception e) {
+                        }
+                        rss.setLink(entry.getLink());
+                        String description = entry.getDescription().getValue();
+                        rss.setDescription(description);
+                        internalFeeds.add(rss);
+                    }
+                } catch (Exception e) {
+                    internalFeeds = new ArrayList<RssEntry>();
+                    RssEntry rss = new RssEntry();
+                    rss.setTitle("Error");
+                    rss.setAuthor("");
+                    rss.setDescription(e.getMessage());
+                    internalFeeds.add(rss);
+                }
+                feeds = internalFeeds;
+            }
+        });
+        rssThread.start();
+    }
 
-	public List<RssEntry> getFeed() {
-		Long now = System.currentTimeMillis();
-		// never read or 15 min ago
-		if (isShowRss() && (lastRead == null || now - lastRead > config.getInt("rss-cache-time", 900000))) {
-			readRss();
-			lastRead = System.currentTimeMillis();
-		}
-		if (feeds!= null) {
-			RequestContext reqCtx = RequestContext.getCurrentInstance();
-			reqCtx.execute("poll.stop();");
-		}
-		return feeds;
-	}
+    public List<RssEntry> getFeed() {
+        Long now = System.currentTimeMillis();
+        // never read or 15 min ago
+        if (isShowRss() && (lastRead == null || now - lastRead > config.getInt("rss-cache-time", 900000))) {
+            readRss();
+            lastRead = System.currentTimeMillis();
+        }
+        if (feeds != null) {
+            RequestContext reqCtx = RequestContext.getCurrentInstance();
+            reqCtx.execute("poll.stop();");
+        }
+        return feeds;
+    }
 
-	public String getFeedUrl() {
-		return config.getString("rss-url", "http://www.intranda.com/feed/");
-	}
+    public String getFeedUrl() {
+        return config.getString("rss-url", "http://www.intranda.com/feed/");
+    }
 
-	public String getFeedTitle() {
-		return config.getString("rss-title", "Letzte Importe");
-	}
+    public String getFeedTitle() {
+        return config.getString("rss-title", "Letzte Importe");
+    }
 
-	public boolean isShowRss() {
-		return config.getBoolean("rss-show", true);
-	}
+    public boolean isShowRss() {
+        return config.getBoolean("rss-show", true);
+    }
 }

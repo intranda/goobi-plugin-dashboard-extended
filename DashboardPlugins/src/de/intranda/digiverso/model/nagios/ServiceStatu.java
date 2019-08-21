@@ -1,7 +1,33 @@
 
 package de.intranda.digiverso.model.nagios;
 
+/**
+ * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
+ * 
+ * Visit the websites for more information. 
+ *          - https://goobi.io
+ *          - https://www.intranda.com
+ *          - https://github.com/intranda/goobi
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59
+ * Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ * Linking this library statically or dynamically with other modules is making a combined work based on this library. Thus, the terms and conditions
+ * of the GNU General Public License cover the whole combination. As a special exception, the copyright holders of this library give you permission to
+ * link this library with independent modules to produce an executable, regardless of the license terms of these independent modules, and to copy and
+ * distribute the resulting executable under terms of your choice, provided that you also meet, for each linked independent module, the terms and
+ * conditions of the license of that module. An independent module is a module which is not derived from or based on this library. If you modify this
+ * library, you may extend this exception to your version of the library, but you are not obliged to do so. If you do not wish to do so, delete this
+ * exception statement from your version.
+ */
 import javax.annotation.Generated;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -62,8 +88,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The hostName
+     * @return The hostName
      */
     public String getHostName() {
         return hostName;
@@ -71,8 +96,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param hostName
-     *     The host_name
+     * @param hostName The host_name
      */
     public void setHostName(String hostName) {
         this.hostName = hostName;
@@ -80,8 +104,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The hostDisplayName
+     * @return The hostDisplayName
      */
     public String getHostDisplayName() {
         return hostDisplayName;
@@ -89,8 +112,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param hostDisplayName
-     *     The host_display_name
+     * @param hostDisplayName The host_display_name
      */
     public void setHostDisplayName(String hostDisplayName) {
         this.hostDisplayName = hostDisplayName;
@@ -98,8 +120,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The serviceDescription
+     * @return The serviceDescription
      */
     public String getServiceDescription() {
         return serviceDescription;
@@ -107,8 +128,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param serviceDescription
-     *     The service_description
+     * @param serviceDescription The service_description
      */
     public void setServiceDescription(String serviceDescription) {
         this.serviceDescription = serviceDescription;
@@ -116,8 +136,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The serviceDisplayName
+     * @return The serviceDisplayName
      */
     public String getServiceDisplayName() {
         return serviceDisplayName;
@@ -125,8 +144,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param serviceDisplayName
-     *     The service_display_name
+     * @param serviceDisplayName The service_display_name
      */
     public void setServiceDisplayName(String serviceDisplayName) {
         this.serviceDisplayName = serviceDisplayName;
@@ -134,8 +152,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The status
+     * @return The status
      */
     public String getStatus() {
         return status;
@@ -143,8 +160,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param status
-     *     The status
+     * @param status The status
      */
     public void setStatus(String status) {
         this.status = status;
@@ -152,8 +168,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The lastCheck
+     * @return The lastCheck
      */
     public String getLastCheck() {
         return lastCheck;
@@ -161,8 +176,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param lastCheck
-     *     The last_check
+     * @param lastCheck The last_check
      */
     public void setLastCheck(String lastCheck) {
         this.lastCheck = lastCheck;
@@ -170,8 +184,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The duration
+     * @return The duration
      */
     public String getDuration() {
         return duration;
@@ -179,8 +192,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param duration
-     *     The duration
+     * @param duration The duration
      */
     public void setDuration(String duration) {
         this.duration = duration;
@@ -188,8 +200,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The attempts
+     * @return The attempts
      */
     public String getAttempts() {
         return attempts;
@@ -197,8 +208,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param attempts
-     *     The attempts
+     * @param attempts The attempts
      */
     public void setAttempts(String attempts) {
         this.attempts = attempts;
@@ -206,8 +216,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The stateType
+     * @return The stateType
      */
     public String getStateType() {
         return stateType;
@@ -215,8 +224,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param stateType
-     *     The state_type
+     * @param stateType The state_type
      */
     public void setStateType(String stateType) {
         this.stateType = stateType;
@@ -224,8 +232,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The isFlapping
+     * @return The isFlapping
      */
     public Boolean getIsFlapping() {
         return isFlapping;
@@ -233,8 +240,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param isFlapping
-     *     The is_flapping
+     * @param isFlapping The is_flapping
      */
     public void setIsFlapping(Boolean isFlapping) {
         this.isFlapping = isFlapping;
@@ -242,8 +248,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The inScheduledDowntime
+     * @return The inScheduledDowntime
      */
     public Boolean getInScheduledDowntime() {
         return inScheduledDowntime;
@@ -251,8 +256,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param inScheduledDowntime
-     *     The in_scheduled_downtime
+     * @param inScheduledDowntime The in_scheduled_downtime
      */
     public void setInScheduledDowntime(Boolean inScheduledDowntime) {
         this.inScheduledDowntime = inScheduledDowntime;
@@ -260,8 +264,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The activeChecksEnabled
+     * @return The activeChecksEnabled
      */
     public Boolean getActiveChecksEnabled() {
         return activeChecksEnabled;
@@ -269,8 +272,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param activeChecksEnabled
-     *     The active_checks_enabled
+     * @param activeChecksEnabled The active_checks_enabled
      */
     public void setActiveChecksEnabled(Boolean activeChecksEnabled) {
         this.activeChecksEnabled = activeChecksEnabled;
@@ -278,8 +280,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The passiveChecksEnabled
+     * @return The passiveChecksEnabled
      */
     public Boolean getPassiveChecksEnabled() {
         return passiveChecksEnabled;
@@ -287,8 +288,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param passiveChecksEnabled
-     *     The passive_checks_enabled
+     * @param passiveChecksEnabled The passive_checks_enabled
      */
     public void setPassiveChecksEnabled(Boolean passiveChecksEnabled) {
         this.passiveChecksEnabled = passiveChecksEnabled;
@@ -296,8 +296,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The notificationsEnabled
+     * @return The notificationsEnabled
      */
     public Boolean getNotificationsEnabled() {
         return notificationsEnabled;
@@ -305,8 +304,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param notificationsEnabled
-     *     The notifications_enabled
+     * @param notificationsEnabled The notifications_enabled
      */
     public void setNotificationsEnabled(Boolean notificationsEnabled) {
         this.notificationsEnabled = notificationsEnabled;
@@ -314,8 +312,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The hasBeenAcknowledged
+     * @return The hasBeenAcknowledged
      */
     public Boolean getHasBeenAcknowledged() {
         return hasBeenAcknowledged;
@@ -323,8 +320,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param hasBeenAcknowledged
-     *     The has_been_acknowledged
+     * @param hasBeenAcknowledged The has_been_acknowledged
      */
     public void setHasBeenAcknowledged(Boolean hasBeenAcknowledged) {
         this.hasBeenAcknowledged = hasBeenAcknowledged;
@@ -332,8 +328,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The actionUrl
+     * @return The actionUrl
      */
     public Object getActionUrl() {
         return actionUrl;
@@ -341,8 +336,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param actionUrl
-     *     The action_url
+     * @param actionUrl The action_url
      */
     public void setActionUrl(Object actionUrl) {
         this.actionUrl = actionUrl;
@@ -350,8 +344,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The notesUrl
+     * @return The notesUrl
      */
     public Object getNotesUrl() {
         return notesUrl;
@@ -359,8 +352,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param notesUrl
-     *     The notes_url
+     * @param notesUrl The notes_url
      */
     public void setNotesUrl(Object notesUrl) {
         this.notesUrl = notesUrl;
@@ -368,8 +360,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @return
-     *     The statusInformation
+     * @return The statusInformation
      */
     public String getStatusInformation() {
         return statusInformation;
@@ -377,8 +368,7 @@ public class ServiceStatu {
 
     /**
      * 
-     * @param statusInformation
-     *     The status_information
+     * @param statusInformation The status_information
      */
     public void setStatusInformation(String statusInformation) {
         this.statusInformation = statusInformation;
