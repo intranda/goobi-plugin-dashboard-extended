@@ -36,6 +36,7 @@ import de.sub.goobi.persistence.managers.StepManager;
 
 public class DashboardHelperTasks {
     private XMLConfiguration config;
+    private List<Step> assignedSteps = null;
 
     public DashboardHelperTasks(XMLConfiguration pluginConfig) {
         config = pluginConfig;
@@ -46,10 +47,10 @@ public class DashboardHelperTasks {
     }
 
     public List<Step> getAssignedSteps() {
-        if (Helper.getCurrentUser() != null) {
+        if (Helper.getCurrentUser() != null && this.assignedSteps == null) {
             String sql = FilterHelper.criteriaBuilder("", false, false, true, true, false, true);
-            return StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 10);
+            this.assignedSteps = StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 10);
         }
-        return null;
+        return assignedSteps;
     }
 }

@@ -41,6 +41,7 @@ public class DashboardHelperProcesses {
 
     private static final Logger logger = Logger.getLogger(DashboardHelperProcesses.class);
     private XMLConfiguration config;
+    private LineChartModel processesPerMonth = null;
 
     public DashboardHelperProcesses(XMLConfiguration xmlConfiguration) {
         config = xmlConfiguration;
@@ -66,23 +67,26 @@ public class DashboardHelperProcesses {
     }
 
     public LineChartModel getProcessesPerMonth() {
-        LineChartModel model = new LineChartModel();
-        model.setExtender("ext");
-        ChartSeries series = new ChartSeries();
-        series.setLabel("Months");
+        if (this.processesPerMonth == null) {
+            LineChartModel model = new LineChartModel();
+            model.setExtender("ext");
+            ChartSeries series = new ChartSeries();
+            series.setLabel("Months");
 
-        List list = ProcessManager.runSQL(
-                "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false  GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
-        Collections.reverse(list);
-        for (Object obj : list) {
-            Object[] o = (Object[]) obj;
-            String label = o[0] + "/" + o[1];
-            Integer number = Integer.valueOf((String) o[2]);
-            series.set(label, number);
+            List<?> list = ProcessManager.runSQL(
+                    "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false  GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
+            Collections.reverse(list);
+            for (Object obj : list) {
+                Object[] o = (Object[]) obj;
+                String label = o[0] + "/" + o[1];
+                Integer number = Integer.valueOf((String) o[2]);
+                series.set(label, number);
+            }
+
+            model.addSeries(series);
+            this.processesPerMonth = model;
         }
-
-        model.addSeries(series);
-        return model;
+        return this.processesPerMonth;
     }
 
     public boolean isShowStatistics() {
