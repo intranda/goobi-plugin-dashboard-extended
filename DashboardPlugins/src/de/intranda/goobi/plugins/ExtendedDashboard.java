@@ -1,5 +1,10 @@
 package de.intranda.goobi.plugins;
 
+import java.nio.file.Path;
+import java.util.HashMap;
+
+import org.goobi.beans.Step;
+import org.goobi.production.enums.PluginGuiType;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
@@ -26,7 +31,9 @@ package de.intranda.goobi.plugins;
  * exception statement from your version.
  */
 import org.goobi.production.enums.PluginType;
+import org.goobi.production.enums.StepReturnValue;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
+import org.goobi.production.plugin.interfaces.IRestGuiPlugin;
 
 import de.intranda.digiverso.model.helper.DashboardHelperBatches;
 import de.intranda.digiverso.model.helper.DashboardHelperItm;
@@ -36,9 +43,10 @@ import de.intranda.digiverso.model.helper.DashboardHelperRss;
 import de.intranda.digiverso.model.helper.DashboardHelperTasks;
 import de.sub.goobi.config.ConfigPlugins;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
+import spark.Service;
 
 @PluginImplementation
-public class ExtendedDashboard implements IDashboardPlugin {
+public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     private DashboardHelperRss rssHelper;
     private DashboardHelperItm itmHelper;
@@ -140,6 +148,70 @@ public class ExtendedDashboard implements IDashboardPlugin {
     public void update() {
         // System.out.println("ich polle");
         // do nothing
+    }
+
+    @Override
+    public String cancel() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean execute() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public String finish() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getPagePath() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public PluginGuiType getPluginGuiType() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Step getStep() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void initialize(Step arg0, String arg1) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public HashMap<String, StepReturnValue> validate() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void extractAssets(Path arg0) {
+        // do nothing
+    }
+
+    @Override
+    public String[] getJsPaths() {
+        return new String[0];
+    }
+
+    @Override
+    public void initRoutes(Service http) {
+        // TODO Auto-generated method stub
+
     }
 
 }
