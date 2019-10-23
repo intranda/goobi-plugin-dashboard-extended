@@ -46,19 +46,34 @@
 		    var language = "#{SpracheForm.locale.language}"
 			fetch("/goobi/api/messages/" + language).then(resp => {
 		        resp.json().then(msgs => {
-					window.mountRssFeed(
-				        document.getElementById("jsRssFeed"),
-				        {
-				            msgs: msgs,
-				            show: "#{NavigationForm.uiStatus.dashboard_rss}"
-				        }
-				    );
-					window.mountItmView(
-					        document.getElementById("jsItmView"),
+		            var rssEle = document.getElementById("jsRssFeed")
+		            if(rssEle) {
+						window.mountRssFeed(
+					        rssEle,
+					        {
+					            msgs: msgs,
+					            show: "#{NavigationForm.uiStatus.dashboard_rss}"
+					        }
+					    );
+		            }
+		            var itmEle = document.getElementById("jsItmView")
+		            if(itmEle) {
+						window.mountItmView(
+					        itmEle,
 					        {
 					            msgs: msgs
 					        }
 					    );
+		            }
+					var nagiosEle = document.getElementById("jsNagiosView")
+		            if(nagiosEle) {
+						window.mountNagios(
+					        nagiosEle,
+					        {
+					            msgs: msgs
+					        }
+					    );
+		             }
 	        	})
 	        })
 		</script>

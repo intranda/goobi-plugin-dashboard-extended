@@ -59,7 +59,7 @@ public class Host {
             return;
         }
         for (ServiceStatu ss : nagios.getStatus().getServiceStatus()) {
-            if (!ss.getStatus().equals("OK")) {
+            if (!"OK".equals(ss.getStatus()) && "HARD".equals(ss.getStateType())) {
                 if (ss.getStatus().equals("CRITICAL")) {
                     summary = "CRITICAL";
                     break;

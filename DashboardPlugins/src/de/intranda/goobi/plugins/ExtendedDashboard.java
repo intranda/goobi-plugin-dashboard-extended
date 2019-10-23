@@ -219,6 +219,9 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
             http.get("/itm", (req, res) -> {
                 return new Gson().toJson(this.getItmHelper().getItmPlugins());
             });
+            http.get("/nagios", (req, res) -> {
+                return new Gson().toJson(this.getNagiosHelper().getHosts());
+            });
         });
 
     }

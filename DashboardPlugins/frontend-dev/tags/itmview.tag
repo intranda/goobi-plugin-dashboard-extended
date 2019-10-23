@@ -3,7 +3,7 @@
 	<div class="box-title">
 		<h3>
 			<i class="fa fa-briefcase"></i>
-			<span>"intranda TaskManager:</span>
+			<span>intranda TaskManager:</span>
 			<span if="{state.currentItmPlugin == null}">Plugins</span>
 			<span if="{state.currentItmPlugin != null}">{state.currentItmPlugin.name}</span>
 		</h3>
