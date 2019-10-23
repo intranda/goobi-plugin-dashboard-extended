@@ -42,7 +42,6 @@ export default {
       if(props.show != 'down') {
 	      fetch(`/goobi/plugins/exdashboard/rssfeed`).then(resp => {
 	        resp.json().then(json => {
-	          console.log("got feed: " + json)
 	          this.state.feed = json;
 	          this.update();
 	        })
