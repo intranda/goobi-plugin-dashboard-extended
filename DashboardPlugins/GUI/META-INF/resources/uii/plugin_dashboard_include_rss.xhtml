@@ -23,35 +23,7 @@
 						</h:commandLink>
 					</div>
 			</div>
-			<div class="box-content">
-			
-				<h:panelGroup style="padding:0px;display:block;" rendered="#{DashboardForm.plugin.rssHelper.feed == null}">
-					<h:outputText styleClass="alert alert-info alert-dismissable margin-bottom-10" value="#{msgs.dashboard_rssNotLoaded}" />
-					<p:poll interval="3" stop="#{DashboardForm.plugin.rssHelper.feed != null}" listener="#{DashboardForm.plugin.update}" update="dashboard-rss" />
-				</h:panelGroup>
-			
-				<h:panelGroup styleClass="padding:10px;display:block;" rendered="#{DashboardForm.plugin.rssHelper.feed != null}">
-					<ui:repeat value="#{DashboardForm.plugin.rssHelper.feed}" var="feed" varStatus="status">
-		
-						<h:panelGroup rendered="#{status.index lt 3 or NavigationForm.uiStatus.dashboard_rss eq 'down'}" styleClass="margin-sides-10 block">
-		
-							<h:panelGroup rendered="#{not status.first}">
-								<hr style="margin: 10px" />
-							</h:panelGroup>
-		
-							<div class="row">
-								<a href="#{feed.link}" target="_blank">
-									<h:outputText escape="false" value="#{feed.title}" />
-								</a>
-							</div>
-		
-							<div class="row margin-top-more">
-								<h:outputText escape="false" value="#{feed.description}" />
-							</div>
-						</h:panelGroup>
-					</ui:repeat>
-				</h:panelGroup>
-			</div>
+			<div id="jsRssFeed"></div>
 		</div>
         </h:form>
     </composite:implementation>

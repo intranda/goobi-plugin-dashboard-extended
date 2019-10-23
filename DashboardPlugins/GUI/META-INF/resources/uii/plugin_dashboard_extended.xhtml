@@ -41,7 +41,21 @@
 			</div>
 		</div>
 		
-		
+		<script src="plugin_dashboard_extended_tags.js"></script>
+		<script>
+		    var language = "#{SpracheForm.locale.language}"
+			fetch("/goobi/api/messages/" + language).then(resp => {
+		        resp.json().then(msgs => {
+					window.mountRssFeed(
+				        document.getElementById("jsRssFeed"),
+				        {
+				            msgs: msgs,
+				            show: "#{NavigationForm.uiStatus.dashboard_rss}"
+				        }
+				    );
+	        	})
+	        })
+		</script>
 	</composite:implementation>
 
 </ui:composition>

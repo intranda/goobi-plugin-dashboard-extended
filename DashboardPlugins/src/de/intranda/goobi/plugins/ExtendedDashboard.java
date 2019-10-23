@@ -35,6 +35,8 @@ import org.goobi.production.enums.StepReturnValue;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 import org.goobi.production.plugin.interfaces.IRestGuiPlugin;
 
+import com.google.gson.Gson;
+
 import de.intranda.digiverso.model.helper.DashboardHelperBatches;
 import de.intranda.digiverso.model.helper.DashboardHelperItm;
 import de.intranda.digiverso.model.helper.DashboardHelperNagios;
@@ -210,7 +212,11 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     @Override
     public void initRoutes(Service http) {
-        // TODO Auto-generated method stub
+        http.path("/exdashboard", () -> {
+            http.get("/rssfeed", (req, res) -> {
+                return new Gson().toJson(this.getRssHelper().getFeed());
+            });
+        });
 
     }
 

@@ -32,7 +32,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
-import org.primefaces.context.RequestContext;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -44,76 +43,54 @@ import de.sub.goobi.helper.HttpClientHelper;
 public class DashboardHelperRss {
 
     private XMLConfiguration config;
-    List<RssEntry> feeds;
-    private Long lastRead = null;
 
     public DashboardHelperRss(XMLConfiguration pluginConfig) {
         config = pluginConfig;
     }
 
-    private void readRss() {
-        Thread rssThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<RssEntry> internalFeeds = new ArrayList<>();
-                int count = 10; // desired number of feeds to retrieve
-                SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
-
-                try {
-                    SyndFeedInput input = new SyndFeedInput();
-                    SyndFeed feed = input.build(new StringReader(HttpClientHelper.getStringFromUrl(getFeedUrl())));
-
-                    @SuppressWarnings("unchecked")
-                    List<SyndEntry> feedList = feed.getEntries();
-                    int feedSize = feedList.size();
-
-                    // Save only count requested
-                    if (feedSize > count) {
-                        feedSize = count;
-                    }
-
-                    for (int i = 0; i < feedSize; i++) {
-                        SyndEntry entry = feedList.get(i);
-                        RssEntry rss = new RssEntry();
-                        String title = entry.getTitle();
-                        rss.setTitle(title);
-                        rss.setAuthor(entry.getAuthor());
-                        try {
-                            Date d = entry.getPublishedDate();
-                            rss.setPublishedDate(df.format(d));
-                        } catch (Exception e) {
-                        }
-                        rss.setLink(entry.getLink());
-                        String description = entry.getDescription().getValue();
-                        rss.setDescription(description);
-                        internalFeeds.add(rss);
-                    }
-                } catch (Exception e) {
-                    internalFeeds = new ArrayList<RssEntry>();
-                    RssEntry rss = new RssEntry();
-                    rss.setTitle("Error");
-                    rss.setAuthor("");
-                    rss.setDescription(e.getMessage());
-                    internalFeeds.add(rss);
-                }
-                feeds = internalFeeds;
-            }
-        });
-        rssThread.start();
-    }
-
     public List<RssEntry> getFeed() {
-        Long now = System.currentTimeMillis();
-        // never read or 15 min ago
-        if (isShowRss() && (lastRead == null || now - lastRead > config.getInt("rss-cache-time", 900000))) {
-            readRss();
-            lastRead = System.currentTimeMillis();
+        List<RssEntry> internalFeeds = new ArrayList<>();
+        int count = 10; // desired number of feeds to retrieve
+        SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
+
+        try {
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new StringReader(HttpClientHelper.getStringFromUrl(getFeedUrl())));
+
+            @SuppressWarnings("unchecked")
+            List<SyndEntry> feedList = feed.getEntries();
+            int feedSize = feedList.size();
+
+            // Save only count requested
+            if (feedSize > count) {
+                feedSize = count;
+            }
+
+            for (int i = 0; i < feedSize; i++) {
+                SyndEntry entry = feedList.get(i);
+                RssEntry rss = new RssEntry();
+                String title = entry.getTitle();
+                rss.setTitle(title);
+                rss.setAuthor(entry.getAuthor());
+                try {
+                    Date d = entry.getPublishedDate();
+                    rss.setPublishedDate(df.format(d));
+                } catch (Exception e) {
+                }
+                rss.setLink(entry.getLink());
+                String description = entry.getDescription().getValue();
+                rss.setDescription(description);
+                internalFeeds.add(rss);
+            }
+        } catch (Exception e) {
+            internalFeeds = new ArrayList<RssEntry>();
+            RssEntry rss = new RssEntry();
+            rss.setTitle("Error");
+            rss.setAuthor("");
+            rss.setDescription(e.getMessage());
+            internalFeeds.add(rss);
         }
-        if (feeds != null) {
-            RequestContext reqCtx = RequestContext.getCurrentInstance();
-            reqCtx.execute("poll.stop();");
-        }
-        return feeds;
+        return internalFeeds;
     }
 
     public String getFeedUrl() {
