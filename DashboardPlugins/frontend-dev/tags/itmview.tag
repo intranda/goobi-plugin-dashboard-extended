@@ -159,6 +159,10 @@ export default {
         this.update();
     },
     reload() {
+        if(this.state.itmPlugins.length > 0) {
+            this.state.itmPlugins = [];
+            this.update();
+        }
         fetch(`/goobi/plugins/exdashboard/itm`).then(resp => {
 	        resp.json().then(json => {
 	          this.state.itmPlugins = json;

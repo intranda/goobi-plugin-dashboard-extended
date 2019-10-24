@@ -142,6 +142,10 @@ export default {
         return "badge-intranda-red";
     },
     reload() {
+      if(this.state.hosts.length > 0) {
+	      this.state.hosts = [];
+	      this.update();
+      }
       fetch("/goobi/plugins/exdashboard/nagios").then(resp => {
           resp.json().then(json => {
             this.state.hosts = json;

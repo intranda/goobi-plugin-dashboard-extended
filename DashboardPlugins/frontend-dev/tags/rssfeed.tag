@@ -6,6 +6,9 @@
 				<span>{props.feedTitle}</span>
 			</h3>
 				<div class="actions">
+					<a class="btn btn-mini" onclick={loadFeed} title="{msg('reload')}">
+						<i class="fa fa-refresh"></i>
+					</a>
 					<a href="{props.feedUrl}" class="btn btn-mini" title="#{msg.rssSubscribe}" target="_blank"> <i class="fa fa-rss" />
 					</a>
 					<a class="btn btn-mini" onclick={toggleShow} style="cursor: pointer;"
@@ -89,6 +92,10 @@ export default {
       return "???" + str + "???";
     },
     loadFeed() {
+       if(this.state.feed.length > 0) {
+	       this.state.feed = [];
+	       this.update();
+       }
        fetch(`/goobi/plugins/exdashboard/rssfeed`).then(resp => {
         resp.json().then(json => {
           this.state.feed = json;
