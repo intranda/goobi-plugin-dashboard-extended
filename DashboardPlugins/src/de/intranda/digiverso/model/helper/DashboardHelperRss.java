@@ -50,7 +50,7 @@ public class DashboardHelperRss {
 
     public List<RssEntry> getFeed() {
         List<RssEntry> internalFeeds = new ArrayList<>();
-        int count = 10; // desired number of feeds to retrieve
+        int count = 5; // desired number of feeds to retrieve
         SimpleDateFormat df = new SimpleDateFormat("EEEE MMMM dd, yyyy HH:mm:ss");
 
         try {

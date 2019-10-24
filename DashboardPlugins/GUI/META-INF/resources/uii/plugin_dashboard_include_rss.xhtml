@@ -6,25 +6,7 @@
 
     <composite:implementation>
 		<h:form id="dashboard-rss">
-		<div class="box box-color box-bordered">
-			<div class="box-title">
-				<h3>
-					<i class="fa fa-globe"></i>
-					<h:outputText value="#{msgs[DashboardForm.plugin.rssHelper.feedTitle]}"/>
-				</h3>
-					<div class="actions">
-						<a href="#{DashboardForm.plugin.rssHelper.feedUrl}" class="btn btn-mini" title="#{msg.rssSubscribe}" target="_blank"> <i class="fa fa-rss" />
-						</a>
-						<h:commandLink styleClass="btn btn-mini" action="#{NavigationForm.Reload}"
-							title="#{NavigationForm.uiStatus.dashboard_rss eq 'up'?msgs.showBoxDetailsOn:msgs.showBoxDetailsOff}">
-							<i class="fa #{NavigationForm.uiStatus.dashboard_rss eq 'down'?'fa-angle-up':'fa-angle-down'}" />
-							<f:setPropertyActionListener target="#{NavigationForm.uiStatus.dashboard_rss}"
-								value="#{NavigationForm.uiStatus.dashboard_rss eq 'down'?'up':'down'}" />
-						</h:commandLink>
-					</div>
-			</div>
 			<div id="jsRssFeed"></div>
-		</div>
         </h:form>
     </composite:implementation>
 
