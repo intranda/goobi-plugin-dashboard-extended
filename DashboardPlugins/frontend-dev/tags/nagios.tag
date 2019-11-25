@@ -36,7 +36,7 @@
 			<div if={state.show != 'down'} style="padding:10px;">
 	
 	
-				<template each={host in state.hosts}>
+				<div each={host in state.hosts} key={host.name}>
 						<div style="height: 1px; background-color: #cccccc; text-align: left; margin: 25px 20px 40px 0px;">
 							<div class="label {host.summary == 'OK'?'label-intranda-green':host.summary == 'WARNING'?'label-intranda-orange':'label-intranda-red'}" style="position: relative; top: -1em; font-size: 14px; font-weight: normal; padding: 5px; display: inline-block; border: white solid 5px;">
 								<i class="fa {host.summary == 'OK'?'fa-check':host.summary == 'WARNING'?'fa-exclamation-triangle':'fa-times-circle'}"/>
@@ -45,13 +45,13 @@
 						</div>
 					
 						<div if={host.summary != 'OK' && host.nagios != null} style="margin-top:-15px;">
-							<span each={ mystatus in host.nagios.status.service_status} 
+							<span each={ mystatus in host.nagios.status.service_status} key={mystatus.service_description} 
 								class="badge {mystatus.badgeColor} font-size-xs" style="font-weight:normal; margin:3px;" 
 								title="{mystatus.status_information}" rel="tooltip">
 								{mystatus.service_display_name}
 							</span>
 						</div>
-				</template>
+				</div>
 			</div>
 	
 			<div if={state.show == 'down'}>
@@ -148,6 +148,7 @@ export default {
       }
       fetch("/goobi/plugins/exdashboard/nagios").then(resp => {
           resp.json().then(json => {
+            console.log(json)
             this.state.hosts = json;
             for(var host of this.state.hosts) {
                 if(host.nagios) {

@@ -9,7 +9,7 @@
   "author": "Oliver Paetzel",
   "license": "GPL-2.0-or-later",
   "dependencies": {
-    "riot": "^4.6.5"
+    "riot": "^4.6.6"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

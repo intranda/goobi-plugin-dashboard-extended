@@ -637,7 +637,7 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@riotjs/compiler@^4.2.6", "@riotjs/compiler@^4.5.1":
+"@riotjs/compiler@^4.2.6":
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/@riotjs/compiler/-/compiler-4.5.1.tgz#13e6c8c9fa79a576b6fa5ac1d7c6793c94b434fc"
   integrity sha512-sXQmRvQ0DQKcaGjuLCLyXLIqeXf6ZIzYP0hAT42nvE7N2q4o0WzZ2nm2XgfGrfLjsfjIpmtpF34ZQCI0Fm+kzg==
@@ -653,10 +653,26 @@
     recast "^0.18.2"
     source-map "^0.7.3"
 
-"@riotjs/dom-bindings@^4.4.6":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@riotjs/dom-bindings/-/dom-bindings-4.4.6.tgz#c589268eb52ffafa0c0893dd64c079bd917dbe24"
-  integrity sha512-KAG3isy55vvHPNrDCSZV+YFkQi2anL4Zx0DNfbTqST/HKeoBqab+yxbggjSUM8jRAKgnuC3DTanXm0QvFtcKUg==
+"@riotjs/compiler@^4.5.2":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@riotjs/compiler/-/compiler-4.5.2.tgz#877d46b86b31170bc77eb44353feb3b610edc916"
+  integrity sha512-8b+/fr895EsIMeenQy+lWrD4MwyhC0yp8x+hgw512WUPi9MDeBsUlDdh/LZ+MDfNz1dGMp4zTVO3vQiH7rA4EQ==
+  dependencies:
+    "@riotjs/parser" "^4.1.0"
+    "@riotjs/util" "1.1.0"
+    acorn "^7.1.0"
+    cssesc "^3.0.0"
+    cumpa "^1.0.1"
+    curri "^1.0.1"
+    dom-nodes "^1.1.3"
+    globals "^12.1.1"
+    recast "^0.18.5"
+    source-map "^0.7.3"
+
+"@riotjs/dom-bindings@^4.4.7":
+  version "4.4.7"
+  resolved "https://registry.yarnpkg.com/@riotjs/dom-bindings/-/dom-bindings-4.4.7.tgz#ef9650db2fb0b0c96ee0bf7efab19fcd4be693c4"
+  integrity sha512-axn+1XmZS3LfvHA9vhP7vFab1uMIkCWv5dA1/OGWAoBZ/FKcTs3BxQiVgPLvf48xU3OovpHdH9PTekWCnxvZ7Q==
   dependencies:
     "@riotjs/util" "^1.1.0"
     domdiff "^2.1.0"
@@ -1858,6 +1874,13 @@ globals@^12.1.0:
   dependencies:
     type-fest "^0.8.1"
 
+globals@^12.1.1:
+  version "12.3.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-12.3.0.tgz#1e564ee5c4dded2ab098b0f88f24702a3c56be13"
+  integrity sha512-wAfjdLgFsPZsklLJvOBUBmzYE8/CwhEqSBEMRXA3qxIiNtyqvjYurAtIfDh6chlEPUfmTY3MnZh5Hfh4q0UlIw==
+  dependencies:
+    type-fest "^0.8.1"
+
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
@@ -2877,7 +2900,7 @@ readdirp@^2.2.1:
     micromatch "^3.1.10"
     readable-stream "^2.0.2"
 
-recast@^0.18.2:
+recast@^0.18.2, recast@^0.18.5:
   version "0.18.5"
   resolved "https://registry.yarnpkg.com/recast/-/recast-0.18.5.tgz#9d5adbc07983a3c8145f3034812374a493e0fe4d"
   integrity sha512-sD1WJrpLQAkXGyQZyGzTM75WJvyAd98II5CHdK3IYbt/cZlU0UzCRVU11nUFNXX9fBVEt4E9ajkMjBlUlG+Oog==
@@ -2977,13 +3000,13 @@ rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.3:
   dependencies:
     glob "^7.1.3"
 
-riot@^4.6.5:
-  version "4.6.5"
-  resolved "https://registry.yarnpkg.com/riot/-/riot-4.6.5.tgz#067854146c50d48b10e8d1e8eeebb5724cf923bc"
-  integrity sha512-pq0LgbTpvyE0CyZAVjWvxoiDWTc4aIlNiUGzFISCbUYYf4tU8jHLWTo8bdG453k1cpxQYEHIZXcSaGbZzoxHVQ==
+riot@^4.6.6:
+  version "4.6.6"
+  resolved "https://registry.yarnpkg.com/riot/-/riot-4.6.6.tgz#e3f1d969f85da7644051f095dc7102ab6c9567d7"
+  integrity sha512-kgXv0yv4EIREpM8NBhtiVOSjbU+vRrV8gYB8ykpJJc9l0bvDARWWteDnwvplhRGEvE1X9465EGuZ7vVNKGNx9w==
   dependencies:
-    "@riotjs/compiler" "^4.5.1"
-    "@riotjs/dom-bindings" "^4.4.6"
+    "@riotjs/compiler" "^4.5.2"
+    "@riotjs/dom-bindings" "^4.4.7"
     "@riotjs/util" "^1.1.0"
     bianco.attr "^1.0.0"
     bianco.query "^1.0.0"
