@@ -42,6 +42,7 @@
 		</div>
 		
 		<script src="plugin_dashboard_extended_tags.js"></script>
+		<script src="plugin_dashboard_extended_svelte.js"></script>
 		<script>
 		    var language = "#{SpracheForm.locale.language}"
 			fetch("/goobi/api/messages/" + language).then(resp => {
@@ -68,12 +69,19 @@
 		            }
 					var nagiosEle = document.getElementById("jsNagiosView")
 		            if(nagiosEle) {
-						window.mountNagios(
+		                new window.mountSvelteNagios({
+		                	target: nagiosEle,
+		                	props: {
+		                	    msgs: msgs
+		                	}
+		                })
+		                
+						/*window.mountNagios(
 					        nagiosEle,
 					        {
 					            msgs: msgs
 					        }
-					    );
+					    );*/
 		             }
 	        	})
 	        })

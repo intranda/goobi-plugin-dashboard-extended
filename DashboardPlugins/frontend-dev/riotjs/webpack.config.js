@@ -6,7 +6,7 @@ module.exports = {
     entry: './main.js',
     mode: "development",
     output: {
-        path: path.resolve(__dirname, '../GUI/META-INF/resources/uii/'),
+        path: path.resolve(__dirname, '../../GUI/META-INF/resources/uii/'),
         filename: 'plugin_dashboard_extended_tags.js'
     },
     module: {
