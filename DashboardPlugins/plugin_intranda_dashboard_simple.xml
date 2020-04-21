@@ -4,7 +4,7 @@
 	
 	<!-- RSS-Feed e.g. of last imports -->
 	<rss-cache-time>900000</rss-cache-time>
-	<rss-url>http://www.intranda.com/feed/</rss-url>
+	<rss-url>https://www.intranda.com/feed/</rss-url>
 	<rss-title>intranda Newsfeed</rss-title>
 	
 	<!-- sample values for GEI -->
