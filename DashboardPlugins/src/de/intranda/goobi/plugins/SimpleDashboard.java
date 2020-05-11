@@ -3,7 +3,7 @@ package de.intranda.goobi.plugins;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -72,5 +72,9 @@ public class SimpleDashboard implements IDashboardPlugin {
             rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
         }
         return rssHelper;
+    }
+
+    public boolean isShowSearch() {
+        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("search-show", true);
     }
 }
