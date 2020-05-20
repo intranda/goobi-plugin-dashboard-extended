@@ -4,11 +4,12 @@ import java.nio.file.Path;
 import java.util.HashMap;
 
 import org.goobi.beans.Step;
+import org.goobi.managedbeans.DatabasePaginator;
 import org.goobi.production.enums.PluginGuiType;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -32,6 +33,7 @@ import org.goobi.production.enums.PluginGuiType;
  */
 import org.goobi.production.enums.PluginType;
 import org.goobi.production.enums.StepReturnValue;
+import org.goobi.production.flow.statistics.hibernate.FilterHelper;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 import org.goobi.production.plugin.interfaces.IRestGuiPlugin;
 
@@ -44,6 +46,11 @@ import de.intranda.digiverso.model.helper.DashboardHelperProcesses;
 import de.intranda.digiverso.model.helper.DashboardHelperRss;
 import de.intranda.digiverso.model.helper.DashboardHelperTasks;
 import de.sub.goobi.config.ConfigPlugins;
+import de.sub.goobi.forms.NavigationForm;
+import de.sub.goobi.helper.Helper;
+import de.sub.goobi.persistence.managers.ProcessManager;
+import lombok.Getter;
+import lombok.Setter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import spark.Service;
 
@@ -57,6 +64,13 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
     private static final String PLUGIN_NAME = "intranda_dashboard_extended";
     private DashboardHelperBatches batchHelper;
     private DashboardHelperTasks tasksHelper;
+
+
+    private DatabasePaginator paginator = null;
+
+    @Getter
+    @Setter
+    private String filter = null;
 
     @Override
     public PluginType getType() {
@@ -226,4 +240,70 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     }
 
+
+    public void filterTemplates() {
+        String sql = FilterHelper.criteriaBuilder(filter, null, null, null, null, true, false);
+        if (!sql.isEmpty()) {
+            sql = sql + " AND ";
+        }
+        sql = sql + " prozesse.istTemplate = true ";
+
+        if (!sql.isEmpty()) {
+            sql = sql + " AND ";
+        }
+        sql = sql + " prozesse.ProjekteID not in (select ProjekteID from projekte where projectIsArchived = true) ";
+
+        ProcessManager m = new ProcessManager();
+        paginator = new DatabasePaginator(sortList(), sql, m, "process_all");
+
+    }
+
+    private String sortList() {
+        NavigationForm form = (NavigationForm) Helper.getManagedBeanValue("#{NavigationForm}");
+        String sortOrder = form.getUiStatus().get("sorting");
+        if (sortOrder == null) {
+            sortOrder = "titelAsc";
+            form.getUiStatus().put("sorting", sortOrder);
+        }
+        String answer = "prozesse.titel";
+        if (sortOrder.equals("titelAsc")) {
+            answer = "prozesse.titel";
+        } else if (sortOrder.equals("titelDesc")) {
+            answer = "prozesse.titel desc";
+        } else if (sortOrder.equals("batchAsc")) {
+            answer = "batchID";
+        } else if (sortOrder.equals("batchDesc")) {
+            answer = "batchID desc";
+        } else if (sortOrder.equals("projektAsc")) {
+            answer = "projekte.Titel";
+        } else if (sortOrder.equals("projektDesc")) {
+            answer = "projekte.Titel desc";
+        } else if (sortOrder.equals("vorgangsdatumAsc")) {
+            answer = "erstellungsdatum";
+        } else if (sortOrder.equals("vorgangsdatumDesc")) {
+            answer = "erstellungsdatum desc";
+        } else if (sortOrder.equals("fortschrittAsc")) {
+            answer = "sortHelperStatus";
+        } else if (sortOrder.equals("fortschrittDesc")) {
+            answer = "sortHelperStatus desc";
+        } else if (sortOrder.equals("idAsc")) {
+            answer = "prozesse.ProzesseID";
+        } else if (sortOrder.equals("idDesc")) {
+            answer = "prozesse.ProzesseID desc";
+        } else if (sortOrder.equals("institutionAsc")) {
+            answer = "institution.shortName";
+        } else if (sortOrder.equals("institutionDesc")) {
+            answer = "institution.shortName desc";
+        }
+
+        return answer;
+    }
+
+
+    public DatabasePaginator getPaginator() {
+        if (paginator == null) {
+            filterTemplates();
+        }
+        return paginator;
+    }
 }
