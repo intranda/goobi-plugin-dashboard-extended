@@ -15,8 +15,8 @@ Detail | Description
 **Plugin identifier**       | intranda_dashboard_extended
 **Plugin type**             | Dashboard plugin
 **Licence**                 | GPL 2.0 or newer  
-**Documentation (German)**  | https://docs.goobi.io/goobi-workflow-plugins-de/administration/plugin_intranda_administration_catalogue_poller
-**Documentation (English)** | https://docs.goobi.io/goobi-workflow-plugins-en/administration/plugin_intranda_administration_catalogue_poller
+**Documentation (German)**  | -
+**Documentation (English)** | -
 
 ## Goobi details
 
