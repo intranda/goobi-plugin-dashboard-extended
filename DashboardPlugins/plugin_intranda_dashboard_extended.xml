@@ -3,12 +3,12 @@
 <config_plugin>
 	
 	<!-- intranda TaskManager -->
-	<itm-show>false</itm-show>
+	<itm-show>true</itm-show>
 	<itm-cache-time>180000</itm-cache-time>
 	<itm-url>http://localhost:8080/itm/</itm-url>
 	
 	<!-- Nagios Monitoring -->
-	<nagios-show>false</nagios-show>
+	<nagios-show>true</nagios-show>
 	<nagios-cache-time>180000</nagios-cache-time>
 	<nagios-host>host.example.org</nagios-host>
 	<nagios-login>user</nagios-login>
