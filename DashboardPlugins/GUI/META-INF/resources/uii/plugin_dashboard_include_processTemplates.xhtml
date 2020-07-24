@@ -43,13 +43,13 @@
                                             <x:column
                                                 rendered="true"
                                                 id="ajaxcolumn"
-                                                styleClass="tableColumnOverflow maxWidth120"
-                                                headerstyleClass="#{NavigationForm.uiStatus.sorting=='titelDesc'?'sorting_desc':NavigationForm.uiStatus.sorting=='titelAsc'?'sorting_asc':'sorting'}">
+                                                styleClass="tableColumnOverflow maxWidth120">
                                                 <f:facet name="header">
                                                     <h:commandLink
                                                         styleClass="font-black-block"
                                                         action="#{DashboardForm.plugin.filterTemplates}">
                                                         <h:outputText value="#{msgs.titel}" />
+                                                        <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='titelDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='titelAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
                                                             value="#{NavigationForm.uiStatus.sorting=='titelAsc'?'titelDesc':'titelAsc'}" />
@@ -64,13 +64,13 @@
                                             <!-- +++++++++++++++++  Status ++++++++++++++++++++++++ -->
                                             <x:column
                                                 styleClass="tableColumnOverflow maxWidth80"
-                                                rendered="#{DashboardForm.plugin.showProcessTemplateStatusColumn}"
-                                                headerstyleClass="#{NavigationForm.uiStatus.sorting=='fortschrittDesc'?'sorting_desc':NavigationForm.uiStatus.sorting=='fortschrittAsc'?'sorting_asc':'sorting'}">
+                                                rendered="#{DashboardForm.plugin.showProcessTemplateStatusColumn}">
                                                 <f:facet name="header">
                                                     <h:commandLink
                                                         styleClass="font-black-block"
                                                         action="#{DashboardForm.plugin.filterTemplates}">
                                                         <h:outputText value="#{msgs.status}" />
+                                                        <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='fortschrittDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
                                                             value="#{NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fortschrittDesc':'fortschrittAsc'}" />
@@ -185,8 +185,7 @@
 
                                             <x:column
                                                 styleClass="tableColumnOverflow maxWidth80"
-                                                rendered="#{DashboardForm.plugin.showProcessTemplateProjectColumn}"
-                                                headerstyleClass="#{NavigationForm.uiStatus.sorting=='projektDesc'?'sorting_desc':NavigationForm.uiStatus.sorting=='projektAsc'?'sorting_asc':'sorting'}">
+                                                rendered="#{DashboardForm.plugin.showProcessTemplateProjectColumn}">
                                                 <f:facet name="header">
                                                     <!-- Header -->
                                                     <h:commandLink
@@ -194,6 +193,9 @@
                                                         action="#{DashboardForm.plugin.filterTemplates}"
                                                         title="#{msgs.projekt}">
                                                         <h:outputText value="#{msgs.projekt}" />
+                                                        <span
+                                                            class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='projektDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='projektAsc'?'fa-sort-asc':'fa-sort'}"></span>
+
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
                                                             value="#{NavigationForm.uiStatus.sorting=='projektAsc'?'projektDesc':'projektAsc'}" />
