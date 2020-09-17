@@ -1,5 +1,5 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk">
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
     <composite:interface>
     </composite:interface>
@@ -9,10 +9,10 @@
 		<h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showTasks and DashboardForm.plugin.tasksHelper.assignedSteps.size() gt 0}">
 			<div class="box box-color box-bordered">
 				<div class="box-title">
-					<h3>
+					<h2>
 						<i class="fa fa-list"></i>
 						<h:outputText value="#{msgs.assignedSteps}" />
-					</h3>
+					</h2>
 				</div>
 				<div class="box-content nopadding">
 
@@ -28,7 +28,7 @@
 										<td>
 
 											<!-- Bearbeitung übernehmen-Schaltknopf -->
-											<h:commandLink id="take" styleClass="btn btn-primary" rel="tooltip" action="#{AktuelleSchritteForm.SchrittDurchBenutzerUebernehmen}"
+											<h:commandLink pt:aria-label="#{msgs.bearbeitungDiesesSchrittsUebernehmen}" id="take" styleClass="btn btn-primary" rel="tooltip" action="#{AktuelleSchritteForm.SchrittDurchBenutzerUebernehmen}"
 												rendered="#{(item.bearbeitungsstatusEnum == 'OPEN' and !item.batchStep) or (item.bearbeitungsstatusEnum == 'OPEN' and item.batchStep and !item.batchSize)}"
 												title="#{msgs.bearbeitungDiesesSchrittsUebernehmen}">
 												<i class="fa fa-check"></i>
@@ -37,7 +37,7 @@
 											</h:commandLink>
 	
 											<!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
-											<h:commandLink action="task_edit" id="view1" styleClass="btn btn-warning" rel="tooltip"
+											<h:commandLink pt:aria-label="#{msgs.inBearbeitungDurch}: #{item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname:''}" action="task_edit" id="view1" styleClass="btn btn-warning" rel="tooltip"
 												rendered="#{(item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and !item.batchStep) or (item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and item.batchStep and !item.batchSize)}"
 												title="#{msgs.inBearbeitungDurch}: #{item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname:''}">
 												<i class="fa fa-cog"></i>
@@ -46,7 +46,7 @@
 											</h:commandLink>
 	
 											<!-- Bearbeiten-Schaltknopf (fremder Schritt) -->
-											<h:commandLink action="task_edit" id="view2" styleClass="btn" rel="tooltip"
+											<h:commandLink pt:aria-label="#{msgs.inBearbeitungDurch}: #{item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname:''}" action="task_edit" id="view2" styleClass="btn" rel="tooltip"
 												rendered="#{item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id != LoginForm.myBenutzer.id and (!item.batchStep or !item.batchSize)}"
 												title="#{msgs.inBearbeitungDurch}: #{(item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname : '')}">
 												<i class="fa fa-user-secret"></i>

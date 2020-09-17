@@ -1,64 +1,85 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:x="http://myfaces.apache.org/tomahawk"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
     <composite:interface>
     </composite:interface>
 
     <composite:implementation>
         <ui:fragment rendered="#{LoginForm.hasRole('Workflow_General_Search') or LoginForm.hasRole('Workflow_Processes')}">
-    
-    		<h:panelGroup rendered="#{DashboardForm.plugin.showSearch}">
-    			<div class="row">
-    				<div class="col-sm-12">
-    					<div class="box box-color orange box-bordered">
-    						<div class="box-title">
-    							<h3>
-    								<i class="fa fa-search"></i>
-    								<h:outputText value="#{msgs.suche}" />
-    							</h3>
-    						</div>
-    						<div class="box-content nopadding">
-    							<h:form id="myform" styleClass="form-vertical form-striped form-bordered" onkeypress="submitOnEnter(event);">
-    								<div class="form-group">
-    									<h:outputLabel styleClass="control-label " value="#{msgs.nachEinemBandSuchen}:" />
-    									<x:inputText styleClass="form-control" value="#{ProzessverwaltungForm.filter}" />
-    								</div>
-    	
-    	
-    								<div class="form-group">
-    									<h:outputLabel styleClass="control-label " value="#{msgs.anzeige}:" />
-    									<div class="checkbox">
-    										<label>
-    											<h:selectBooleanCheckbox value="#{ProzessverwaltungForm.showClosedProcesses}" />
-    											#{msgs.showClosedProcesses}
-    										</label>
-    									</div>
-    									<div class="checkbox">
-    										<label>
-    											<h:selectBooleanCheckbox value="#{ProzessverwaltungForm.showArchivedProjects}" />
-    											#{msgs.showArchivedProjects}
-    										</label>
-    									</div>
-    								</div>
-    	
-    								<div class="form-actions">
-    									<!-- search -->
-    									<h:commandLink styleClass="btn btn-success submitOnEnter pull-right font-size-s margin-bottom-most" id="absenden" type="submit"
-    										action="#{ProzessverwaltungForm.FilterAlleStart}">
-    										<i class="fa fa-search margin-right-5"></i>
-    										<h:outputText value="#{msgs.search}" />
-    										<x:updateActionListener property="#{ProzessverwaltungForm.modusAnzeige}" value="aktuell" />
-    										<f:setPropertyActionListener target="#{NavigationForm.aktuell}" value="a22" />
-    									</h:commandLink>
-    								</div>
-    							</h:form>
-    						</div>
-    					</div>
-    				</div>
-    
-    			</div>
-        		</h:panelGroup>
-            </ui:fragment>
+
+            <h:panelGroup rendered="#{DashboardForm.plugin.showSearch}">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="box box-color orange box-bordered">
+                            <div class="box-title">
+                                <h3>
+                                    <i class="fa fa-search"></i>
+                                    <h:outputText value="#{msgs.suche}" />
+                                </h3>
+                            </div>
+                            <div class="box-content nopadding">
+                                <h:form
+                                    id="myform"
+                                    styleClass="form-vertical form-striped form-bordered"
+                                    onkeypress="submitOnEnter(event);">
+                                    <div class="form-group">
+                                        <h:outputLabel
+                                            styleClass="control-label "
+                                            value="#{msgs.nachEinemBandSuchen}:" />
+                                        <x:inputText
+                                            pt:aria-label="#{msgs.search}"
+                                            styleClass="form-control"
+                                            value="#{ProzessverwaltungForm.filter}" />
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <h:outputLabel
+                                            styleClass="control-label "
+                                            value="#{msgs.anzeige}:" />
+                                        <div class="checkbox">
+                                            <label> <h:selectBooleanCheckbox value="#{ProzessverwaltungForm.showClosedProcesses}" />
+                                                #{msgs.showClosedProcesses}
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label> <h:selectBooleanCheckbox value="#{ProzessverwaltungForm.showArchivedProjects}" />
+                                                #{msgs.showArchivedProjects}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <!-- search -->
+                                        <h:commandLink
+                                            styleClass="btn btn-success submitOnEnter pull-right font-size-s margin-bottom-most"
+                                            id="absenden"
+                                            type="submit"
+                                            action="#{ProzessverwaltungForm.FilterAlleStart}">
+                                            <i class="fa fa-search margin-right-5"></i>
+                                            <h:outputText value="#{msgs.search}" />
+                                            <x:updateActionListener
+                                                property="#{ProzessverwaltungForm.modusAnzeige}"
+                                                value="aktuell" />
+                                            <f:setPropertyActionListener
+                                                target="#{NavigationForm.aktuell}"
+                                                value="a22" />
+                                        </h:commandLink>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </h:panelGroup>
+        </ui:fragment>
     </composite:implementation>
 
 </ui:composition>
