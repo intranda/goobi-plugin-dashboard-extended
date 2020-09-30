@@ -60,10 +60,10 @@
 
 <div class="box box-color lightgrey box-bordered">
 	<div class="box-title">
-		<h3>
+		<h2>
 			<i class="fa fa-binoculars"></i>
 			Monitoring
-		</h3>
+		</h2>
 
 		<div class="actions">
 

@@ -1,10 +1,10 @@
 <rssfeed>
 <div class="box box-color box-bordered">
 		<div class="box-title">
-			<h3>
+			<h2>
 				<i class="fa fa-globe"></i>
 				<span>{props.feedTitle}</span>
-			</h3>
+			</h2>
 				<div class="actions">
 					<a class="btn btn-mini" onclick={loadFeed} title="{msg('reload')}">
 						<i class="fa fa-refresh"></i>
