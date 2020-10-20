@@ -31,11 +31,11 @@
 		
 					<div class="row">
 						<div class="col-sm-12">
-							<h4>
+							<h3 style="font-size: 18px">
 								<a href="{entry.link}" target="_blank">
 									{entry.title}
 								</a>
-							</h4>
+							</h3>
 						</div>
 					</div>
 		
