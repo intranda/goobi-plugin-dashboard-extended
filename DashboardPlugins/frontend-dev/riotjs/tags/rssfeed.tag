@@ -6,12 +6,12 @@
 				<span>{props.feedTitle}</span>
 			</h2>
 				<div class="actions">
-					<a class="btn btn-mini" onclick={loadFeed} title="{msg('reload')}">
+					<a class="btn btn-mini" href="#" onclick={loadFeed} title="{msg('reload')}">
 						<i class="fa fa-refresh"></i>
 					</a>
 					<a href="{props.feedUrl}" class="btn btn-mini" title="#{msg.rssSubscribe}" target="_blank"> <i class="fa fa-rss" />
 					</a>
-					<a class="btn btn-mini" onclick={toggleShow} style="cursor: pointer;"
+					<a class="btn btn-mini" href="#" onclick={toggleShow} style="cursor: pointer;"
 						title="{state.show ? msg('showBoxDetailsOff') : msg('showBoxDetailsOn')}">
 						<i class="fa {state.show ? 'fa-angle-down':'fa-angle-up'}" />
 					</a>
