@@ -217,6 +217,7 @@
                                                     id="action22"
                                                     rel="tooltip"
                                                     onclick="preventDoubleSubmit(this);"
+                                                    pt:aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
                                                     title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
                                                     rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1}">
                                                     <i class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} " />
@@ -240,7 +241,7 @@
                                                             data-toggle="dropdown"> <span class="caret"></span>
                                                         </a>
                                                         <h:commandLink
-                                                            pt:aria-label="#{msgs.eineKopieDieserProzessvorlageAnlegen}"
+                                                            pt:aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
                                                             action="#{ProzesskopieForm.Prepare}"
                                                             rel="tooltip">
                                                             <i
@@ -257,7 +258,8 @@
                                                             <ui:repeat
                                                                 var="proj"
                                                                 value="#{ProzesskopieForm.availableProjects}">
-                                                                <li><h:commandLink action="#{ProzesskopieForm.Prepare}">
+                                                                <li><h:commandLink action="#{ProzesskopieForm.Prepare}"
+                                                                		pt:aria-label="#{proj.titel}">
                                                                         <h:outputText value="#{proj.titel}" />
                                                                         <x:updateActionListener
                                                                             property="#{item.projekt}"
@@ -303,7 +305,7 @@
                                                         </a>
                                                         <h:commandLink
                                                             action="#{MassImportForm.Prepare}"
-                                                            rel="tooltip">
+                                                            rel="tooltip" pt:aria-label="#{msgs.MassenImport}">
                                                             <i
                                                                 class="btn fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
                                                                 style="padding-left: 7px; padding-right: 7px;" />
@@ -318,7 +320,8 @@
                                                             <ui:repeat
                                                                 var="proj"
                                                                 value="#{ProzesskopieForm.availableProjects}">
-                                                                <li><h:commandLink action="#{MassImportForm.Prepare}">
+                                                                <li><h:commandLink action="#{MassImportForm.Prepare}"
+                                                                		pt:aria-label="#{proj.titel}">
                                                                         <h:outputText value="#{proj.titel}" />
                                                                         <x:updateActionListener
                                                                             property="#{item.projekt}"
