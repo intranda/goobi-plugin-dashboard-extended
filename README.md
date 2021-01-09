@@ -1,8 +1,8 @@
-# Goobi workflow Plugin: goobi-plugin-dashboard-example
+# Goobi workflow Plugin: goobi-plugin-dashboard-extended
 
 <img src="https://goobi.io/wp-content/uploads/logo_goobi_plugin.png" align="right" style="margin:0 0 20px 20px;" alt="Plugin for Goobi workflow" width="175" height="109">
 
-These are the example implementation for Goobi workflow dashboard plugins.
+This is the most popular dashboard plugin for Goobi workflow. It contains several boxes with information about current tasks, an RSS feed, process templates, a search box, some statistics, a batch timeline, a TaskManager integration and a Nagios/Iginga monitoring integration.
 
 This is a plugin for Goobi workflow, the open source workflow tracking software for digitisation projects. More information about Goobi workflow is available under https://goobi.io. If you want to get in touch with the user community simply go to https://community.goobi.io.
 
