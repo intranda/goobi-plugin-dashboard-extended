@@ -235,25 +235,12 @@
                                                         class="btn-group"
                                                         title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
                                                         data-toggle="tooltip">
-                                                        <a
+                                                        <button
+                                                            type="button"
                                                             class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
-                                                            style="padding-left: 4px; padding-right: 4px;"
-                                                            data-toggle="dropdown"> <span class="caret"></span>
-                                                        </a>
-                                                        <h:commandLink
-                                                            pt:aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-                                                            action="#{ProzesskopieForm.Prepare}"
-                                                            rel="tooltip">
-                                                            <i
-                                                                class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} "
-                                                                style="padding-left: 7px; padding-right: 7px;" />
-                                                            <f:passThroughAttribute
-                                                                name="data-toggle"
-                                                                value="tooltip" />
-                                                            <x:updateActionListener
-                                                                property="#{ProzesskopieForm.prozessVorlage}"
-                                                                value="#{item}" />
-                                                        </h:commandLink>
+                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                            style="padding-left: 4px; padding-right: 4px;"> <span class="caret"></span>
+                                                        </button>
                                                         <ul class="dropdown-menu  pull-right">
                                                             <ui:repeat
                                                                 var="proj"
@@ -270,6 +257,21 @@
                                                                     </h:commandLink></li>
                                                             </ui:repeat>
                                                         </ul>
+                                                        <h:commandLink
+                                                            pt:aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
+                                                            action="#{ProzesskopieForm.Prepare}"
+                                                            rel="tooltip">
+                                                            <i
+                                                                class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} "
+                                                                style="padding-left: 7px; padding-right: 7px;" />
+                                                            <f:passThroughAttribute
+                                                                name="data-toggle"
+                                                                value="tooltip" />
+                                                            <x:updateActionListener
+                                                                property="#{ProzesskopieForm.prozessVorlage}"
+                                                                value="#{item}" />
+                                                        </h:commandLink>
+                                                        
                                                     </div>
                                                 </h:panelGroup>
 
