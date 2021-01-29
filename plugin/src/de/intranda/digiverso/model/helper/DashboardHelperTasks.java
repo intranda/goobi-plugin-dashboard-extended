@@ -1,9 +1,13 @@
 package de.intranda.digiverso.model.helper;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -29,17 +33,86 @@ import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
 import org.goobi.beans.Step;
+import org.goobi.managedbeans.ProcessBean;
 import org.goobi.production.flow.statistics.hibernate.FilterHelper;
 
+import de.intranda.digiverso.model.tasks.TaskHistory;
 import de.sub.goobi.helper.Helper;
+import de.sub.goobi.persistence.managers.ControllingManager;
 import de.sub.goobi.persistence.managers.StepManager;
+import lombok.Getter;
+import lombok.Setter;
 
 public class DashboardHelperTasks {
     private XMLConfiguration config;
     private List<Step> assignedSteps = null;
+    @Getter
+    private boolean showHistory;
+    @Getter
+    private List<TaskHistory> history = new ArrayList<>();
+    @Getter
+    private int numberOfDays;
+    private String dateString;
+
+    @Getter
+    @Setter
+    private TaskHistory currentElement;
+
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public DashboardHelperTasks(XMLConfiguration pluginConfig) {
         config = pluginConfig;
+        showHistory = config.getBoolean("tasks-history", true);
+        if (showHistory) {
+
+            numberOfDays = config.getInt("tasks-history-period", 7);
+            LocalDate date = LocalDate.now().minusDays(numberOfDays);
+            dateString = dtf.format(date);
+
+            List<String> stepnames = Arrays.asList(config.getStringArray("tasks-history-title"));
+
+            StringBuilder stepnameFilter = new StringBuilder();
+            for (String title : stepnames) {
+                TaskHistory row = new TaskHistory(title);
+                history.add(row);
+
+                if (stepnameFilter.length() > 0) {
+                    stepnameFilter.append(", ");
+                }
+                stepnameFilter.append("\"");
+                stepnameFilter.append(title);
+                stepnameFilter.append("\"");
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("select titel, Bearbeitungsstatus, count(1) ");
+            sb.append("from schritte where Bearbeitungsstatus in (3,4) and ");
+            sb.append("titel in (");
+            sb.append(stepnameFilter.toString());
+            sb.append(") and BearbeitungsEnde > \"");
+            sb.append(dateString);
+            sb.append("\" ");
+            sb.append("group by titel, Bearbeitungsstatus");
+
+            List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sb.toString());
+            for (Object[] objArr : rawvalues) {
+                String title = (String) objArr[0];
+                String status = (String) objArr[1];
+                int numberOfTasks = Integer.valueOf((String) objArr[2]);
+                for (TaskHistory th : history) {
+                    if (th.getStepName().equals(title)) {
+                        switch (status) {
+                            case "3":
+                                th.setNumberOfFinishedTasks(numberOfTasks);
+                                break;
+                            case "4":
+                                th.setNumberOfErrorTasks(numberOfTasks);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public boolean isShowTasks() {
@@ -53,4 +126,33 @@ public class DashboardHelperTasks {
         }
         return assignedSteps;
     }
+
+    public String loadFinishedSteps() {
+        StringBuilder searchFilter = new StringBuilder();
+        searchFilter.append("\"stepdone:");
+        searchFilter.append(currentElement.getStepName());
+        searchFilter.append("\" \"stepfinishdate>");
+        searchFilter.append(dateString);
+        searchFilter.append("\"");
+        ProcessBean bean = (ProcessBean) Helper.getBeanByName("ProzessverwaltungForm", ProcessBean.class);
+        bean.setModusAnzeige("");
+        bean.setFilter(searchFilter.toString());
+
+        return bean.FilterAlleStart();
+    }
+
+    public String loadErrorSteps() {
+        StringBuilder searchFilter = new StringBuilder();
+        searchFilter.append("\"steperror:");
+        searchFilter.append(currentElement.getStepName());
+        searchFilter.append("\" \"stepfinishdate>");
+        searchFilter.append(dateString);
+        searchFilter.append("\"");
+        ProcessBean bean = (ProcessBean) Helper.getBeanByName("ProzessverwaltungForm", ProcessBean.class);
+        bean.setModusAnzeige("");
+        bean.setFilter(searchFilter.toString());
+
+        return bean.FilterAlleStart();
+    }
+
 }

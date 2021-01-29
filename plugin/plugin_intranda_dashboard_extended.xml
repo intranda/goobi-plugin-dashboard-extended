@@ -15,7 +15,7 @@
 	<nagios-password>pass</nagios-password>
 	
 	<!-- RSS-Feed e.g. of last imports -->
-	<rss-show>true</rss-show>
+	<rss-show>false</rss-show>
 	<rss-cache-time>900000</rss-cache-time>
 	<rss-url>https://www.intranda.com/feed/</rss-url>
 	<rss-title>News by intranda GmbH</rss-title>
@@ -23,8 +23,18 @@
 	<!-- Search -->
 	<search-show>true</search-show>
 	<!-- Tasks -->
-	<tasks-show>true</tasks-show>
-	<!-- Statistics -->
+    <tasks-show>true</tasks-show>
+    
+    <!-- show recent history  -->
+    <tasks-history>true</tasks-history>
+    <!-- show histroy for configured tasks -->
+    <tasks-history-title>Data import via Excel sheet</tasks-history-title>
+    <tasks-history-title>Scanning</tasks-history-title>
+    <tasks-history-title>Fileupload</tasks-history-title>
+    <!-- include status changes for the last X days -->
+    <tasks-history-period>7</tasks-history-period>
+	
+    <!-- Statistics -->
 	<statistics-show>true</statistics-show>
 	
 	<!-- Batches -->
