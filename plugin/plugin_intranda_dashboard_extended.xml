@@ -26,8 +26,8 @@
     <tasks-show>true</tasks-show>
     
     <!-- show recent history  -->
-    <tasks-history>true</tasks-history>
-    <!-- show histroy for configured tasks -->
+    <tasks-history>false</tasks-history>
+    <!-- show history for configured tasks -->
     <tasks-history-title>Data import via Excel sheet</tasks-history-title>
     <tasks-history-title>Scanning</tasks-history-title>
     <tasks-history-title>Fileupload</tasks-history-title>
