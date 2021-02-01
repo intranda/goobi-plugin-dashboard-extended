@@ -70,7 +70,10 @@ public class DashboardHelperTasks {
             dateString = dtf.format(date);
 
             List<String> stepnames = Arrays.asList(config.getStringArray("tasks-history-title"));
-
+            if (stepnames == null || stepnames.isEmpty()) {
+                showHistory = false;
+                return;
+            }
             StringBuilder stepnameFilter = new StringBuilder();
             for (String title : stepnames) {
                 TaskHistory row = new TaskHistory(title);
