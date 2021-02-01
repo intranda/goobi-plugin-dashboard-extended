@@ -3,6 +3,7 @@ package de.intranda.goobi.plugins;
 import java.nio.file.Path;
 import java.util.HashMap;
 
+import org.apache.commons.configuration.XMLConfiguration;
 import org.goobi.beans.Step;
 import org.goobi.managedbeans.DatabasePaginator;
 import org.goobi.production.enums.PluginGuiType;
@@ -45,6 +46,7 @@ import de.intranda.digiverso.model.helper.DashboardHelperNagios;
 import de.intranda.digiverso.model.helper.DashboardHelperProcesses;
 import de.intranda.digiverso.model.helper.DashboardHelperRss;
 import de.intranda.digiverso.model.helper.DashboardHelperTasks;
+import de.intranda.digiverso.model.queue.MessageQueueStatus;
 import de.sub.goobi.config.ConfigPlugins;
 import de.sub.goobi.forms.NavigationForm;
 import de.sub.goobi.helper.Helper;
@@ -67,9 +69,18 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     private DatabasePaginator paginator = null;
 
+    private MessageQueueStatus mq;
+
     @Getter
     @Setter
     private String filter = null;
+
+    private XMLConfiguration pluginConfig;
+
+    public ExtendedDashboard() {
+        pluginConfig = ConfigPlugins.getPluginConfig(PLUGIN_NAME);
+
+    }
 
     @Override
     public PluginType getType() {
@@ -92,72 +103,79 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     public DashboardHelperRss getRssHelper() {
         if (rssHelper == null) {
-            rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            rssHelper = new DashboardHelperRss(pluginConfig);
         }
         return rssHelper;
     }
 
     public DashboardHelperTasks getTasksHelper() {
         if (tasksHelper == null) {
-            tasksHelper = new DashboardHelperTasks(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            tasksHelper = new DashboardHelperTasks(pluginConfig);
         }
         return tasksHelper;
     }
 
     public DashboardHelperBatches getBatchHelper() {
         if (batchHelper == null) {
-            batchHelper = new DashboardHelperBatches(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            batchHelper = new DashboardHelperBatches(pluginConfig);
         }
         return batchHelper;
     }
 
     public DashboardHelperItm getItmHelper() {
         if (itmHelper == null) {
-            itmHelper = new DashboardHelperItm(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            itmHelper = new DashboardHelperItm(pluginConfig);
         }
         return itmHelper;
     }
 
     public DashboardHelperNagios getNagiosHelper() {
         if (nagiosHelper == null) {
-            nagiosHelper = new DashboardHelperNagios(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            nagiosHelper = new DashboardHelperNagios(pluginConfig);
         }
         return nagiosHelper;
     }
 
     public DashboardHelperProcesses getProcessHelper() {
         if (processHelper == null) {
-            processHelper = new DashboardHelperProcesses(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            processHelper = new DashboardHelperProcesses(pluginConfig);
         }
         return processHelper;
     }
 
+    public MessageQueueStatus getMessageQueueStatus() {
+        if (mq == null) {
+            mq = new MessageQueueStatus(pluginConfig);
+        }
+        return mq;
+    }
+
     public boolean isShowSearch() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("search-show", true);
+        return pluginConfig.getBoolean("search-show", true);
     }
 
     public boolean isShowHtmlBox() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("html-box-show", false);
+        return pluginConfig.getBoolean("html-box-show", false);
     }
 
     public String getHtmlBoxTitle() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getString("html-box-title", "- no title defined -");
+        return pluginConfig.getString("html-box-title", "- no title defined -");
     }
 
     public String getHtmlBoxContent() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getString("html-box-content", "- no content to show here -");
+        return pluginConfig.getString("html-box-content", "- no content to show here -");
     }
 
     public boolean getShowProcessTemplateStatusColumn() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("processTemplates-show-statusColumn", true);
+        return pluginConfig.getBoolean("processTemplates-show-statusColumn", true);
     }
 
     public boolean getShowProcessTemplateProjectColumn() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("processTemplates-show-projectColumn", true);
+        return pluginConfig.getBoolean("processTemplates-show-projectColumn", true);
     }
 
     public boolean getShowProcessTemplateMassImportButton() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("processTemplates-show-massImportButton", true);
+        return pluginConfig.getBoolean("processTemplates-show-massImportButton", true);
     }
 
     public void update() {
@@ -167,55 +185,46 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     @Override
     public String cancel() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public boolean execute() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public String finish() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String getPagePath() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public PluginGuiType getPluginGuiType() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Step getStep() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void initialize(Step arg0, String arg1) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public HashMap<String, StepReturnValue> validate() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void extractAssets(Path arg0) {
-        // do nothing
     }
 
     @Override

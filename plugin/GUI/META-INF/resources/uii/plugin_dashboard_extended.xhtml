@@ -23,7 +23,12 @@
 				<ui:include src="plugin_dashboard_include_processTemplates.xhtml" />
 				<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.showItm and LoginForm.maximaleBerechtigung le 2}">
 					<ui:include src="plugin_dashboard_include_itm.xhtml" />	
-				</h:panelGroup>		
+				</h:panelGroup>	
+                <h:panelGroup rendered="#{DashboardForm.plugin.messageQueueStatus.showMessageQueue}">
+                    <ui:include src="plugin_dashboard_include_queue.xhtml" /> 
+                </h:panelGroup> 
+                                
+                	
 			</div>
 			
 			<div class="col-sm-4">

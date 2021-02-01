@@ -49,6 +49,11 @@
 	<processTemplates-show-projectColumn>true</processTemplates-show-projectColumn>
 	<processTemplates-show-massImportButton>true</processTemplates-show-massImportButton>
 	
+    <!-- Message queue -->
+    <queue-show>true</queue-show>
+    <!-- switch between 'activemq' or 'sqs' implementation -->
+    <queue-type>activemq</queue-type>
+    
 	<!-- HTML box -->
 	<html-box-show>true</html-box-show>
 	<html-box-title>Goobi to go - Sample accounts</html-box-title>
