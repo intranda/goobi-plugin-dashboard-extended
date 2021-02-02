@@ -25,6 +25,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.Message;
+import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 
 import de.sub.goobi.config.ConfigurationHelper;
 import de.sub.goobi.helper.Helper;
@@ -133,7 +134,15 @@ public class MessageQueueStatus {
                 }
                 String queueUrl = client.getQueueUrl(QueueType.EXTERNAL_QUEUE.getName()).getQueueUrl();
 
-                List<Message> messages = client.receiveMessage(queueUrl).getMessages();
+                ReceiveMessageRequest req = new ReceiveMessageRequest();
+                List<String> attributes = new ArrayList<>();
+                attributes.add("All");
+                req.setAttributeNames(attributes);
+                req.setMaxNumberOfMessages(10);
+                req.setQueueUrl(queueUrl);
+                req.setVisibilityTimeout(0);
+                List<Message> messages = client.
+                        receiveMessage(req).getMessages();
 
                 for (Message m : messages) {
                     System.out.println("Attributes: " + m.getAttributes());
