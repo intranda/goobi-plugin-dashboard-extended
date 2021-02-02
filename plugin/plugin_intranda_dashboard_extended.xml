@@ -34,6 +34,9 @@
     <!-- include status changes for the last X days -->
     <tasks-history-period>7</tasks-history-period>
 	
+    <!-- show the last 10 tasks of the user -->
+    <tasks-latestChanges>true</tasks-latestChanges>
+    
     <!-- Statistics -->
 	<statistics-show>true</statistics-show>
 	

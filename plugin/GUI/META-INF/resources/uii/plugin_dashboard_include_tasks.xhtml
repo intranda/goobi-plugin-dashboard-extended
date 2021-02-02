@@ -158,6 +158,58 @@
         </h:panelGroup>
 
 
+<h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showLastChanges and DashboardForm.plugin.tasksHelper.taskChangeHistory.size() gt 0}">
+            <div class="box box-color box-bordered">
+                <div class="box-title">
+                    <h2>
+                        <i class="fa fa-list"></i>
+                        <h:outputText value="#{msgs.doneSteps}" />
+                    </h2>
+                </div>
+                <div class="box-content nopadding">
+
+                    <h:form>
+                        <table class="table table-hover responsive">
+                            <tbody>
+
+                                <ui:repeat
+                                    var="item"
+                                    value="#{DashboardForm.plugin.tasksHelper.taskChangeHistory}">
+                                    <tr>
+
+                                        <td
+                                            class="tableColumnMaxWidthLong"
+                                            title="#{item.process.titel}">#{item.process.titel}</td>
+                                        <td>#{item.closedStep.titel}</td>
+                                        <td>
+
+                                            <!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
+                                            <h:commandLink
+                                                pt:aria-label="#{msgs.inBearbeitungDurch}: #{item.closedStep.bearbeitungsbenutzer.nachVorname}"
+                                                action="#{DashboardForm.plugin.tasksHelper.reOpenTask}"
+                                                id="view1"
+                                                styleClass="btn btn-warning"
+                                                rel="tooltip"
+                                                rendered="#{item.assignable}"
+                                                title="#{msgs.inBearbeitungDurch}: #{item.closedStep.bearbeitungsbenutzer.nachVorname}">
+                                                <i class="fa fa-cog"></i>
+                                                <f:passThroughAttribute
+                                                    name="data-toggle"
+                                                    value="tooltip" />
+                                                <f:setPropertyActionListener
+                                                    value="#{item}"
+                                                    target="#{DashboardForm.plugin.tasksHelper.currentStep}" />
+                                            </h:commandLink>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:form>
+                </div>
+            </div>
+        </h:panelGroup>
+
 
 
         <h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showHistory}">

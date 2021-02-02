@@ -32,37 +32,54 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
+import org.goobi.beans.Process;
 import org.goobi.beans.Step;
+import org.goobi.beans.User;
 import org.goobi.managedbeans.ProcessBean;
+import org.goobi.managedbeans.StepBean;
 import org.goobi.production.flow.statistics.hibernate.FilterHelper;
 
+import de.intranda.digiverso.model.tasks.TaskChangeType;
 import de.intranda.digiverso.model.tasks.TaskHistory;
 import de.sub.goobi.helper.Helper;
+import de.sub.goobi.helper.enums.StepStatus;
+import de.sub.goobi.helper.exceptions.DAOException;
 import de.sub.goobi.persistence.managers.ControllingManager;
+import de.sub.goobi.persistence.managers.ProcessManager;
 import de.sub.goobi.persistence.managers.StepManager;
 import lombok.Getter;
 import lombok.Setter;
 
 public class DashboardHelperTasks {
+
     private XMLConfiguration config;
     private List<Step> assignedSteps = null;
     @Getter
     private boolean showHistory;
+
     @Getter
     private List<TaskHistory> history = new ArrayList<>();
     @Getter
     private int numberOfDays;
     private String dateString;
-
     @Getter
     @Setter
     private TaskHistory currentElement;
+
+    @Getter
+    private boolean showLastChanges;
+    @Getter
+    private List<TaskChangeType> taskChangeHistory = new ArrayList<>();
+    @Getter
+    @Setter
+    private TaskChangeType currentStep;
 
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public DashboardHelperTasks(XMLConfiguration pluginConfig) {
         config = pluginConfig;
-        showHistory = config.getBoolean("tasks-history", true);
+        showHistory = config.getBoolean("tasks-history", false);
+        showLastChanges = config.getBoolean("tasks-latestChanges", false);
         if (showHistory) {
 
             numberOfDays = config.getInt("tasks-history-period", 7);
@@ -116,6 +133,33 @@ public class DashboardHelperTasks {
                 }
             }
         }
+
+        if (showLastChanges) {
+            User user = Helper.getCurrentUser();
+            if (user != null) {
+                String sql = "select ProzesseID, SchritteID, titel from schritte where Bearbeitungsstatus = 3 and BearbeitungsBenutzerID = "
+                        + user.getId() + " order by BearbeitungsEnde desc limit 10;";
+                List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sql);
+                for (Object[] objArr : rawvalues) {
+                    String processId = (String) objArr[0];
+                    String stepId = (String) objArr[1];
+                    Step currentStep = null;
+                    Step followingStep = null;
+                    Process process = ProcessManager.getProcessById(Integer.valueOf(processId));
+                    for (Step step : process.getSchritte()) {
+                        if (step.getId().equals(Integer.valueOf(stepId))) {
+                            currentStep = step;
+                        } else if (currentStep != null && followingStep == null) {
+                            followingStep = step;
+                            break;
+                        }
+                    }
+                    TaskChangeType tct = new TaskChangeType(currentStep, followingStep, process);
+                    taskChangeHistory.add(tct);
+                }
+            }
+        }
+
     }
 
     public boolean isShowTasks() {
@@ -156,6 +200,21 @@ public class DashboardHelperTasks {
         bean.setFilter(searchFilter.toString());
 
         return bean.FilterAlleStart();
+    }
+
+    public String reOpenTask() {
+        currentStep.getClosedStep().setBearbeitungsstatusEnum(StepStatus.INWORK);
+        currentStep.getClosedStep().setBearbeitungsende(null);
+        currentStep.getFollowingStep().setBearbeitungsstatusEnum(StepStatus.LOCKED);
+        try {
+            ProcessManager.saveProcess(currentStep.getProcess());
+        } catch (DAOException e) {
+        }
+
+        StepBean bean = (StepBean) Helper.getBeanByName("AktuelleSchritteForm", StepBean.class);
+        bean.setMySchritt(currentStep.getClosedStep());
+
+        return "task_edit";
     }
 
 }
