@@ -24,8 +24,9 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
-import com.amazonaws.services.sqs.model.Message;
-import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
+import com.amazonaws.services.sqs.model.GetQueueAttributesRequest;
+import com.amazonaws.services.sqs.model.GetQueueAttributesResult;
+import com.amazonaws.services.sqs.model.QueueAttributeName;
 
 import de.sub.goobi.config.ConfigurationHelper;
 import de.sub.goobi.helper.Helper;
@@ -85,11 +86,79 @@ public class MessageQueueStatus {
 
     public void loadExternalQueueContent() {
         try {
-            if (ConfigurationHelper.getInstance().getExternalQueueType().equals("ACTIVEMQ")) {
+            if (ConfigurationHelper.getInstance().getExternalQueueType().equals("SQS")) {
+
+                ConfigurationHelper config = ConfigurationHelper.getInstance();
+                AmazonSQS client;
+                if (config.isUseLocalSQS()) {
+                    String endpoint = "http://localhost:9324";
+                    String region = "elasticmq";
+                    String accessKey = "x";
+                    String secretKey = "x";
+                    client = AmazonSQSClientBuilder.standard()
+                            .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
+                            .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, region))
+                            .build();
+                } else {
+                    client = AmazonSQSClientBuilder.defaultClient();
+                }
+                String queueUrl = client.getQueueUrl(QueueType.EXTERNAL_QUEUE.getName()).getQueueUrl();
+
+                List<String> attributes = new ArrayList<>();
+                attributes.add(QueueAttributeName.ApproximateNumberOfMessages.toString());
+
+                GetQueueAttributesRequest queueAttributes = new GetQueueAttributesRequest(queueUrl, attributes);
+
+                GetQueueAttributesResult result = client.getQueueAttributes(queueAttributes);
+                TicketType currentType = new TicketType("Currently in queue");
+                currentType.setNumberOfTickets(
+                        Integer.valueOf(result.getAttributes().getOrDefault(QueueAttributeName.ApproximateNumberOfMessages.toString(), "0")));
+                externalQueueContent.add(currentType);
+
+                //                ReceiveMessageRequest req = new ReceiveMessageRequest();
+                //
+                //                req.setAttributeNames(attributes);
+                //                req.setMaxNumberOfMessages(10);
+                //                req.setQueueUrl(queueUrl);
+                //                req.setVisibilityTimeout(0);
+                //                // TODO
+                //                // receive up to 10 messages
+                //                // mark messages as done
+                //                // repeat until all messages are received
+                //                // count/group messages
+                //                // add all messages to queue again
+                //
+                //                List<Message> messages = client.receiveMessage(req).getMessages();
+                //                Pattern regex = Pattern.compile( ".*processId\":(\\d+?),.*stepName\":\"(.+?)\".*");
+                //
+                //                for (Message message : messages) {
+                //                    for (Matcher m =regex.matcher(message.getBody()); m.find();) {
+                //                        Integer processId = Integer.valueOf( m.group(1));
+                //                        String messageType = m.group(2);
+                //
+                //                        TicketType currentType = null;
+                //                        for (TicketType tt : externalQueueContent) {
+                //                            if (tt.getTicketName().equals(messageType)) {
+                //                                currentType = tt;
+                //                                break;
+                //                            }
+                //                        }
+                //                        if (currentType == null) {
+                //                            currentType = new TicketType(messageType);
+                //                            externalQueueContent.add(currentType);
+                //                        }
+                //                        currentType.addProcessId(processId);
+                //                    }
+                //
+                //
+                //
+                //                }
+            } else {
+
                 Connection conn = ExternalConnectionFactory.createConnection(ConfigurationHelper.getInstance().getMessageBrokerUsername(),
                         ConfigurationHelper.getInstance().getMessageBrokerPassword());
                 conn.start();
-                Session queueSession =  conn.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+                Session queueSession = conn.createSession(false, Session.CLIENT_ACKNOWLEDGE);
                 Queue queue = queueSession.createQueue(QueueType.EXTERNAL_QUEUE.getName());
                 QueueBrowser browser = queueSession.createBrowser(queue);
                 Enumeration<?> messagesInQueue = browser.getEnumeration();
@@ -114,48 +183,7 @@ public class MessageQueueStatus {
                     currentType.addProcessId(processid);
                 }
                 conn.stop();
-            } else {
-
-
-
-                ConfigurationHelper config = ConfigurationHelper.getInstance();
-                AmazonSQS client;
-                if (config.isUseLocalSQS()) {
-                    String endpoint = "http://localhost:9324";
-                    String region = "elasticmq";
-                    String accessKey = "x";
-                    String secretKey = "x";
-                    client = AmazonSQSClientBuilder.standard()
-                            .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
-                            .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, region))
-                            .build();
-                } else {
-                    client = AmazonSQSClientBuilder.defaultClient();
-                }
-                String queueUrl = client.getQueueUrl(QueueType.EXTERNAL_QUEUE.getName()).getQueueUrl();
-
-                ReceiveMessageRequest req = new ReceiveMessageRequest();
-                List<String> attributes = new ArrayList<>();
-                attributes.add("All");
-                req.setAttributeNames(attributes);
-                req.setMaxNumberOfMessages(10);
-                req.setQueueUrl(queueUrl);
-                req.setVisibilityTimeout(0);
-                List<Message> messages = client.
-                        receiveMessage(req).getMessages();
-
-                for (Message m : messages) {
-                    System.out.println("Attributes: " + m.getAttributes());
-                    System.out.println("getBody: " + m.getBody());
-                    System.out.println("getMessageId: " + m.getMessageId());
-                    System.out.println("getReceiptHandle: " + m.getReceiptHandle());
-                    System.out.println("getMessageAttributes: " + m.getMessageAttributes());
-
-
-                }
-
             }
-
         } catch (JMSException e) {
             log.error(e);
         }

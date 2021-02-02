@@ -119,6 +119,7 @@
                                     <h:outputText value="#{entry.numberOfTickets}" />
 
                                     <h:commandLink
+                                    rendered="#{entry.showSearchButton}"
                                         styleClass="btn font-size-s margin-left-5"
                                         action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}">
                                         <f:setPropertyActionListener

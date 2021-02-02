@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class TicketType {
     @NonNull
     private String ticketName;
-
+    private int numberOfTickets = 0;
     private List<Integer> processIds = new ArrayList<>();
 
     public void addProcessId(Integer id) {
@@ -20,7 +20,14 @@ public class TicketType {
     }
 
     public int getNumberOfTickets() {
-        return processIds.size();
+        if (numberOfTickets == 0) {
+            return processIds.size();
+        }
+        return numberOfTickets;
+    }
+
+    public boolean isShowSearchButton() {
+        return !processIds.isEmpty();
     }
 
 }
