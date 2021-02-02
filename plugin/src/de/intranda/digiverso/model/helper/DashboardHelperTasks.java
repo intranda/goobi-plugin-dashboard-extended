@@ -82,9 +82,9 @@ public class DashboardHelperTasks {
                 if (stepnameFilter.length() > 0) {
                     stepnameFilter.append(", ");
                 }
-                stepnameFilter.append("\"");
+                stepnameFilter.append("'");
                 stepnameFilter.append(title);
-                stepnameFilter.append("\"");
+                stepnameFilter.append("'");
             }
 
             StringBuilder sb = new StringBuilder();
@@ -92,9 +92,9 @@ public class DashboardHelperTasks {
             sb.append("from schritte where Bearbeitungsstatus in (3,4) and ");
             sb.append("titel in (");
             sb.append(stepnameFilter.toString());
-            sb.append(") and BearbeitungsEnde > \"");
+            sb.append(") and BearbeitungsEnde > '");
             sb.append(dateString);
-            sb.append("\" ");
+            sb.append("' ");
             sb.append("group by titel, Bearbeitungsstatus");
 
             List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sb.toString());
