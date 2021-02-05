@@ -65,7 +65,6 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
     private DashboardHelperBatches batchHelper;
     private DashboardHelperTasks tasksHelper;
 
-
     private DatabasePaginator paginator = null;
 
     @Getter
@@ -240,7 +239,6 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     }
 
-
     public void filterTemplates() {
         String sql = FilterHelper.criteriaBuilder(filter, null, null, null, null, true, false);
         if (!sql.isEmpty()) {
@@ -259,7 +257,7 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
     }
 
     private String sortList() {
-        NavigationForm form = (NavigationForm) Helper.getManagedBeanValue("#{NavigationForm}");
+        NavigationForm form = (NavigationForm) Helper.getBeanByName("NavigationForm", NavigationForm.class);
         String sortOrder = form.getUiStatus().get("sorting");
         if (sortOrder == null) {
             sortOrder = "titelAsc";
@@ -298,7 +296,6 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
         return answer;
     }
-
 
     public DatabasePaginator getPaginator() {
         if (paginator == null) {
