@@ -59,28 +59,29 @@ public class MessageQueueStatus {
     public MessageQueueStatus(XMLConfiguration pluginConfig) {
 
         showMessageQueue = pluginConfig.getBoolean("queue-show", false);
+        if (showMessageQueue) {
+            if (ConfigurationHelper.getInstance().isStartInternalMessageBroker()) {
+                // internal queue is enabled
 
-        if (ConfigurationHelper.getInstance().isStartInternalMessageBroker()) {
-            // internal queue is enabled
+                ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
 
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+                try {
+                    internalQueueConnection =
+                            (ActiveMQConnection) connectionFactory.createConnection(ConfigurationHelper.getInstance().getMessageBrokerUsername(),
+                                    ConfigurationHelper.getInstance().getMessageBrokerPassword());
+                    queueSession = internalQueueConnection.createQueueSession(false, Session.CLIENT_ACKNOWLEDGE);
 
-            try {
-                internalQueueConnection =
-                        (ActiveMQConnection) connectionFactory.createConnection(ConfigurationHelper.getInstance().getMessageBrokerUsername(),
-                                ConfigurationHelper.getInstance().getMessageBrokerPassword());
-                queueSession = internalQueueConnection.createQueueSession(false, Session.CLIENT_ACKNOWLEDGE);
+                    loadFastQueueContent();
+                    loadSlowQueueContent();
+                    loadExternalQueueContent();
+                } catch (JMSException e) {
+                    log.error(e);
+                }
 
-                loadFastQueueContent();
-                loadSlowQueueContent();
-                loadExternalQueueContent();
-            } catch (JMSException e) {
-                log.error(e);
             }
+            if (ConfigurationHelper.getInstance().getExternalQueueType().equals("ACTIVEMQ")) {
 
-        }
-        if (ConfigurationHelper.getInstance().getExternalQueueType().equals("ACTIVEMQ")) {
-
+            }
         }
     }
 
