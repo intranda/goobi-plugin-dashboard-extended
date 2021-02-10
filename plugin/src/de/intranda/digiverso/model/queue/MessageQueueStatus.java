@@ -91,6 +91,7 @@ public class MessageQueueStatus {
 
                 ConfigurationHelper config = ConfigurationHelper.getInstance();
                 AmazonSQS client;
+                String queueUrl = "";
                 if (config.isUseLocalSQS()) {
                     String endpoint = "http://localhost:9324";
                     String region = "elasticmq";
@@ -100,10 +101,11 @@ public class MessageQueueStatus {
                             .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
                             .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, region))
                             .build();
+                    queueUrl = client.getQueueUrl(QueueType.EXTERNAL_QUEUE.getName()).getQueueUrl();
                 } else {
                     client = AmazonSQSClientBuilder.defaultClient();
+                    queueUrl = client.getQueueUrl(ConfigurationHelper.getInstance().getQueueName(QueueType.EXTERNAL_QUEUE)).getQueueUrl();
                 }
-                String queueUrl = client.getQueueUrl(QueueType.EXTERNAL_QUEUE.getName()).getQueueUrl();
 
                 List<String> attributes = new ArrayList<>();
                 attributes.add(QueueAttributeName.ApproximateNumberOfMessages.toString());
