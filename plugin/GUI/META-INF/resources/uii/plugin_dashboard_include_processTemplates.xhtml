@@ -8,7 +8,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <composite:interface>
     </composite:interface>
@@ -45,16 +46,16 @@
                                                 id="ajaxcolumn"
                                                 styleClass="tableColumnOverflow maxWidth120">
                                                 <f:facet name="header">
-                                                    <h:commandLink
-                                                        styleClass="font-black-block"
-                                                        action="#{DashboardForm.plugin.filterTemplates}">
+                                                    <button
+                                                        class="font-black-block button-link"
+                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}">
                                                         <h:outputText value="#{msgs.titel}" />
                                                         <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='titelDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='titelAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
                                                             value="#{NavigationForm.uiStatus.sorting=='titelAsc'?'titelDesc':'titelAsc'}" />
                                                         <f:ajax render="@form" />
-                                                    </h:commandLink>
+                                                    </button>
                                                 </f:facet>
                                                 <h:outputText value="#{item.titel}" />
                                             </x:column>
@@ -66,16 +67,16 @@
                                                 styleClass="tableColumnOverflow maxWidth80"
                                                 rendered="#{DashboardForm.plugin.showProcessTemplateStatusColumn}">
                                                 <f:facet name="header">
-                                                    <h:commandLink
-                                                        styleClass="font-black-block"
-                                                        action="#{DashboardForm.plugin.filterTemplates}">
+                                                    <button
+                                                        class="font-black-block button-link"
+                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}">
                                                         <h:outputText value="#{msgs.status}" />
                                                         <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='fortschrittDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
                                                             value="#{NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fortschrittDesc':'fortschrittAsc'}" />
                                                         <f:ajax render="@form" />
-                                                    </h:commandLink>
+                                                    </button>
                                                 </f:facet>
 
                                                 <h:panelGroup
@@ -188,9 +189,9 @@
                                                 rendered="#{DashboardForm.plugin.showProcessTemplateProjectColumn}">
                                                 <f:facet name="header">
                                                     <!-- Header -->
-                                                    <h:commandLink
-                                                        styleClass="font-black-block"
-                                                        action="#{DashboardForm.plugin.filterTemplates}"
+                                                    <button
+                                                        class="font-black-block button-link"
+                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
                                                         title="#{msgs.projekt}">
                                                         <h:outputText value="#{msgs.projekt}" />
                                                         <span
@@ -200,7 +201,7 @@
                                                             target="#{NavigationForm.uiStatus.sorting}"
                                                             value="#{NavigationForm.uiStatus.sorting=='projektAsc'?'projektDesc':'projektAsc'}" />
                                                         <f:ajax render="@form" />
-                                                    </h:commandLink>
+                                                    </button>
                                                 </f:facet>
                                                 <h:outputText value="#{item.projekt.titel}" />
                                             </x:column>
