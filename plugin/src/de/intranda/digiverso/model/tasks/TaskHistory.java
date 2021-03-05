@@ -36,5 +36,6 @@ public class TaskHistory {
     @NonNull
     private String stepName;
     private int numberOfFinishedTasks;
+    private int numberOfTasksInProcess = 0;
     private int numberOfErrorTasks;
 }

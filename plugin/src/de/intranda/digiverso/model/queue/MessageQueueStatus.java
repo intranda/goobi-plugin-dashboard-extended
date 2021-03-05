@@ -170,7 +170,7 @@ public class MessageQueueStatus {
 
                     //                ActiveMQTextMessage queueMessage = (ActiveMQTextMessage) messagesInQueue.nextElement();
 
-                    String type = queueMessage.getStringProperty("ticketType");
+                    String type = queueMessage.getStringProperty("JMSType");
                     int processid = queueMessage.getIntProperty("processid");
                     TicketType currentType = null;
                     for (TicketType tt : externalQueueContent) {
@@ -203,7 +203,7 @@ public class MessageQueueStatus {
                 while (messagesInQueue.hasMoreElements()) {
                     ActiveMQTextMessage queueMessage = (ActiveMQTextMessage) messagesInQueue.nextElement();
 
-                    String type = queueMessage.getStringProperty("ticketType");
+                    String type = queueMessage.getStringProperty("JMSType");
                     int processid = queueMessage.getIntProperty("processid");
                     TicketType currentType = null;
                     for (TicketType tt : fastQueueContent) {
@@ -235,7 +235,7 @@ public class MessageQueueStatus {
                 while (messagesInQueue.hasMoreElements()) {
                     ActiveMQTextMessage queueMessage = (ActiveMQTextMessage) messagesInQueue.nextElement();
 
-                    String type = queueMessage.getStringProperty("ticketType");
+                    String type = queueMessage.getStringProperty("JMSType");
                     int processid = queueMessage.getIntProperty("processid");
                     TicketType currentType = null;
                     for (TicketType tt : slowQueueContent) {
