@@ -1,9 +1,12 @@
 package de.intranda.goobi.plugins;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.lang.StringUtils;
 import org.goobi.beans.Step;
 import org.goobi.managedbeans.DatabasePaginator;
 import org.goobi.production.enums.PluginGuiType;
@@ -56,6 +59,7 @@ import lombok.Setter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import spark.Service;
 
+@SuppressWarnings("deprecation")
 @PluginImplementation
 public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
@@ -77,8 +81,40 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     private XMLConfiguration pluginConfig;
 
+    @Getter
+    @Setter
+    private List<String> column1 = new ArrayList<>();
+    @Getter
+    @Setter
+    private List<String> column2 = new ArrayList<>();
+    @Getter
+    @Setter
+    private List<String> column3 = new ArrayList<>();
+
     public ExtendedDashboard() {
         pluginConfig = ConfigPlugins.getPluginConfig(PLUGIN_NAME);
+
+        String value = Helper.getCurrentUser().getDashboardConfiguration();
+
+        if (StringUtils.isNotBlank(value)) {
+
+        } else {
+            // TODO get default layout from configuration?
+            value = "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 queue,3 rss,3 nagios";
+        }
+        // replace new line with comma, then split
+        value = value.replace("\n", ",");
+        String[] lines = value.split(",");
+        for (String line : lines) {
+            line = line.trim();
+            if (line.startsWith("1")) {
+                column1.add(line.replace("1", "").trim());
+            } else if (line.startsWith("2")) {
+                column2.add(line.replace("2", "").trim());
+            } else if (line.startsWith("3")) {
+                column3.add(line.replace("3", "").trim());
+            }
+        }
 
     }
 

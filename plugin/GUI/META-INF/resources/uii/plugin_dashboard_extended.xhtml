@@ -1,50 +1,54 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk"
-	xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:x="http://myfaces.apache.org/tomahawk"
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-	<composite:interface>
-	</composite:interface>
+    <composite:interface>
+    </composite:interface>
 
-	<composite:implementation>
+    <composite:implementation>
 
-		<div class="row">
-			<ui:include src="plugin_dashboard_include_batches.xhtml" />
-		</div>
-		
-		<div class="row">
-			<div class="col-sm-4">
-				<ui:include src="plugin_dashboard_include_tasks.xhtml" />
-				<ui:include src="plugin_dashboard_include_search.xhtml" />
-				<ui:include src="plugin_dashboard_include_html_box.xhtml" />				
-			</div>
+        <div class="row">
+            <ui:include src="plugin_dashboard_include_batches.xhtml" />
+        </div>
 
-			<div class="col-sm-4">
-				<ui:include src="plugin_dashboard_include_statisticsProcesses.xhtml" />
-				<ui:include src="plugin_dashboard_include_processTemplates.xhtml" />
-				<h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.showItm and LoginForm.maximaleBerechtigung le 2}">
-					<ui:include src="plugin_dashboard_include_itm.xhtml" />	
-				</h:panelGroup>	
-                <h:panelGroup rendered="#{DashboardForm.plugin.messageQueueStatus.showMessageQueue}">
-                    <ui:include src="plugin_dashboard_include_queue.xhtml" /> 
-                </h:panelGroup> 
-                                
-                	
-			</div>
-			
-			<div class="col-sm-4">
-				<h:panelGroup rendered="#{DashboardForm.plugin.rssHelper.showRss}">
-					<ui:include src="plugin_dashboard_include_rss.xhtml" />
-				</h:panelGroup>
-				
-				<h:panelGroup rendered="#{DashboardForm.plugin.nagiosHelper.showNagios and LoginForm.maximaleBerechtigung le 2}">
-					<ui:include src="plugin_dashboard_include_nagios.xhtml" />	
-				</h:panelGroup>	
-			</div>
-		</div>
-		
-		<script src="plugin_dashboard_extended_tags.js"></script>
-		<script src="plugin_dashboard_extended_svelte.js"></script>
-		<script>
+        <div class="row">
+            <div class="col-sm-4">
+                <!-- first column -->
+                <c:forEach
+                    var="colItem"
+                    items="#{DashboardForm.plugin.column1}">
+                    <ui:include src="#{'plugin_dashboard_include_'.concat(colItem).concat('.xhtml')}" />
+                </c:forEach>
+            </div>
+
+            <div class="col-sm-4">
+             <c:forEach
+                    var="colItem"
+                    items="#{DashboardForm.plugin.column2}">
+                    <ui:include src="#{'plugin_dashboard_include_'.concat(colItem).concat('.xhtml')}" />
+                </c:forEach>
+            </div>
+
+            <div class="col-sm-4">
+                <c:forEach
+                    var="colItem"
+                    items="#{DashboardForm.plugin.column3}">
+                    <ui:include src="#{'plugin_dashboard_include_'.concat(colItem).concat('.xhtml')}" />
+                </c:forEach>
+            </div>
+        </div>
+
+        <script src="plugin_dashboard_extended_tags.js"></script>
+        <script src="plugin_dashboard_extended_svelte.js"></script>
+        <script>
 		    var language = "#{SpracheForm.locale.language}"
 			fetch("/goobi/api/messages/" + language).then(resp => {
 		        resp.json().then(msgs => {
@@ -87,6 +91,6 @@
 	        	})
 	        })
 		</script>
-	</composite:implementation>
+    </composite:implementation>
 
 </ui:composition>

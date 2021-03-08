@@ -1,14 +1,22 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:p="http://primefaces.org/ui">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:x="http://myfaces.apache.org/tomahawk"
+    xmlns:p="http://primefaces.org/ui">
 
-	<composite:interface>
-	</composite:interface>
+    <composite:interface>
+    </composite:interface>
 
-	<composite:implementation>
-		<h:form id="dashboard-itm">
-			<div id="jsItmView"></div>
-		</h:form>
-	</composite:implementation>
+    <composite:implementation>
+        <h:panelGroup rendered="#{DashboardForm.plugin.itmHelper.showItm and LoginForm.maximaleBerechtigung le 2}">
+            <h:form id="dashboard-itm">
+                <div id="jsItmView"></div>
+            </h:form>
+        </h:panelGroup>
+    </composite:implementation>
 
 </ui:composition>
 
