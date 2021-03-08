@@ -1,0 +1,75 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:x="http://myfaces.apache.org/tomahawk"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+
+     
+
+
+<h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showLastChanges and DashboardForm.plugin.tasksHelper.taskChangeHistory.size() gt 0}">
+            <div class="box box-color box-bordered">
+                <div class="box-title">
+                    <h2>
+                        <i class="fa fa-list"></i>
+                        <h:outputText value="#{msgs.doneSteps}" />
+                    </h2>
+                </div>
+                <div class="box-content nopadding">
+
+                    <h:form>
+                        <table class="table table-hover responsive">
+                            <tbody>
+
+                                <ui:repeat
+                                    var="historyStep"
+                                    value="#{DashboardForm.plugin.tasksHelper.taskChangeHistory}">
+                                    <tr>
+
+                                        <td
+                                            class="tableColumnMaxWidthLong"
+                                            title="#{historyStep.process.titel}">#{historyStep.process.titel}</td>
+                                        <td>#{historyStep.closedStep.titel}</td>
+                                        <td>
+
+                                            <!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
+                                            <h:commandLink
+                                                pt:aria-label="#{msgs.inBearbeitungDurch}: #{historyStep.closedStep.bearbeitungsbenutzer.nachVorname}"
+                                                action="#{DashboardForm.plugin.tasksHelper.reOpenTask}"
+                                                id="view1"
+                                                styleClass="btn btn-warning"
+                                                rel="tooltip"
+                                                rendered="#{historyStep.assignable}"
+                                                title="#{msgs.inBearbeitungDurch}: #{historyStep.closedStep.bearbeitungsbenutzer.nachVorname}">
+                                                <i class="fa fa-cog"></i>
+                                                <f:passThroughAttribute
+                                                    name="data-toggle"
+                                                    value="tooltip" />
+                                                <f:setPropertyActionListener
+                                                    value="#{historyStep}"
+                                                    target="#{DashboardForm.plugin.tasksHelper.currentStep}" />
+                                            </h:commandLink>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:form>
+                </div>
+            </div>
+        </h:panelGroup>
+
+
+    </composite:implementation>
+
+</ui:composition>
+
+
