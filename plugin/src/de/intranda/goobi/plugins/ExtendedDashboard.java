@@ -100,7 +100,7 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
         } else {
             // TODO get default layout from configuration?
-            value = "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 queue,3 rss,3 nagios";
+            value = "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 itm,2 queue,3 rss,3 nagios";
         }
         // replace new line with comma, then split
         value = value.replace("\n", ",");
