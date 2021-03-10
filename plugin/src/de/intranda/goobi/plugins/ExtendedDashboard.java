@@ -96,9 +96,7 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
         String value = Helper.getCurrentUser().getDashboardConfiguration();
 
-        if (StringUtils.isNotBlank(value)) {
-
-        } else {
+        if (StringUtils.isBlank(value)) {
             // TODO get default layout from configuration?
             value = "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 itm,2 queue,3 rss,3 nagios";
         }
