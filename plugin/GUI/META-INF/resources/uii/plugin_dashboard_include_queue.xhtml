@@ -16,7 +16,7 @@
             <div class="box box-color box-bordered">
                 <div class="box-title">
                     <h3>
-                        <h:outputText value="#{msgs.message_queue_slowQueue}" />
+                        <h:outputText value="#{msgs.plugin_dashboard_tasks_in_messageQueue}" />
                     </h3>
                 </div>
                 <div class="box-content nopadding">
@@ -24,52 +24,12 @@
                         <h:dataTable
                             styleClass="table table-hover responsive"
                             var="entry"
-                            value="#{DashboardForm.plugin.messageQueueStatus.slowQueueContent}">
+                            value="#{DashboardForm.plugin.messageQueueStatus.jobTypeList}">
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs.message_queue_ticket_type}" />
                                 </f:facet>
-                                <h:outputText value="#{entry.ticketName}" />
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.count}" />
-                                </f:facet>
-                                <h:outputText value="#{entry.numberOfTickets}" />
-
-                                <h:commandLink
-                                    styleClass="btn font-size-s margin-left-5"
-                                    action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}">
-                                    <f:setPropertyActionListener
-                                        value="#{entry}"
-                                        target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />
-                                    <i class="fa fa-search" />
-                                </h:commandLink>
-                            </h:column>
-                        </h:dataTable>
-                    </h:form>
-                </div>
-            </div>
-            <br />
-
-            <div class="box box-color box-bordered">
-                <div class="box-title">
-                    <h3>
-                        <h:outputText value="#{msgs.message_queue_fastQueue}" />
-                    </h3>
-                </div>
-                <div class="box-content nopadding">
-                    <h:form id="fast_queue">
-                        <h:dataTable
-                            styleClass="table table-hover responsive"
-                            var="entry"
-                            value="#{DashboardForm.plugin.messageQueueStatus.fastQueueContent}">
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.message_queue_ticket_type}" />
-                                </f:facet>
-                                <h:outputText value="#{entry.ticketName}" />
+                                <h:outputText value="#{entry.jobTypeName}" />
                             </h:column>
 
                             <h:column>
@@ -92,48 +52,6 @@
                 </div>
             </div>
 
-
-            <br />
-
-            <div class="box box-color box-bordered">
-                <div class="box-title">
-                    <h3>
-                        <h:outputText value="#{msgs.message_queue_externalQueue}" />
-                    </h3>
-                </div>
-                <div class="box-content nopadding">
-                    <h:form id="external_queue">
-                        <h:dataTable
-                            styleClass="table table-hover responsive"
-                            var="entry"
-                            value="#{DashboardForm.plugin.messageQueueStatus.externalQueueContent}">
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.message_queue_ticket_type}" />
-                                </f:facet>
-                                <h:outputText value="#{entry.ticketName}" />
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.count}" />
-                                </f:facet>
-                                <h:outputText value="#{entry.numberOfTickets}" />
-
-                                <h:commandLink
-                                    rendered="#{entry.showSearchButton}"
-                                    styleClass="btn font-size-s margin-left-5"
-                                    action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}">
-                                    <f:setPropertyActionListener
-                                        value="#{entry}"
-                                        target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />
-                                    <i class="fa fa-search" />
-                                </h:commandLink>
-                            </h:column>
-                        </h:dataTable>
-                    </h:form>
-                </div>
-            </div>
         </h:panelGroup>
     </composite:implementation>
 

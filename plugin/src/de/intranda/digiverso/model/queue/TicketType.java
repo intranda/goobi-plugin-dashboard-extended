@@ -1,33 +1,32 @@
 package de.intranda.digiverso.model.queue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Data
 @RequiredArgsConstructor
 public class TicketType {
     @NonNull
-    private String ticketName;
-    private int numberOfTickets = 0;
-    private List<Integer> processIds = new ArrayList<>();
+    private String jobTypeName;
 
-    public void addProcessId(Integer id) {
-        processIds.add(id);
-    }
+    @Getter
+    @Setter
+    @NonNull
+    private String numberOfTickets;
 
-    public int getNumberOfTickets() {
-        if (numberOfTickets == 0) {
-            return processIds.size();
-        }
-        return numberOfTickets;
-    }
+    @Getter
+    @Setter
+    @NonNull
+    private List<String> stepNames;
+
 
     public boolean isShowSearchButton() {
-        return !processIds.isEmpty();
+        return !numberOfTickets.equals("0");
     }
 
 }
