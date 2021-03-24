@@ -1,5 +1,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <composite:interface>
     </composite:interface>
@@ -28,59 +29,59 @@
 										<td>
 
 											<!-- Bearbeitung übernehmen-Schaltknopf -->
-											<h:commandLink pt:aria-label="#{msgs.bearbeitungDiesesSchrittsUebernehmen}" id="take" styleClass="btn btn-primary" rel="tooltip" action="#{AktuelleSchritteForm.SchrittDurchBenutzerUebernehmen}"
-												rendered="#{(item.bearbeitungsstatusEnum == 'OPEN' and !item.batchStep) or (item.bearbeitungsstatusEnum == 'OPEN' and item.batchStep and !item.batchSize)}"
+											<button aria-label="#{msgs.bearbeitungDiesesSchrittsUebernehmen}" jsf:id="take" class="btn btn-primary" jsf:rel="tooltip" jsf:action="#{AktuelleSchritteForm.SchrittDurchBenutzerUebernehmen}"
+												jsf:rendered="#{(item.bearbeitungsstatusEnum == 'OPEN' and !item.batchStep) or (item.bearbeitungsstatusEnum == 'OPEN' and item.batchStep and !item.batchSize)}"
 												title="#{msgs.bearbeitungDiesesSchrittsUebernehmen}">
 												<i class="fa fa-check"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
 												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{item}" />
-											</h:commandLink>
+											</button>
 	
 											<!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
-											<h:commandLink pt:aria-label="#{msgs.inBearbeitungDurch}: #{item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname:''}" action="task_edit" id="view1" styleClass="btn btn-warning" rel="tooltip"
-												rendered="#{(item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and !item.batchStep) or (item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and item.batchStep and !item.batchSize)}"
+											<button aria-label="#{msgs.inBearbeitungDurch}: #{item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname:''}" jsf:action="task_edit" jsf:id="view1" class="btn btn-warning" jsf:rel="tooltip"
+												jsf:rendered="#{(item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and !item.batchStep) or (item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and item.batchStep and !item.batchSize)}"
 												title="#{msgs.inBearbeitungDurch}: #{item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname:''}">
 												<i class="fa fa-cog"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
 												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{item}" />
-											</h:commandLink>
+											</button>
 	
 											<!-- Bearbeiten-Schaltknopf (fremder Schritt) -->
-											<h:commandLink pt:aria-label="#{msgs.inBearbeitungDurch}: #{item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname:''}" action="task_edit" id="view2" styleClass="btn" rel="tooltip"
-												rendered="#{item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id != LoginForm.myBenutzer.id and (!item.batchStep or !item.batchSize)}"
+											<button aria-label="#{msgs.inBearbeitungDurch}: #{item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname:''}" jsf:action="task_edit" jsf:id="view2" class="btn" jsf:rel="tooltip"
+												jsf:rendered="#{item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id != LoginForm.myBenutzer.id and (!item.batchStep or !item.batchSize)}"
 												title="#{msgs.inBearbeitungDurch}: #{(item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname : '')}">
 												<i class="fa fa-user-secret"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
 												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{item}" />
-											</h:commandLink>
+											</button>
 	
 											<!-- edit batch step -->
-											<h:commandLink id="batch" styleClass="btn btn-primary" rel="tooltip" action="#{AktuelleSchritteForm.TakeOverBatch}"
-												rendered="#{item.bearbeitungsstatusEnum == 'OPEN' and item.batchStep and item.batchSize}"
+											<button jsf:id="batch" class="btn btn-primary" jsf:rel="tooltip" jsf:action="#{AktuelleSchritteForm.TakeOverBatch}"
+												jsf:rendered="#{item.bearbeitungsstatusEnum == 'OPEN' and item.batchStep and item.batchSize}"
 												title="#{msgs.bearbeitungDiesesSchrittsUebernehmen}">
 												<i class="fa fa-check" style="margin-left:-6px"></i>
 												<i class="fa fa-check" style="margin-left:-5px;margin-right:-6px"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
 												<f:setPropertyActionListener target="#{AktuelleSchritteForm.step}" value="#{item}" />
-											</h:commandLink>
+											</button>
 	
 											<!-- edit batch step -->
-											<h:commandLink id="batchInWork" styleClass="btn btn-warning" rel="tooltip" action="#{AktuelleSchritteForm.BatchesEdit}"
-												rendered="#{item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and item.batchStep and item.batchSize}"
+											<button jsf:id="batchInWork" class="btn btn-warning" jsf:rel="tooltip" jsf:action="#{AktuelleSchritteForm.BatchesEdit}"
+												jsf:rendered="#{item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and item.batchStep and item.batchSize}"
 												title="#{msgs.inBearbeitungDurch}: #{(item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname : '')}">
 												<i class="fa fa-cog"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
 												<f:setPropertyActionListener target="#{AktuelleSchritteForm.step}" value="#{item}" />
-											</h:commandLink>
+											</button>
 	
 											<!-- edit batch step -->
-											<h:commandLink id="batchInWorkOther" styleClass="btn" rel="tooltip" action="#{AktuelleSchritteForm.BatchesEdit}"
-												rendered="#{item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id != LoginForm.myBenutzer.id and item.batchStep and item.batchSize}"
+											<button jsf:id="batchInWorkOther" class="btn" jsf:rel="tooltip" jsf:action="#{AktuelleSchritteForm.BatchesEdit}"
+												jsf:rendered="#{item.bearbeitungsstatusEnum == 'INWORK' and item.bearbeitungsbenutzer.id != LoginForm.myBenutzer.id and item.batchStep and item.batchSize}"
 												title="#{msgs.inBearbeitungDurch}: #{(item.bearbeitungsbenutzer!=null and item.bearbeitungsbenutzer.id!=0 ? item.bearbeitungsbenutzer.nachVorname : '')}">
 												<i class="fa fa-user-secret"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
 												<f:setPropertyActionListener target="#{AktuelleSchritteForm.step}" value="#{item}" />
-											</h:commandLink>
+											</button>
 
 										</td>
 									</tr>
