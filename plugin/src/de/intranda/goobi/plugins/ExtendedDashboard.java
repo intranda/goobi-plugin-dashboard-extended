@@ -1,15 +1,12 @@
 package de.intranda.goobi.plugins;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.lang.StringUtils;
-import org.goobi.beans.Step;
+import org.goobi.beans.User;
 import org.goobi.managedbeans.DatabasePaginator;
-import org.goobi.production.enums.PluginGuiType;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
@@ -36,10 +33,9 @@ import org.goobi.production.enums.PluginGuiType;
  * exception statement from your version.
  */
 import org.goobi.production.enums.PluginType;
-import org.goobi.production.enums.StepReturnValue;
 import org.goobi.production.flow.statistics.hibernate.FilterHelper;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
-import org.goobi.production.plugin.interfaces.IRestGuiPlugin;
+import org.goobi.production.plugin.interfaces.IRestPlugin;
 
 import com.google.gson.Gson;
 
@@ -61,7 +57,7 @@ import spark.Service;
 
 @SuppressWarnings("deprecation")
 @PluginImplementation
-public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
+public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
 
     private DashboardHelperRss rssHelper;
     private DashboardHelperItm itmHelper;
@@ -94,11 +90,14 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
     public ExtendedDashboard() {
         pluginConfig = ConfigPlugins.getPluginConfig(PLUGIN_NAME);
 
-        String value = Helper.getCurrentUser().getDashboardConfiguration();
+        // TODO get default layout from configuration?
+        String value =
+                "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 itm,2 queue,3 rss,3 nagios";
 
-        if (StringUtils.isBlank(value)) {
-            // TODO get default layout from configuration?
-            value = "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 itm,2 queue,3 rss,3 nagios";
+        User user = Helper.getCurrentUser();
+
+        if (user != null && !StringUtils.isBlank(user.getDashboardConfiguration())) {
+            value = user.getDashboardConfiguration();
         }
         // replace new line with comma, then split
         value = value.replace("\n", ",");
@@ -215,50 +214,6 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
     public void update() {
         // System.out.println("ich polle");
         // do nothing
-    }
-
-    @Override
-    public String cancel() {
-        return null;
-    }
-
-    @Override
-    public boolean execute() {
-        return false;
-    }
-
-    @Override
-    public String finish() {
-        return null;
-    }
-
-    @Override
-    public String getPagePath() {
-        return null;
-    }
-
-    @Override
-    public PluginGuiType getPluginGuiType() {
-        return null;
-    }
-
-    @Override
-    public Step getStep() {
-        return null;
-    }
-
-    @Override
-    public void initialize(Step arg0, String arg1) {
-
-    }
-
-    @Override
-    public HashMap<String, StepReturnValue> validate() {
-        return null;
-    }
-
-    @Override
-    public void extractAssets(Path arg0) {
     }
 
     @Override
