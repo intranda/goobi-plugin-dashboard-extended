@@ -49,7 +49,9 @@
                                                     <button
                                                         class="font-black-block button-link button-sort"
                                                         jsf:action="#{DashboardForm.plugin.filterTemplates}">
-                                                        <h:outputText styleClass="pull-left" value="#{msgs.titel}" />
+                                                        <h:outputText
+                                                            styleClass="pull-left"
+                                                            value="#{msgs.titel}" />
                                                         <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='titelDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='titelAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
@@ -70,7 +72,9 @@
                                                     <button
                                                         class="font-black-block button-link button-sort"
                                                         jsf:action="#{DashboardForm.plugin.filterTemplates}">
-                                                        <h:outputText styleClass="pull-left" value="#{msgs.status}" />
+                                                        <h:outputText
+                                                            styleClass="pull-left"
+                                                            value="#{msgs.status}" />
                                                         <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='fortschrittDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
@@ -193,9 +197,10 @@
                                                         class="font-black-block button-link button-sort"
                                                         jsf:action="#{DashboardForm.plugin.filterTemplates}"
                                                         title="#{msgs.projekt}">
-                                                        <h:outputText styleClass="pull-left" value="#{msgs.projekt}" />
-                                                        <span
-                                                            class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='projektDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='projektAsc'?'fa-sort-asc':'fa-sort'}"></span>
+                                                        <h:outputText
+                                                            styleClass="pull-left"
+                                                            value="#{msgs.projekt}" />
+                                                        <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='projektDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='projektAsc'?'fa-sort-asc':'fa-sort'}"></span>
 
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
@@ -230,8 +235,7 @@
                                                         value="#{item}" />
                                                 </button>
 
-                                                <h:panelGroup
-                                                    rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() gt 1}">
+                                                <h:panelGroup rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() gt 1}">
                                                     <div
                                                         class="btn-group"
                                                         title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
@@ -239,15 +243,21 @@
                                                         <button
                                                             type="button"
                                                             class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
-                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                            style="padding-left: 4px; padding-right: 4px;"> <span class="caret"></span>
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false"
+                                                            style="padding-left: 4px; padding-right: 4px;">
+                                                            <span class="caret"></span>
                                                         </button>
                                                         <ul class="dropdown-menu  pull-right">
                                                             <ui:repeat
                                                                 var="proj"
                                                                 value="#{ProzesskopieForm.availableProjects}">
-                                                                <li><button jsf:action="#{ProzesskopieForm.Prepare}"
-                                                                		aria-label="#{proj.titel}" class="dropdown-item">
+                                                                <li>
+                                                                    <button
+                                                                        jsf:action="#{ProzesskopieForm.Prepare}"
+                                                                        aria-label="#{proj.titel}"
+                                                                        class="dropdown-item">
                                                                         <h:outputText value="#{proj.titel}" />
                                                                         <x:updateActionListener
                                                                             property="#{item.projekt}"
@@ -255,7 +265,8 @@
                                                                         <x:updateActionListener
                                                                             property="#{ProzesskopieForm.prozessVorlage}"
                                                                             value="#{item}" />
-                                                                    </button></li>
+                                                                    </button>
+                                                                </li>
                                                             </ui:repeat>
                                                         </ul>
                                                         <button
@@ -270,7 +281,7 @@
                                                                 property="#{ProzesskopieForm.prozessVorlage}"
                                                                 value="#{item}" />
                                                         </button>
-                                                        
+
                                                     </div>
                                                 </h:panelGroup>
 
@@ -292,8 +303,7 @@
                                                         value="#{item}" />
                                                 </button>
 
-                                                <h:panelGroup
-                                                    rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() gt 1}">
+                                                <h:panelGroup rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() gt 1}">
                                                     <div
                                                         class="btn-group"
                                                         title="#{msgs.MassenImport}"
@@ -301,11 +311,15 @@
                                                         <button
                                                             class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
                                                             style="padding-left: 4px; padding-right: 4px;"
-                                                            data-toggle="dropdown" type="button"> <span class="caret"></span>
+                                                            data-toggle="dropdown"
+                                                            type="button">
+                                                            <span class="caret"></span>
                                                         </button>
                                                         <button
                                                             jsf:action="#{MassImportForm.Prepare}"
-                                                            jsf:rel="tooltip" aria-label="#{msgs.MassenImport}" class="btn">
+                                                            jsf:rel="tooltip"
+                                                            aria-label="#{msgs.MassenImport}"
+                                                            class="btn">
                                                             <i
                                                                 class="fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
                                                                 style="padding-left: 7px; padding-right: 7px;" />
@@ -320,8 +334,11 @@
                                                             <ui:repeat
                                                                 var="proj"
                                                                 value="#{ProzesskopieForm.availableProjects}">
-                                                                <li><button jsf:action="#{MassImportForm.Prepare}"
-                                                                		aria-label="#{proj.titel}" class="dropdown-item">
+                                                                <li>
+                                                                    <button
+                                                                        jsf:action="#{MassImportForm.Prepare}"
+                                                                        aria-label="#{proj.titel}"
+                                                                        class="dropdown-item">
                                                                         <h:outputText value="#{proj.titel}" />
                                                                         <x:updateActionListener
                                                                             property="#{item.projekt}"
@@ -332,7 +349,8 @@
                                                                         <x:updateActionListener
                                                                             property="#{MassImportForm.template}"
                                                                             value="#{item}" />
-                                                                    </button></li>
+                                                                    </button>
+                                                                </li>
                                                             </ui:repeat>
                                                         </ul>
                                                     </div>
@@ -343,26 +361,29 @@
                                         </x:dataTable>
 
                                         <div class="dataTables_paginate">
-                                            <h:panelGroup
-                                                rendered="#{DashboardForm.plugin.paginator.totalResults > LoginForm.myBenutzer.tabellengroesse}">
+                                            <h:panelGroup rendered="#{DashboardForm.plugin.paginator.totalResults > LoginForm.myBenutzer.tabellengroesse}">
 
                                                 <div class="pull-right">
 
-                                                    <h:commandLink
-                                                        styleClass="btn font-size-s margin-sides-10"
-                                                        action="#{DashboardForm.plugin.paginator.cmdMoveFirst}"
-                                                        id="navfirst">
+                                                    <button
+                                                        jsf:id="navfirst"
+                                                        class="btn font-size-s margin-sides-10"
+                                                        jsf:rel="tooltip"
+                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMoveFirst}">
                                                         <i class="fa fa-double-angle-left"></i>
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </h:commandLink>
-                                                    <h:commandLink
-                                                        styleClass="btn btn-primary font-size-s navigator-previous"
-                                                        action="#{DashboardForm.plugin.paginator.cmdMovePrevious}"
-                                                        id="navprev">
+                                                    </button>
+
+                                                    <button
+                                                        jsf:id="navprev"
+                                                        class="btn btn-primary font-size-s navigator-previous"
+                                                        jsf:rel="tooltip"
+                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMovePrevious}">
                                                         <i class="fa fa-angle-left"></i>
                                                         <h:outputText value=" #{msgs.pagePrevious}" />
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </h:commandLink>
+                                                    </button>
+
 
                                                     <div class="margin-sides-10">
                                                         <!-- aktuelle Seite anzeigen -->
@@ -389,26 +410,28 @@
                                                             id="cmdMoveTo"
                                                             forceId="true"
                                                             value="go"
-                                                            style="display:none">
-
+                                                            style="display:none"
+                                                            aria-hidden="true">
                                                         </x:commandButton>
                                                     </div>
 
-                                                    <h:commandLink
-                                                        styleClass="btn btn-primary font-size-s navigator-next"
-                                                        action="#{DashboardForm.plugin.paginator.cmdMoveNext}"
-                                                        id="navnext">
+                                                    <button
+                                                        jsf:id="navnext"
+                                                        class="btn btn-primary font-size-s navigator-next"
+                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMoveNext}">
                                                         <h:outputText value="#{msgs.pageNext} " />
                                                         <i class="fa fa-angle-right"></i>
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </h:commandLink>
-                                                    <h:commandLink
-                                                        styleClass="btn font-size-s margin-sides-10"
-                                                        action="#{DashboardForm.plugin.paginator.cmdMoveLast}"
-                                                        id="navlast">
+                                                    </button>
+
+                                                    <button
+                                                        jsf:id="navlast"
+                                                        class="btn font-size-s margin-sides-10"
+                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMoveLast}">
                                                         <i class="fa fa-double-angle-right"></i>
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </h:commandLink>
+                                                    </button>
+
                                                 </div>
                                             </h:panelGroup>
 

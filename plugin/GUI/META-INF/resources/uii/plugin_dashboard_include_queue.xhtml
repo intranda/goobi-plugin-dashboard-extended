@@ -37,15 +37,14 @@
                                     <h:outputText value="#{msgs.count}" />
                                 </f:facet>
                                 <h:outputText value="#{entry.numberOfTickets}" />
-
-                                <h:commandLink
-                                    styleClass="btn font-size-s margin-left-5"
-                                    action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}">
+                                <button
+                                    class="btn font-size-s margin-left-5"
+                                    jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}">
                                     <f:setPropertyActionListener
                                         value="#{entry}"
                                         target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />
                                     <i class="fa fa-search" />
-                                </h:commandLink>
+                                </button>
                             </h:column>
                         </h:dataTable>
                     </h:form>

@@ -28,10 +28,10 @@
                         <table class="table table-hover responsive">
                             <THEAD>
                                 <TR>
-                                    <td style="min-width:100px">#{msgs.titel}</td>
-                                    <td style="min-width:100px">#{msgs.statisticsStepDone}</td>
-                                    <td style="min-width:100px">#{msgs.statisticsStepInWork}</td>
-                                    <td style="min-width:100px">#{msgs.statusError}</td>
+                                    <td style="min-width: 100px">#{msgs.titel}</td>
+                                    <td style="min-width: 100px">#{msgs.statisticsStepDone}</td>
+                                    <td style="min-width: 100px">#{msgs.statisticsStepInWork}</td>
+                                    <td style="min-width: 100px">#{msgs.statusError}</td>
                                 </TR>
                             </THEAD>
                             <tbody>
@@ -44,33 +44,37 @@
                                         <td>#{historyStep.stepName}</td>
                                         <td>
                                             <h:outputText value="#{historyStep.numberOfFinishedTasks}" />
-                                            <h:commandLink styleClass="btn font-size-s margin-left-5" action="#{DashboardForm.plugin.tasksHelper.loadFinishedSteps}">
+                                            <button
+                                                class="btn font-size-s margin-left-5"
+                                                jsf:action="#{DashboardForm.plugin.tasksHelper.loadFinishedSteps}">
                                                 <f:setPropertyActionListener
                                                     value="#{historyStep}"
                                                     target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
-
                                                 <i class="fa fa-search" />
-                                            </h:commandLink>
+                                            </button>
                                         </td>
                                         <td>
                                             <h:outputText value="#{historyStep.numberOfTasksInProcess}" />
-                                            <h:commandLink styleClass="btn font-size-s margin-left-5" action="#{DashboardForm.plugin.tasksHelper.loadStepsInWork}">
+                                            <button
+                                                class="btn font-size-s margin-left-5"
+                                                jsf:action="#{DashboardForm.plugin.tasksHelper.loadStepsInWork}">
                                                 <f:setPropertyActionListener
                                                     value="#{historyStep}"
                                                     target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
-
                                                 <i class="fa fa-search" />
-                                            </h:commandLink>
-                                        </td>                                        
+                                            </button>
+
+                                        </td>
                                         <td>
                                             <h:outputText value="#{historyStep.numberOfErrorTasks}" />
-                                            <h:commandLink styleClass="btn font-size-s margin-left-5" action="#{DashboardForm.plugin.tasksHelper.loadErrorSteps}">
+                                            <button
+                                                class="btn font-size-s margin-left-5"
+                                                jsf:action="#{DashboardForm.plugin.tasksHelper.loadErrorSteps}">
                                                 <f:setPropertyActionListener
                                                     value="#{historyStep}"
                                                     target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
                                                 <i class="fa fa-search" />
-                                            </h:commandLink>
-
+                                            </button>
                                         </td>
                                     </tr>
                                 </ui:repeat>
