@@ -1,6 +1,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:composite="http://xmlns.jcp.org/jsf/composite" xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:p="http://primefaces.org/ui">
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 	<composite:interface>
 	</composite:interface>
@@ -20,11 +21,11 @@
 								<h:outputText value="#{msgs.plugin_dashboard_batches_current}" class="margin-right-5" />
 							</h2>
 							<div class="actions">
-								<h:commandLink id="reload" action="#{DashboardForm.plugin.batchHelper.loadAllData}" styleClass="btn btn-mini"
-									title="#{msgs.reload}" rel="tooltip">
+								<button jsf:id="reload" jsf:action="#{DashboardForm.plugin.batchHelper.loadAllData}" class="btn btn-mini"
+									title="#{msgs.reload}" jsf:rel="tooltip">
 									<i class="fa fa-refresh" title="#{msgs.reload}" rel="tooltip" />
 									<f:passThroughAttribute name="data-toggle" value="tooltip" />
-								</h:commandLink>
+								</button>
 							</div>
 						</div>
 						<div id="myCanvasDiv" class="box-content" style="padding:5px;">

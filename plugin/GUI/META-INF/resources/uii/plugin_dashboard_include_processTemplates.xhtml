@@ -8,7 +8,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <composite:interface>
     </composite:interface>
@@ -45,16 +46,16 @@
                                                 id="ajaxcolumn"
                                                 styleClass="tableColumnOverflow maxWidth120">
                                                 <f:facet name="header">
-                                                    <h:commandLink
-                                                        styleClass="font-black-block"
-                                                        action="#{DashboardForm.plugin.filterTemplates}">
-                                                        <h:outputText value="#{msgs.titel}" />
+                                                    <button
+                                                        class="font-black-block button-link button-sort"
+                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}">
+                                                        <h:outputText styleClass="pull-left" value="#{msgs.titel}" />
                                                         <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='titelDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='titelAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
                                                             value="#{NavigationForm.uiStatus.sorting=='titelAsc'?'titelDesc':'titelAsc'}" />
                                                         <f:ajax render="@form" />
-                                                    </h:commandLink>
+                                                    </button>
                                                 </f:facet>
                                                 <h:outputText value="#{item.titel}" />
                                             </x:column>
@@ -66,16 +67,16 @@
                                                 styleClass="tableColumnOverflow maxWidth80"
                                                 rendered="#{DashboardForm.plugin.showProcessTemplateStatusColumn}">
                                                 <f:facet name="header">
-                                                    <h:commandLink
-                                                        styleClass="font-black-block"
-                                                        action="#{DashboardForm.plugin.filterTemplates}">
-                                                        <h:outputText value="#{msgs.status}" />
+                                                    <button
+                                                        class="font-black-block button-link button-sort"
+                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}">
+                                                        <h:outputText styleClass="pull-left" value="#{msgs.status}" />
                                                         <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='fortschrittDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.uiStatus.sorting}"
                                                             value="#{NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fortschrittDesc':'fortschrittAsc'}" />
                                                         <f:ajax render="@form" />
-                                                    </h:commandLink>
+                                                    </button>
                                                 </f:facet>
 
                                                 <h:panelGroup
@@ -188,11 +189,11 @@
                                                 rendered="#{DashboardForm.plugin.showProcessTemplateProjectColumn}">
                                                 <f:facet name="header">
                                                     <!-- Header -->
-                                                    <h:commandLink
-                                                        styleClass="font-black-block"
-                                                        action="#{DashboardForm.plugin.filterTemplates}"
+                                                    <button
+                                                        class="font-black-block button-link button-sort"
+                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
                                                         title="#{msgs.projekt}">
-                                                        <h:outputText value="#{msgs.projekt}" />
+                                                        <h:outputText styleClass="pull-left" value="#{msgs.projekt}" />
                                                         <span
                                                             class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='projektDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='projektAsc'?'fa-sort-asc':'fa-sort'}"></span>
 
@@ -200,7 +201,7 @@
                                                             target="#{NavigationForm.uiStatus.sorting}"
                                                             value="#{NavigationForm.uiStatus.sorting=='projektAsc'?'projektDesc':'projektAsc'}" />
                                                         <f:ajax render="@form" />
-                                                    </h:commandLink>
+                                                    </button>
                                                 </f:facet>
                                                 <h:outputText value="#{item.projekt.titel}" />
                                             </x:column>
@@ -212,22 +213,22 @@
                                                 </f:facet>
 
                                                 <!-- ProzessKopie-Schaltknopf -->
-                                                <h:commandLink
-                                                    action="#{ProzesskopieForm.Prepare}"
-                                                    id="action22"
-                                                    rel="tooltip"
+                                                <button
+                                                    jsf:action="#{ProzesskopieForm.Prepare}"
+                                                    jsf:id="action22"
+                                                    jsf:rel="tooltip"
                                                     onclick="preventDoubleSubmit(this);"
-                                                    pt:aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
+                                                    aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
                                                     title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-                                                    rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1}">
-                                                    <i class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} " />
+                                                    jsf:rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1}"
+                                                    class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} ">
                                                     <f:passThroughAttribute
                                                         name="data-toggle"
                                                         value="tooltip" />
                                                     <x:updateActionListener
                                                         property="#{ProzesskopieForm.prozessVorlage}"
                                                         value="#{item}" />
-                                                </h:commandLink>
+                                                </button>
 
                                                 <h:panelGroup
                                                     rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() gt 1}">
@@ -245,8 +246,8 @@
                                                             <ui:repeat
                                                                 var="proj"
                                                                 value="#{ProzesskopieForm.availableProjects}">
-                                                                <li><h:commandLink action="#{ProzesskopieForm.Prepare}"
-                                                                		pt:aria-label="#{proj.titel}">
+                                                                <li><button jsf:action="#{ProzesskopieForm.Prepare}"
+                                                                		aria-label="#{proj.titel}" class="dropdown-item">
                                                                         <h:outputText value="#{proj.titel}" />
                                                                         <x:updateActionListener
                                                                             property="#{item.projekt}"
@@ -254,45 +255,42 @@
                                                                         <x:updateActionListener
                                                                             property="#{ProzesskopieForm.prozessVorlage}"
                                                                             value="#{item}" />
-                                                                    </h:commandLink></li>
+                                                                    </button></li>
                                                             </ui:repeat>
                                                         </ul>
-                                                        <h:commandLink
-                                                            pt:aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-                                                            action="#{ProzesskopieForm.Prepare}"
-                                                            rel="tooltip">
-                                                            <i
-                                                                class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} "
-                                                                style="padding-left: 7px; padding-right: 7px;" />
+                                                        <button
+                                                            aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
+                                                            jsf:action="#{ProzesskopieForm.Prepare}"
+                                                            jsf:rel="tooltip"
+                                                            class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} ">
                                                             <f:passThroughAttribute
                                                                 name="data-toggle"
                                                                 value="tooltip" />
                                                             <x:updateActionListener
                                                                 property="#{ProzesskopieForm.prozessVorlage}"
                                                                 value="#{item}" />
-                                                        </h:commandLink>
+                                                        </button>
                                                         
                                                     </div>
                                                 </h:panelGroup>
 
                                                 <!-- MassenImport -->
-                                                <h:commandLink
-                                                    action="#{MassImportForm.Prepare}"
-                                                    pt:aria-label="#{msgs.MassenImport}"
-                                                    id="action222"
-                                                    rel="tooltip"
+                                                <button
+                                                    jsf:action="#{MassImportForm.Prepare}"
+                                                    aria-label="#{msgs.MassenImport}"
+                                                    jsf:id="action222"
+                                                    jsf:rel="tooltip"
+                                                    class="btn fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
                                                     title="#{msgs.MassenImport}"
                                                     onclick="preventDoubleSubmit(this);"
-                                                    rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() eq 1}">
-                                                    <i
-                                                        class="btn fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} " />
+                                                    jsf:rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() eq 1}">
                                                     <f:passThroughAttribute
                                                         name="data-toggle"
                                                         value="tooltip" />
                                                     <x:updateActionListener
                                                         property="#{MassImportForm.template}"
                                                         value="#{item}" />
-                                                </h:commandLink>
+                                                </button>
 
                                                 <h:panelGroup
                                                     rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() gt 1}">
@@ -300,16 +298,16 @@
                                                         class="btn-group"
                                                         title="#{msgs.MassenImport}"
                                                         data-toggle="tooltip">
-                                                        <a
+                                                        <button
                                                             class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
                                                             style="padding-left: 4px; padding-right: 4px;"
-                                                            data-toggle="dropdown"> <span class="caret"></span>
-                                                        </a>
-                                                        <h:commandLink
-                                                            action="#{MassImportForm.Prepare}"
-                                                            rel="tooltip" pt:aria-label="#{msgs.MassenImport}">
+                                                            data-toggle="dropdown" type="button"> <span class="caret"></span>
+                                                        </button>
+                                                        <button
+                                                            jsf:action="#{MassImportForm.Prepare}"
+                                                            jsf:rel="tooltip" aria-label="#{msgs.MassenImport}" class="btn">
                                                             <i
-                                                                class="btn fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
+                                                                class="fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
                                                                 style="padding-left: 7px; padding-right: 7px;" />
                                                             <f:passThroughAttribute
                                                                 name="data-toggle"
@@ -317,13 +315,13 @@
                                                             <x:updateActionListener
                                                                 property="#{MassImportForm.template}"
                                                                 value="#{item}" />
-                                                        </h:commandLink>
+                                                        </button>
                                                         <ul class="dropdown-menu  pull-right">
                                                             <ui:repeat
                                                                 var="proj"
                                                                 value="#{ProzesskopieForm.availableProjects}">
-                                                                <li><h:commandLink action="#{MassImportForm.Prepare}"
-                                                                		pt:aria-label="#{proj.titel}">
+                                                                <li><button jsf:action="#{MassImportForm.Prepare}"
+                                                                		aria-label="#{proj.titel}" class="dropdown-item">
                                                                         <h:outputText value="#{proj.titel}" />
                                                                         <x:updateActionListener
                                                                             property="#{item.projekt}"
@@ -334,7 +332,7 @@
                                                                         <x:updateActionListener
                                                                             property="#{MassImportForm.template}"
                                                                             value="#{item}" />
-                                                                    </h:commandLink></li>
+                                                                    </button></li>
                                                             </ui:repeat>
                                                         </ul>
                                                     </div>
