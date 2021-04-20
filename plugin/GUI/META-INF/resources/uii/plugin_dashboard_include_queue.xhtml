@@ -15,41 +15,74 @@
         <h:panelGroup rendered="#{DashboardForm.plugin.messageQueueStatus.showMessageQueue}">
 
             <div class="box box-color box-bordered">
-                <div class="box-title">
-                    <h3>
-                        <h:outputText value="#{msgs.plugin_dashboard_tasks_in_messageQueue}" />
-                    </h3>
-                </div>
-                <div class="box-content nopadding">
-                    <h:form id="slow_queue">
-                        <h:dataTable
-                            styleClass="table table-hover responsive"
-                            var="entry"
-                            value="#{DashboardForm.plugin.messageQueueStatus.jobTypeList}">
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.message_queue_ticket_type}" />
-                                </f:facet>
-                                <h:outputText value="#{entry.jobTypeName}" />
-                            </h:column>
+                <h:form id="slow_queue">
+                    <div class="box-title">
+                        <h2 style="width: 100%;">
+                            <h:outputText value="#{msgs.plugin_dashboard_tasks_in_messageQueue}" />
 
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.count}" />
-                                </f:facet>
-                                <h:outputText value="#{entry.numberOfTickets}" />
-                                <button
-                                    class="btn font-size-s margin-left-5"
-                                    jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}">
-                                    <f:setPropertyActionListener
-                                        value="#{entry}"
-                                        target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />
-                                    <i class="fa fa-search" />
-                                </button>
-                            </h:column>
-                        </h:dataTable>
-                    </h:form>
-                </div>
+                            <button
+                                type="button"
+                                class="btn pull-right"
+                                jsf:rendered="#{!DashboardForm.plugin.messageQueueStatus.showAllTasks}"
+                                style="padding: 0; line-height: inherit; color: inherit; border: none; background: inherit; display: inline-block; margin-left: auto;">
+                                <i class="fa fa-angle-up"></i>
+                                <f:setPropertyActionListener
+                                    target="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
+                                    value="true" />
+                                <f:ajax render="@form" />
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn pull-right"
+                                jsf:rendered="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
+                                style="padding: 0; line-height: inherit; color: inherit; border: none; background: inherit; display: inline-block; margin-left: auto;">
+                                <i class="fa fa-angle-down margin-right-5"></i>
+                                <f:setPropertyActionListener
+                                    target="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
+                                    value="false" />
+                                <f:ajax render="@form" />
+                            </button>
+                        </h2>
+                    </div>
+                    <div class="box-content nopadding">
+                        <h:panelGroup rendered="#{DashboardForm.plugin.messageQueueStatus.jobListEmpty}">
+                            <h:outputText value="#{msgs.dashboard_noJobsInList}" />
+                        </h:panelGroup>
+
+
+                        <h:panelGroup rendered="#{!DashboardForm.plugin.messageQueueStatus.jobListEmpty}">
+
+
+                            <h:dataTable
+                                styleClass="table table-hover responsive"
+                                var="entry"
+                                value="#{DashboardForm.plugin.messageQueueStatus.currentJobs}">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs.message_queue_ticket_type}" />
+                                    </f:facet>
+                                    <h:outputText value="#{entry.jobTypeName}" />
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs.count}" />
+                                    </f:facet>
+                                    <h:outputText value="#{entry.numberOfTickets}" />
+                                    <button
+                                        class="btn font-size-s margin-left-5"
+                                        jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}">
+                                        <f:setPropertyActionListener
+                                            value="#{entry}"
+                                            target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />
+                                        <i class="fa fa-search" />
+                                    </button>
+                                </h:column>
+                            </h:dataTable>
+                        </h:panelGroup>
+                    </div>
+                </h:form>
             </div>
 
         </h:panelGroup>

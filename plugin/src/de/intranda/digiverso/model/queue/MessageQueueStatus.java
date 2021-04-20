@@ -29,6 +29,10 @@ public class MessageQueueStatus {
     @Setter
     private TicketType currentType;
 
+    @Getter
+    @Setter
+    private boolean showAllTasks = false;
+
     public MessageQueueStatus(XMLConfiguration pluginConfig) {
 
         showMessageQueue = pluginConfig.getBoolean("queue-show", false);
@@ -59,7 +63,7 @@ public class MessageQueueStatus {
                         numberOfTasks = (String) o[0];
                     }
 
-                    jobTypeList.add(new TicketType( type.getName(), numberOfTasks, steps));
+                    jobTypeList.add(new TicketType(type.getName(), numberOfTasks, steps));
 
                 }
             } catch (DAOException e1) {
@@ -89,5 +93,25 @@ public class MessageQueueStatus {
 
         return bean.FilterAlleStart();
 
+    }
+
+    public List<TicketType> getCurrentJobs() {
+
+        if (showAllTasks) {
+            return jobTypeList;
+        }
+        List<TicketType> thl = new ArrayList<>();
+        for (TicketType t : jobTypeList) {
+            if (!t.getNumberOfTickets().equals("0")) {
+                thl.add(t);
+            }
+
+        }
+        return thl;
+
+    }
+
+    public boolean isJobListEmpty() {
+        return getCurrentJobs().isEmpty();
     }
 }
