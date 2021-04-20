@@ -74,6 +74,11 @@ public class DashboardHelperTasks {
     @Setter
     private TaskChangeType currentStep;
 
+    @Getter
+    @Setter
+    private boolean showAllTasks = false;
+
+
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public DashboardHelperTasks(XMLConfiguration pluginConfig) {
@@ -234,4 +239,24 @@ public class DashboardHelperTasks {
         return "task_edit";
     }
 
+
+
+
+    public List<TaskHistory> getCurrentHistory() {
+
+        if (showAllTasks) {
+            return history;
+        }
+        List<TaskHistory> thl = new ArrayList<>();
+        for (TaskHistory t : history) {
+            if (t.getNumberOfErrorTasks() > 0 || t.getNumberOfFinishedTasks() > 0 || t.getNumberOfTasksInProcess() > 0) {
+                thl.add(t);
+            }
+        }
+        return thl;
+    }
+
+    public boolean isHistoryEmpty() {
+        return getCurrentHistory().isEmpty();
+    }
 }

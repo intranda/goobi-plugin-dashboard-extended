@@ -15,74 +15,106 @@
 
         <h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showHistory}">
             <div class="box box-color box-bordered">
-                <div class="box-title">
-                    <h2>
-                        <i class="fa fa-list"></i>
-                        <h:outputFormat value="#{msgs.stepHistory}">
-                            <f:param value="#{DashboardForm.plugin.tasksHelper.numberOfDays}" />
-                        </h:outputFormat>
-                    </h2>
-                </div>
-                <div class="box-content nopadding">
+                <h:form>
+                    <div class="box-title">
+                        <h2 style="width: 100%;">
+                            <i class="fa fa-list"></i>
+                            <h:outputFormat value="#{msgs.stepHistory}">
+                                <f:param value="#{DashboardForm.plugin.tasksHelper.numberOfDays}" />
+                            </h:outputFormat>
+                            <button
+                                type="button"
+                                class="btn pull-right"
+                                jsf:rendered="#{!DashboardForm.plugin.tasksHelper.showAllTasks}"
+                                style="padding: 0; line-height: inherit; color: inherit; border: none; background: inherit; display: inline-block; margin-left: auto;">
+                                <i class="fa fa-angle-up"></i>
+                                <f:setPropertyActionListener
+                                    target="#{DashboardForm.plugin.tasksHelper.showAllTasks}"
+                                    value="true" />
+                                <f:ajax render="@form" />
+                            </button>
 
-                    <h:form>
-                        <table class="table table-hover responsive">
-                            <THEAD>
-                                <TR>
-                                    <td style="min-width: 100px">#{msgs.titel}</td>
-                                    <td style="min-width: 100px">#{msgs.statisticsStepDone}</td>
-                                    <td style="min-width: 100px">#{msgs.statisticsStepInWork}</td>
-                                    <td style="min-width: 100px">#{msgs.statusError}</td>
-                                </TR>
-                            </THEAD>
-                            <tbody>
+                            <button
+                                type="button"
+                                class="btn pull-right"
+                                jsf:rendered="#{DashboardForm.plugin.tasksHelper.showAllTasks}"
+                                style="padding: 0; line-height: inherit; color: inherit; border: none; background: inherit; display: inline-block; margin-left: auto;">
+                                <i class="fa fa-angle-down margin-right-5"></i>
+                                <f:setPropertyActionListener
+                                    target="#{DashboardForm.plugin.tasksHelper.showAllTasks}"
+                                    value="false" />
+                                <f:ajax render="@form" />
+                            </button>
 
-                                <ui:repeat
-                                    var="historyStep"
-                                    value="#{DashboardForm.plugin.tasksHelper.history}">
-                                    <tr>
 
-                                        <td>#{historyStep.stepName}</td>
-                                        <td>
-                                            <h:outputText value="#{historyStep.numberOfFinishedTasks}" />
-                                            <button
-                                                class="btn font-size-s margin-left-5"
-                                                jsf:action="#{DashboardForm.plugin.tasksHelper.loadFinishedSteps}">
-                                                <f:setPropertyActionListener
-                                                    value="#{historyStep}"
-                                                    target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
-                                                <i class="fa fa-search" />
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <h:outputText value="#{historyStep.numberOfTasksInProcess}" />
-                                            <button
-                                                class="btn font-size-s margin-left-5"
-                                                jsf:action="#{DashboardForm.plugin.tasksHelper.loadStepsInWork}">
-                                                <f:setPropertyActionListener
-                                                    value="#{historyStep}"
-                                                    target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
-                                                <i class="fa fa-search" />
-                                            </button>
+                        </h2>
+                    </div>
+                    <div class="box-content nopadding">
 
-                                        </td>
-                                        <td>
-                                            <h:outputText value="#{historyStep.numberOfErrorTasks}" />
-                                            <button
-                                                class="btn font-size-s margin-left-5"
-                                                jsf:action="#{DashboardForm.plugin.tasksHelper.loadErrorSteps}">
-                                                <f:setPropertyActionListener
-                                                    value="#{historyStep}"
-                                                    target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
-                                                <i class="fa fa-search" />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </ui:repeat>
-                            </tbody>
-                        </table>
-                    </h:form>
-                </div>
+                        <h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.historyEmpty}">
+                            <h:outputText value="#{msgs.dashboard_noJobsInList}"/>
+                        </h:panelGroup>
+
+
+                        <h:panelGroup rendered="#{!DashboardForm.plugin.tasksHelper.historyEmpty}">
+                            <table class="table table-hover responsive">
+                                <THEAD>
+                                    <TR>
+                                        <td style="min-width: 100px">#{msgs.titel}</td>
+                                        <td style="min-width: 100px">#{msgs.statisticsStepDone}</td>
+                                        <td style="min-width: 100px">#{msgs.statisticsStepInWork}</td>
+                                        <td style="min-width: 100px">#{msgs.statusError}</td>
+                                    </TR>
+                                </THEAD>
+                                <tbody>
+
+                                    <ui:repeat
+                                        var="historyStep"
+                                        value="#{DashboardForm.plugin.tasksHelper.currentHistory}">
+                                        <tr>
+
+                                            <td>#{historyStep.stepName}</td>
+                                            <td>
+                                                <h:outputText value="#{historyStep.numberOfFinishedTasks}" />
+                                                <button
+                                                    class="btn font-size-s margin-left-5"
+                                                    jsf:action="#{DashboardForm.plugin.tasksHelper.loadFinishedSteps}">
+                                                    <f:setPropertyActionListener
+                                                        value="#{historyStep}"
+                                                        target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
+                                                    <i class="fa fa-search" />
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{historyStep.numberOfTasksInProcess}" />
+                                                <button
+                                                    class="btn font-size-s margin-left-5"
+                                                    jsf:action="#{DashboardForm.plugin.tasksHelper.loadStepsInWork}">
+                                                    <f:setPropertyActionListener
+                                                        value="#{historyStep}"
+                                                        target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
+                                                    <i class="fa fa-search" />
+                                                </button>
+
+                                            </td>
+                                            <td>
+                                                <h:outputText value="#{historyStep.numberOfErrorTasks}" />
+                                                <button
+                                                    class="btn font-size-s margin-left-5"
+                                                    jsf:action="#{DashboardForm.plugin.tasksHelper.loadErrorSteps}">
+                                                    <f:setPropertyActionListener
+                                                        value="#{historyStep}"
+                                                        target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
+                                                    <i class="fa fa-search" />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </ui:repeat>
+                                </tbody>
+                            </table>
+                        </h:panelGroup>
+                    </div>
+                </h:form>
             </div>
         </h:panelGroup>
 
