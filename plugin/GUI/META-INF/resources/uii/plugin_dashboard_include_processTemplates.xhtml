@@ -48,7 +48,9 @@
                                                 <f:facet name="header">
                                                     <button
                                                         class="font-black-block button-link button-sort"
-                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}">
+                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
+                                                        aria-label="#{msgs.defaultSortField} #{msgs.titel} #{NavigationForm.uiStatus.sorting=='titelDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='titelAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }"
+                                                        aria-sort="#{NavigationForm.uiStatus.sorting=='titelDesc'? 'descending' : NavigationForm.uiStatus.sorting=='titelAsc'? 'ascending' :'none'}">
                                                         <h:outputText styleClass="pull-left" value="#{msgs.titel}" />
                                                         <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='titelDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='titelAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
@@ -69,7 +71,9 @@
                                                 <f:facet name="header">
                                                     <button
                                                         class="font-black-block button-link button-sort"
-                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}">
+                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
+                                                        aria-label="#{msgs.defaultSortField} #{msgs.status} #{NavigationForm.uiStatus.sorting=='fortschrittDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='fortschrittAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }"
+                                                        aria-sort="#{NavigationForm.uiStatus.sorting=='fortschrittDesc'? 'descending' : NavigationForm.uiStatus.sorting=='fortschrittAsc'? 'ascending' :'none'}">
                                                         <h:outputText styleClass="pull-left" value="#{msgs.status}" />
                                                         <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='fortschrittDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fa-sort-asc':'fa-sort'}"></span>
                                                         <f:setPropertyActionListener
@@ -196,7 +200,9 @@
                                                     <button
                                                         class="font-black-block button-link button-sort"
                                                         jsf:action="#{DashboardForm.plugin.filterTemplates}"
-                                                        title="#{msgs.projekt}">
+                                                        title="#{msgs.projekt}"
+                                                        aria-label="#{msgs.defaultSortField} #{msgs.projekt} #{NavigationForm.uiStatus.sorting=='projektDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='projektAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }"
+                                                        aria-sort="#{NavigationForm.uiStatus.sorting=='projektDesc'? 'descending' : NavigationForm.uiStatus.sorting=='projektAsc'? 'ascending' :'none'}">
                                                         <h:outputText styleClass="pull-left" value="#{msgs.projekt}" />
                                                         <span
                                                             class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='projektDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='projektAsc'?'fa-sort-asc':'fa-sort'}"></span>
