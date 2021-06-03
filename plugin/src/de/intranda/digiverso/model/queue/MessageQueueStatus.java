@@ -50,9 +50,9 @@ public class MessageQueueStatus {
                             if (titles.length() > 0) {
                                 titles.append(", ");
                             }
-                            titles.append("\"");
+                            titles.append("'");
                             titles.append(step);
-                            titles.append("\"");
+                            titles.append("'");
                         }
                     }
                     @SuppressWarnings("unchecked")
