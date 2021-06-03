@@ -233,7 +233,7 @@ public class DashboardHelperTasks {
         } catch (DAOException e) {
         }
 
-        StepBean bean = (StepBean) Helper.getBeanByName("AktuelleSchritteForm", StepBean.class);
+        StepBean bean = Helper.getBeanByClass( StepBean.class);
         bean.setMySchritt(currentStep.getClosedStep());
 
         return "task_edit";
