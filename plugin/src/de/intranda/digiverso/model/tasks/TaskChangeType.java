@@ -1,9 +1,12 @@
 package de.intranda.digiverso.model.tasks;
 
+import java.text.DateFormat;
+import java.util.Locale;
+
 import org.goobi.beans.Process;
 import org.goobi.beans.Step;
 
-import de.sub.goobi.helper.Helper;
+import de.sub.goobi.helper.FacesContextHelper;
 import de.sub.goobi.helper.enums.StepStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,10 +35,30 @@ public class TaskChangeType {
     }
 
     public String getClosedDate() {
-        return Helper.getDateAsFormattedString(closedStep.getBearbeitungsende()).split(" ")[0];
+        DateFormat dateFormat = getDateFormat(DateFormat.DEFAULT);
+        return dateFormat.format(closedStep.getBearbeitungsende());
     }
 
     public String getClosedTime() {
-        return Helper.getDateAsFormattedString(closedStep.getBearbeitungsende()).split(" ")[1];
+        DateFormat dateFormat = getTimeFormat(DateFormat.MEDIUM);
+        return dateFormat.format(closedStep.getBearbeitungsende());
+    }
+
+    private DateFormat getTimeFormat(int formatType) {
+        DateFormat dateFormat = DateFormat.getTimeInstance(formatType);
+        Locale userLang = FacesContextHelper.getCurrentFacesContext().getViewRoot().getLocale();
+        if (userLang != null) {
+            dateFormat = DateFormat.getTimeInstance(formatType, userLang);
+        }
+        return dateFormat;
+    }
+
+    private DateFormat getDateFormat(int formatType) {
+        DateFormat dateFormat = DateFormat.getDateInstance(formatType);
+        Locale userLang = FacesContextHelper.getCurrentFacesContext().getViewRoot().getLocale();
+        if (userLang != null) {
+            dateFormat = DateFormat.getDateInstance(formatType, userLang);
+        }
+        return dateFormat;
     }
 }
