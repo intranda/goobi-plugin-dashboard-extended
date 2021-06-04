@@ -72,6 +72,8 @@
                                     <h:outputText value="#{entry.numberOfTickets}" />
                                     <button
                                         class="expandbutton icon-only-button"
+                                        title="#{msgs.search}"
+                                        data-toggle="tooltip"
                                         jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}"
                                         jsf:rendered="#{LoginForm.hasRole('Workflow_Processes')}">
                                         <f:setPropertyActionListener

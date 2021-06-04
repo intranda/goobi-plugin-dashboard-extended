@@ -79,6 +79,8 @@
                                                 <button
                                                     jsf:rendered="#{LoginForm.hasRole('Workflow_Processes')}"
                                                     class="expandbutton icon-only-button"
+                                                    title="#{msgs.search}"
+                                                    data-toggle="tooltip"
                                                     jsf:action="#{DashboardForm.plugin.tasksHelper.loadFinishedSteps}">
                                                     <f:setPropertyActionListener
                                                         value="#{historyStep}"
@@ -91,6 +93,8 @@
                                                 <button
                                                     jsf:rendered="#{LoginForm.hasRole('Workflow_Processes')}"
                                                     class="expandbutton icon-only-button"
+                                                    title="#{msgs.search}"
+                                                    data-toggle="tooltip"
                                                     jsf:action="#{DashboardForm.plugin.tasksHelper.loadStepsInWork}">
                                                     <f:setPropertyActionListener
                                                         value="#{historyStep}"
@@ -104,6 +108,8 @@
                                                 <button
                                                     jsf:rendered="#{LoginForm.hasRole('Workflow_Processes')}"
                                                     class="expandbutton icon-only-button"
+                                                    title="#{msgs.search}"
+                                                    data-toggle="tooltip"
                                                     jsf:action="#{DashboardForm.plugin.tasksHelper.loadErrorSteps}">
                                                     <f:setPropertyActionListener
                                                         value="#{historyStep}"
