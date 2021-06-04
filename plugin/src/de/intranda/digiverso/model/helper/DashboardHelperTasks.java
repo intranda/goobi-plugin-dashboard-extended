@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
@@ -77,7 +78,6 @@ public class DashboardHelperTasks {
     @Getter
     @Setter
     private boolean showAllTasks = false;
-
 
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -166,6 +166,7 @@ public class DashboardHelperTasks {
                     TaskChangeType tct = new TaskChangeType(currentStep, followingStep, process);
                     taskChangeHistory.add(tct);
                 }
+                taskChangeHistory.sort(Comparator.comparing(tct -> tct.getClosedStep().getBearbeitungsende()));
             }
         }
 
@@ -233,14 +234,11 @@ public class DashboardHelperTasks {
         } catch (DAOException e) {
         }
 
-        StepBean bean = Helper.getBeanByClass( StepBean.class);
+        StepBean bean = Helper.getBeanByClass(StepBean.class);
         bean.setMySchritt(currentStep.getClosedStep());
 
         return "task_edit";
     }
-
-
-
 
     public List<TaskHistory> getCurrentHistory() {
 

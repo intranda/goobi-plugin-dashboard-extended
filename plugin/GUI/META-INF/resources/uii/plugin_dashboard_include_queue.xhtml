@@ -55,7 +55,7 @@
 
 
                             <h:dataTable
-                                styleClass="table table-hover responsive"
+                                styleClass="table table-hover table-bordered responsive"
                                 var="entry"
                                 value="#{DashboardForm.plugin.messageQueueStatus.currentJobs}">
                                 <h:column>
@@ -71,8 +71,9 @@
                                     </f:facet>
                                     <h:outputText value="#{entry.numberOfTickets}" />
                                     <button
-                                        class="btn font-size-s margin-left-5"
-                                        jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}">
+                                        class="expandbutton icon-only-button"
+                                        jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}"
+                                        jsf:rendered="#{LoginForm.hasRole('Workflow_Processes')}">
                                         <f:setPropertyActionListener
                                             value="#{entry}"
                                             target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />

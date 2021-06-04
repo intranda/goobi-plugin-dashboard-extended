@@ -3,6 +3,7 @@ package de.intranda.digiverso.model.tasks;
 import org.goobi.beans.Process;
 import org.goobi.beans.Step;
 
+import de.sub.goobi.helper.Helper;
 import de.sub.goobi.helper.enums.StepStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,4 +31,11 @@ public class TaskChangeType {
                 || followingStep.getBearbeitungsstatusEnum() == StepStatus.LOCKED;
     }
 
+    public String getClosedDate() {
+        return Helper.getDateAsFormattedString(closedStep.getBearbeitungsende()).split(" ")[0];
+    }
+
+    public String getClosedTime() {
+        return Helper.getDateAsFormattedString(closedStep.getBearbeitungsende()).split(" ")[1];
+    }
 }

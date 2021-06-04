@@ -25,9 +25,17 @@
                     </h2>
                 </div>
                 <div class="box-content nopadding">
-
+                    <div class="dataTables_wrapper">
                     <h:form>
-                        <table class="table table-hover responsive">
+                        <table class="table table-hover dataTable table-bordered  responsive">
+                            <thead>
+                                <tr>
+                                    <th>#{msgs.prozess}</th>
+                                    <th>#{msgs.arbeitsschritt}</th>
+                                    <th>#{msgs.zuletztBearbeitet}</th>
+                                    <th>#{msgs.auswahl}</th>
+                                </tr>
+                            </thead>
                             <tbody>
 
                                 <ui:repeat
@@ -39,17 +47,19 @@
                                             class="tableColumnMaxWidthLong"
                                             title="#{historyStep.process.titel}">#{historyStep.process.titel}</td>
                                         <td>#{historyStep.closedStep.titel}</td>
+                                        <td>#{historyStep.closedDate}<br />#{historyStep.closedTime}</td>
+                                        
                                         <td>
                                             <!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
                                             <button
                                                 rel="tooltip"
                                                 jsf:rendered="#{historyStep.assignable}"
-                                                jsf:title="#{msgs.inBearbeitungDurch}: #{historyStep.closedStep.bearbeitungsbenutzer.nachVorname}"
-                                                pt:aria-label="#{msgs.inBearbeitungDurch}: #{historyStep.closedStep.bearbeitungsbenutzer.nachVorname}"
+                                                jsf:title="#{msgs.plugin_dashboard_reOpenTask}"
+                                                pt:aria-label="#{msgs.plugin_dashboard_reOpenTask}"
                                                 jsf:id="view1"
-                                                class="btn btn-warning"
+                                                class="btn"
                                                 jsf:action="#{DashboardForm.plugin.tasksHelper.reOpenTask}">
-                                                <i class="fa fa-cog"></i>
+                                                <i class="fa fa-undo"></i>
                                                 <f:passThroughAttribute
                                                     name="data-toggle"
                                                     value="tooltip" />
@@ -63,6 +73,7 @@
                             </tbody>
                         </table>
                     </h:form>
+                    </div>
                 </div>
             </div>
         </h:panelGroup>
