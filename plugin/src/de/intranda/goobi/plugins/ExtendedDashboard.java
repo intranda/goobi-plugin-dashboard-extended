@@ -1,7 +1,10 @@
 package de.intranda.goobi.plugins;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.lang.StringUtils;
@@ -48,6 +51,7 @@ import de.intranda.digiverso.model.helper.DashboardHelperTasks;
 import de.intranda.digiverso.model.queue.MessageQueueStatus;
 import de.sub.goobi.config.ConfigPlugins;
 import de.sub.goobi.forms.NavigationForm;
+import de.sub.goobi.helper.FacesContextHelper;
 import de.sub.goobi.helper.Helper;
 import de.sub.goobi.persistence.managers.ProcessManager;
 import lombok.Getter;
@@ -300,5 +304,39 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
             filterTemplates();
         }
         return paginator;
+    }
+
+    public String getFormattedDate(Date date) {
+        if (date == null) {
+            return "-";
+        }
+        DateFormat dateFormat = getDateFormat(DateFormat.DEFAULT);
+        return dateFormat.format(date);
+    }
+
+    public String getFormattedTime(Date date) {
+        if (date == null) {
+            return "-";
+        }
+        DateFormat dateFormat = getTimeFormat(DateFormat.MEDIUM);
+        return dateFormat.format(date);
+    }
+
+    private DateFormat getTimeFormat(int formatType) {
+        DateFormat dateFormat = DateFormat.getTimeInstance(formatType);
+        Locale userLang = FacesContextHelper.getCurrentFacesContext().getViewRoot().getLocale();
+        if (userLang != null) {
+            dateFormat = DateFormat.getTimeInstance(formatType, userLang);
+        }
+        return dateFormat;
+    }
+
+    private DateFormat getDateFormat(int formatType) {
+        DateFormat dateFormat = DateFormat.getDateInstance(formatType);
+        Locale userLang = FacesContextHelper.getCurrentFacesContext().getViewRoot().getLocale();
+        if (userLang != null) {
+            dateFormat = DateFormat.getDateInstance(formatType, userLang);
+        }
+        return dateFormat;
     }
 }

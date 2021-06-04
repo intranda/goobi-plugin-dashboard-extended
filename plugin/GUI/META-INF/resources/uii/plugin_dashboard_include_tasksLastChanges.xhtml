@@ -21,7 +21,7 @@
                 <div class="box-title">
                     <h2>
                         <i class="fa fa-list"></i>
-                        <h:outputText value="#{msgs.doneSteps}" />
+                        <h:outputText value="#{msgs.plugin_dashboard_extended_recentlyClosedTasks}" />
                     </h2>
                 </div>
                 <div class="box-content nopadding">
@@ -47,15 +47,15 @@
                                             class="tableColumnMaxWidthLong"
                                             title="#{historyStep.process.titel}">#{historyStep.process.titel}</td>
                                         <td>#{historyStep.closedStep.titel}</td>
-                                        <td>#{historyStep.closedDate}<br />#{historyStep.closedTime}</td>
+                                        <td>#{DashboardForm.plugin.getFormattedDate(historyStep.closedStep.bearbeitungsende)}<br />#{DashboardForm.plugin.getFormattedTime(historyStep.closedStep.bearbeitungsende)}</td>
                                         
                                         <td>
                                             <!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
                                             <button
                                                 rel="tooltip"
                                                 jsf:rendered="#{historyStep.assignable}"
-                                                jsf:title="#{msgs.plugin_dashboard_reOpenTask}"
-                                                pt:aria-label="#{msgs.plugin_dashboard_reOpenTask}"
+                                                jsf:title="#{msgs.plugin_dashboard_extended_reOpenTask}"
+                                                pt:aria-label="#{msgs.plugin_dashboard_extended_reOpenTask}"
                                                 jsf:id="view1"
                                                 class="btn"
                                                 jsf:action="#{DashboardForm.plugin.tasksHelper.reOpenTask}">
