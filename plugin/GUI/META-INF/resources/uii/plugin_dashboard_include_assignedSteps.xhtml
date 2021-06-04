@@ -1,0 +1,73 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:x="http://myfaces.apache.org/tomahawk"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+
+        <h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showTasks and DashboardForm.plugin.tasksHelper.assignedSteps.size() gt 0}">
+            <div class="box box-color orange box-bordered">
+                <div class="box-title">
+                    <h2>
+                        <i class="fa fa-list"></i>
+                        <h:outputText value="#{msgs.assignedSteps}" />
+                    </h2>
+                </div>
+                <div class="box-content nopadding">
+
+                    <h:form>
+                        <table class="table table-hover dataTable table-bordered responsive">
+                            <thead>
+                                <tr>
+                                    <th>#{msgs.prozess}</th>
+                                    <th>#{msgs.arbeitsschritt}</th>
+                                    <th>#{msgs.zuletztBearbeitet}</th>
+                                    <th>#{msgs.auswahl}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <ui:repeat
+                                    var="assignedStep"
+                                    value="#{DashboardForm.plugin.tasksHelper.assignedSteps}">
+                                    <tr>
+
+                                        <td
+                                            class="tableColumnMaxWidthLong"
+                                            title="#{assignedStep.prozess.titel}">#{assignedStep.prozess.titel}</td>
+                                        <td>#{assignedStep.titel}</td>
+                                        <td>#{DashboardForm.plugin.getFormattedDate(assignedStep.bearbeitungsende)}<br />#{DashboardForm.plugin.getFormattedTime(assignedStep.bearbeitungsende)}</td>
+                                        <td>
+
+
+                                            <!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
+											<button aria-label="#{msgs.inBearbeitungDurch}: #{assignedStep.bearbeitungsbenutzer!=null and assignedStep.bearbeitungsbenutzer.id!=0 ? assignedStep.bearbeitungsbenutzer.nachVorname:''}" jsf:action="task_edit" jsf:id="view1" class="btn btn-warning" jsf:rel="tooltip"
+												jsf:rendered="#{(assignedStep.bearbeitungsstatusEnum == 'INWORK' and assignedStep.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and !assignedStep.batchStep) or (assignedStep.bearbeitungsstatusEnum == 'INWORK' and assignedStep.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and assignedStep.batchStep and !assignedStep.batchSize)}"
+												title="#{msgs.plugin_dashboard_extended_continueTask}">
+												<i class="fa fa-cog"></i>
+												<f:passThroughAttribute name="data-toggle" value="tooltip" />
+												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{assignedStep}" />
+											</button>
+
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:form>
+                </div>
+            </div>
+        </h:panelGroup>
+    </composite:implementation>
+
+</ui:composition>
+
+

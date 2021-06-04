@@ -1,0 +1,86 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:x="http://myfaces.apache.org/tomahawk"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <composite:interface>
+    </composite:interface>
+
+    <composite:implementation>
+
+
+
+
+        <h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showLastChanges and DashboardForm.plugin.tasksHelper.taskChangeHistory.size() gt 0}">
+            <div class="box box-color box-bordered">
+                <div class="box-title">
+                    <h2>
+                        <i class="fa fa-list"></i>
+                        <h:outputText value="#{msgs.plugin_dashboard_extended_recentlyClosedTasks}" />
+                    </h2>
+                </div>
+                <div class="box-content nopadding">
+                    <div class="dataTables_wrapper">
+                    <h:form>
+                        <table class="table table-hover dataTable table-bordered  responsive">
+                            <thead>
+                                <tr>
+                                    <th>#{msgs.prozess}</th>
+                                    <th>#{msgs.arbeitsschritt}</th>
+                                    <th>#{msgs.zuletztBearbeitet}</th>
+                                    <th>#{msgs.auswahl}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <ui:repeat
+                                    var="historyStep"
+                                    value="#{DashboardForm.plugin.tasksHelper.taskChangeHistory}">
+                                    <tr>
+
+                                        <td
+                                            class="tableColumnMaxWidthLong"
+                                            title="#{historyStep.process.titel}">#{historyStep.process.titel}</td>
+                                        <td>#{historyStep.closedStep.titel}</td>
+                                        <td>#{DashboardForm.plugin.getFormattedDate(historyStep.closedStep.bearbeitungsende)}<br />#{DashboardForm.plugin.getFormattedTime(historyStep.closedStep.bearbeitungsende)}</td>
+                                        
+                                        <td>
+                                            <!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
+                                            <button
+                                                rel="tooltip"
+                                                jsf:rendered="#{historyStep.assignable}"
+                                                jsf:title="#{msgs.plugin_dashboard_extended_reOpenTask}"
+                                                pt:aria-label="#{msgs.plugin_dashboard_extended_reOpenTask}"
+                                                jsf:id="view1"
+                                                class="btn"
+                                                jsf:action="#{DashboardForm.plugin.tasksHelper.reOpenTask}">
+                                                <i class="fa fa-undo"></i>
+                                                <f:passThroughAttribute
+                                                    name="data-toggle"
+                                                    value="tooltip" />
+                                                <f:setPropertyActionListener
+                                                    value="#{historyStep}"
+                                                    target="#{DashboardForm.plugin.tasksHelper.currentStep}" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                        </table>
+                    </h:form>
+                    </div>
+                </div>
+            </div>
+        </h:panelGroup>
+
+
+    </composite:implementation>
+
+</ui:composition>
+
+

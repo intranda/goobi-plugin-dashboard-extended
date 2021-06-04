@@ -1,11 +1,15 @@
 package de.intranda.goobi.plugins;
 
-import java.nio.file.Path;
-import java.util.HashMap;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
-import org.goobi.beans.Step;
+import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.lang.StringUtils;
+import org.goobi.beans.User;
 import org.goobi.managedbeans.DatabasePaginator;
-import org.goobi.production.enums.PluginGuiType;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
@@ -32,10 +36,9 @@ import org.goobi.production.enums.PluginGuiType;
  * exception statement from your version.
  */
 import org.goobi.production.enums.PluginType;
-import org.goobi.production.enums.StepReturnValue;
 import org.goobi.production.flow.statistics.hibernate.FilterHelper;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
-import org.goobi.production.plugin.interfaces.IRestGuiPlugin;
+import org.goobi.production.plugin.interfaces.IRestPlugin;
 
 import com.google.gson.Gson;
 
@@ -45,8 +48,10 @@ import de.intranda.digiverso.model.helper.DashboardHelperNagios;
 import de.intranda.digiverso.model.helper.DashboardHelperProcesses;
 import de.intranda.digiverso.model.helper.DashboardHelperRss;
 import de.intranda.digiverso.model.helper.DashboardHelperTasks;
+import de.intranda.digiverso.model.queue.MessageQueueStatus;
 import de.sub.goobi.config.ConfigPlugins;
 import de.sub.goobi.forms.NavigationForm;
+import de.sub.goobi.helper.FacesContextHelper;
 import de.sub.goobi.helper.Helper;
 import de.sub.goobi.persistence.managers.ProcessManager;
 import lombok.Getter;
@@ -54,8 +59,9 @@ import lombok.Setter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import spark.Service;
 
+@SuppressWarnings("deprecation")
 @PluginImplementation
-public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
+public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
 
     private DashboardHelperRss rssHelper;
     private DashboardHelperItm itmHelper;
@@ -67,9 +73,51 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     private DatabasePaginator paginator = null;
 
+    private MessageQueueStatus mq;
+
     @Getter
     @Setter
     private String filter = null;
+
+    private XMLConfiguration pluginConfig;
+
+    @Getter
+    @Setter
+    private List<String> column1 = new ArrayList<>();
+    @Getter
+    @Setter
+    private List<String> column2 = new ArrayList<>();
+    @Getter
+    @Setter
+    private List<String> column3 = new ArrayList<>();
+
+    public ExtendedDashboard() {
+        pluginConfig = ConfigPlugins.getPluginConfig(PLUGIN_NAME);
+
+        // TODO get default layout from configuration?
+        String value =
+                "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 itm,2 queue,3 rss,3 nagios";
+
+        User user = Helper.getCurrentUser();
+
+        if (user != null && !StringUtils.isBlank(user.getDashboardConfiguration())) {
+            value = user.getDashboardConfiguration();
+        }
+        // replace new line with comma, then split
+        value = value.replace("\n", ",");
+        String[] lines = value.split(",");
+        for (String line : lines) {
+            line = line.trim();
+            if (line.startsWith("1")) {
+                column1.add(line.replace("1", "").trim());
+            } else if (line.startsWith("2")) {
+                column2.add(line.replace("2", "").trim());
+            } else if (line.startsWith("3")) {
+                column3.add(line.replace("3", "").trim());
+            }
+        }
+
+    }
 
     @Override
     public PluginType getType() {
@@ -92,129 +140,83 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
 
     public DashboardHelperRss getRssHelper() {
         if (rssHelper == null) {
-            rssHelper = new DashboardHelperRss(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            rssHelper = new DashboardHelperRss(pluginConfig);
         }
         return rssHelper;
     }
 
     public DashboardHelperTasks getTasksHelper() {
         if (tasksHelper == null) {
-            tasksHelper = new DashboardHelperTasks(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            tasksHelper = new DashboardHelperTasks(pluginConfig);
         }
         return tasksHelper;
     }
 
     public DashboardHelperBatches getBatchHelper() {
         if (batchHelper == null) {
-            batchHelper = new DashboardHelperBatches(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            batchHelper = new DashboardHelperBatches(pluginConfig);
         }
         return batchHelper;
     }
 
     public DashboardHelperItm getItmHelper() {
         if (itmHelper == null) {
-            itmHelper = new DashboardHelperItm(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            itmHelper = new DashboardHelperItm(pluginConfig);
         }
         return itmHelper;
     }
 
     public DashboardHelperNagios getNagiosHelper() {
         if (nagiosHelper == null) {
-            nagiosHelper = new DashboardHelperNagios(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            nagiosHelper = new DashboardHelperNagios(pluginConfig);
         }
         return nagiosHelper;
     }
 
     public DashboardHelperProcesses getProcessHelper() {
         if (processHelper == null) {
-            processHelper = new DashboardHelperProcesses(ConfigPlugins.getPluginConfig(PLUGIN_NAME));
+            processHelper = new DashboardHelperProcesses(pluginConfig);
         }
         return processHelper;
     }
 
+    public MessageQueueStatus getMessageQueueStatus() {
+        if (mq == null) {
+            mq = new MessageQueueStatus(pluginConfig);
+        }
+        return mq;
+    }
+
     public boolean isShowSearch() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("search-show", true);
+        return pluginConfig.getBoolean("search-show", true);
     }
 
     public boolean isShowHtmlBox() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("html-box-show", false);
+        return pluginConfig.getBoolean("html-box-show", false);
     }
 
     public String getHtmlBoxTitle() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getString("html-box-title", "- no title defined -");
+        return pluginConfig.getString("html-box-title", "- no title defined -");
     }
 
     public String getHtmlBoxContent() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getString("html-box-content", "- no content to show here -");
+        return pluginConfig.getString("html-box-content", "- no content to show here -");
     }
 
     public boolean getShowProcessTemplateStatusColumn() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("processTemplates-show-statusColumn", true);
+        return pluginConfig.getBoolean("processTemplates-show-statusColumn", true);
     }
 
     public boolean getShowProcessTemplateProjectColumn() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("processTemplates-show-projectColumn", true);
+        return pluginConfig.getBoolean("processTemplates-show-projectColumn", true);
     }
 
     public boolean getShowProcessTemplateMassImportButton() {
-        return ConfigPlugins.getPluginConfig(PLUGIN_NAME).getBoolean("processTemplates-show-massImportButton", true);
+        return pluginConfig.getBoolean("processTemplates-show-massImportButton", true);
     }
 
     public void update() {
         // System.out.println("ich polle");
-        // do nothing
-    }
-
-    @Override
-    public String cancel() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public boolean execute() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public String finish() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getPagePath() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public PluginGuiType getPluginGuiType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Step getStep() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void initialize(Step arg0, String arg1) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public HashMap<String, StepReturnValue> validate() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void extractAssets(Path arg0) {
         // do nothing
     }
 
@@ -302,5 +304,39 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestGuiPlugin {
             filterTemplates();
         }
         return paginator;
+    }
+
+    public String getFormattedDate(Date date) {
+        if (date == null) {
+            return "-";
+        }
+        DateFormat dateFormat = getDateFormat(DateFormat.DEFAULT);
+        return dateFormat.format(date);
+    }
+
+    public String getFormattedTime(Date date) {
+        if (date == null) {
+            return "-";
+        }
+        DateFormat dateFormat = getTimeFormat(DateFormat.MEDIUM);
+        return dateFormat.format(date);
+    }
+
+    private DateFormat getTimeFormat(int formatType) {
+        DateFormat dateFormat = DateFormat.getTimeInstance(formatType);
+        Locale userLang = FacesContextHelper.getCurrentFacesContext().getViewRoot().getLocale();
+        if (userLang != null) {
+            dateFormat = DateFormat.getTimeInstance(formatType, userLang);
+        }
+        return dateFormat;
+    }
+
+    private DateFormat getDateFormat(int formatType) {
+        DateFormat dateFormat = DateFormat.getDateInstance(formatType);
+        Locale userLang = FacesContextHelper.getCurrentFacesContext().getViewRoot().getLocale();
+        if (userLang != null) {
+            dateFormat = DateFormat.getDateInstance(formatType, userLang);
+        }
+        return dateFormat;
     }
 }
