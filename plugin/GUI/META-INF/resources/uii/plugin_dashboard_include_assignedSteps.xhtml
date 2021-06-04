@@ -28,7 +28,7 @@
                             <tbody>
 
                                 <ui:repeat
-                                    var="item"
+                                    var="assignedStep"
                                     value="#{DashboardForm.plugin.tasksHelper.assignedSteps}">
                                     <tr>
 
@@ -44,7 +44,7 @@
 												title="#{msgs.bearbeitungDiesesSchrittsUebernehmen}">
 												<i class="fa fa-check"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
-												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{item}" />
+												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{assignedStep}" />
 											</button>
 
                                             <!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
@@ -53,7 +53,7 @@
 												title="#{msgs.inBearbeitungDurch}: #{assignedStep.bearbeitungsbenutzer!=null and assignedStep.bearbeitungsbenutzer.id!=0 ? assignedStep.bearbeitungsbenutzer.nachVorname:''}">
 												<i class="fa fa-cog"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
-												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{item}" />
+												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{assignedStep}" />
 											</button>
 
                                             <!-- Bearbeiten-Schaltknopf (fremder Schritt) -->
@@ -62,7 +62,7 @@
 												title="#{msgs.inBearbeitungDurch}: #{(assignedStep.bearbeitungsbenutzer!=null and assignedStep.bearbeitungsbenutzer.id!=0 ? assignedStep.bearbeitungsbenutzer.nachVorname : '')}">
 												<i class="fa fa-user-secret"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
-												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{item}" />
+												<f:setPropertyActionListener target="#{AktuelleSchritteForm.mySchritt}" value="#{assignedStep}" />
 											</button>
 
                                             <!-- edit batch step -->
@@ -72,7 +72,7 @@
 												<i class="fa fa-check" style="margin-left:-6px"></i>
 												<i class="fa fa-check" style="margin-left:-5px;margin-right:-6px"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
-												<f:setPropertyActionListener target="#{AktuelleSchritteForm.step}" value="#{item}" />
+												<f:setPropertyActionListener target="#{AktuelleSchritteForm.step}" value="#{assignedStep}" />
 											</button>
 
                                             <!-- edit batch step -->
@@ -81,7 +81,7 @@
 												title="#{msgs.inBearbeitungDurch}: #{(assignedStep.bearbeitungsbenutzer!=null and assignedStep.bearbeitungsbenutzer.id!=0 ? assignedStep.bearbeitungsbenutzer.nachVorname : '')}">
 												<i class="fa fa-cog"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
-												<f:setPropertyActionListener target="#{AktuelleSchritteForm.step}" value="#{item}" />
+												<f:setPropertyActionListener target="#{AktuelleSchritteForm.step}" value="#{assignedStep}" />
 											</button>
 
                                             <!-- edit batch step -->
@@ -90,7 +90,7 @@
 												title="#{msgs.inBearbeitungDurch}: #{(assignedStep.bearbeitungsbenutzer!=null and assignedStep.bearbeitungsbenutzer.id!=0 ? assignedStep.bearbeitungsbenutzer.nachVorname : '')}">
 												<i class="fa fa-user-secret"></i>
 												<f:passThroughAttribute name="data-toggle" value="tooltip" />
-												<f:setPropertyActionListener target="#{AktuelleSchritteForm.step}" value="#{item}" />
+												<f:setPropertyActionListener target="#{AktuelleSchritteForm.step}" value="#{assignedStep}" />
 											</button>
                                         </td>
                                     </tr>
