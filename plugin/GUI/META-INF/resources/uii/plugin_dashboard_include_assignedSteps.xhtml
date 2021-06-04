@@ -14,7 +14,7 @@
     <composite:implementation>
 
         <h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showTasks and DashboardForm.plugin.tasksHelper.assignedSteps.size() gt 0}">
-            <div class="box box-color box-bordered">
+            <div class="box box-color orange box-bordered">
                 <div class="box-title">
                     <h2>
                         <i class="fa fa-list"></i>
@@ -24,7 +24,14 @@
                 <div class="box-content nopadding">
 
                     <h:form>
-                        <table class="table table-hover responsive">
+                        <table class="table table-hover dataTable table-bordered responsive">
+                            <thead>
+                                <tr>
+                                    <th>#{msgs.prozess}</th>
+                                    <th>#{msgs.arbeitsschritt}</th>
+                                    <th>#{msgs.auswahl}</th>
+                                </tr>
+                            </thead>
                             <tbody>
 
                                 <ui:repeat
