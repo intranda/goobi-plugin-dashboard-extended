@@ -88,7 +88,7 @@ public class MessageQueueStatus {
         }
 
         ProcessBean bean = (ProcessBean) Helper.getBeanByName("ProzessverwaltungForm", ProcessBean.class);
-        bean.setModusAnzeige("");
+        bean.setModusAnzeige("aktuell");
         bean.setFilter(searchFilter.toString());
 
         return bean.FilterAlleStart();

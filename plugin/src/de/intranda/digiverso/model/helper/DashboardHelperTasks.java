@@ -192,7 +192,7 @@ public class DashboardHelperTasks {
         searchFilter.append(dateString);
         searchFilter.append("\"");
         ProcessBean bean = (ProcessBean) Helper.getBeanByName("ProzessverwaltungForm", ProcessBean.class);
-        bean.setModusAnzeige("");
+        bean.setModusAnzeige("aktuell");
         bean.setFilter(searchFilter.toString());
 
         return bean.FilterAlleStart();
@@ -206,7 +206,7 @@ public class DashboardHelperTasks {
         searchFilter.append(dateString);
         searchFilter.append("\"");
         ProcessBean bean = (ProcessBean) Helper.getBeanByName("ProzessverwaltungForm", ProcessBean.class);
-        bean.setModusAnzeige("");
+        bean.setModusAnzeige("aktuell");
         bean.setFilter(searchFilter.toString());
 
         return bean.FilterAlleStart();
@@ -220,7 +220,7 @@ public class DashboardHelperTasks {
         searchFilter.append(dateString);
         searchFilter.append("\"");
         ProcessBean bean = (ProcessBean) Helper.getBeanByName("ProzessverwaltungForm", ProcessBean.class);
-        bean.setModusAnzeige("");
+        bean.setModusAnzeige("aktuell");
         bean.setFilter(searchFilter.toString());
         return bean.FilterAlleStart();
     }
