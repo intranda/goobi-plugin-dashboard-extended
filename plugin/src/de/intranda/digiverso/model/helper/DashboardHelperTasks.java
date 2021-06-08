@@ -147,7 +147,7 @@ public class DashboardHelperTasks {
             User user = Helper.getCurrentUser();
             if (user != null) {
                 String sql = "select ProzesseID, SchritteID, titel from schritte where Bearbeitungsstatus = 3 and BearbeitungsBenutzerID = "
-                        + user.getId() + " order by BearbeitungsEnde desc limit 10;";
+                        + user.getId() + " order by BearbeitungsEnde desc limit 5;";
                 List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sql);
                 for (Object[] objArr : rawvalues) {
                     String processId = (String) objArr[0];
