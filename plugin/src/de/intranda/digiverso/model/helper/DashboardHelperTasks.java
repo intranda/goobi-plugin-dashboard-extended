@@ -166,7 +166,7 @@ public class DashboardHelperTasks {
                     TaskChangeType tct = new TaskChangeType(currentStep, followingStep, process);
                     taskChangeHistory.add(tct);
                 }
-                taskChangeHistory.sort(Comparator.comparing(tct -> tct.getClosedStep().getBearbeitungsende()));
+    //            taskChangeHistory.sort(Comparator.comparing(tct -> tct.getClosedStep().getBearbeitungsende()));
             }
         }
 
