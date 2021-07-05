@@ -45,7 +45,7 @@
                             </button>
                         </h2>
                     </div>
-                    <div class="box-content nopadding">
+                    <div class="box-content #{DashboardForm.plugin.messageQueueStatus.jobListEmpty ? '' : 'nopadding'}">
                         <h:panelGroup rendered="#{DashboardForm.plugin.messageQueueStatus.jobListEmpty}">
                             <h:outputText value="#{msgs.dashboard_noJobsInList}" />
                         </h:panelGroup>
