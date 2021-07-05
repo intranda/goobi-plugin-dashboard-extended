@@ -66,7 +66,7 @@
                     
                 }
             </script>
-            <h:panelGroup rendered="#{DashboardForm.plugin.processHelper.showStatistics}">
+            <h:panelGroup rendered="#{DashboardForm.plugin.processHelper.showStatistics and !DashboardForm.plugin.processHelper.isProcessPerMonthEmpty()}">
     		<style>
     		.jqplot-title {
     			font-size: 28px;

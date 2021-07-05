@@ -81,6 +81,13 @@ public class DashboardHelperProcesses {
         return false;
     }
 
+    public boolean isProcessPerMonthEmpty() {
+        
+        List<?> list = ProcessManager.runSQL(
+                "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false  GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
+        
+        return list.isEmpty();
+    }
 
     //	public LineChartModel getProcessesPerMonth() {
     //		LineChartModel model = new LineChartModel();
