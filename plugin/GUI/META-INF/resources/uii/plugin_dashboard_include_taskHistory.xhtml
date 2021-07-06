@@ -49,7 +49,7 @@
 
                         </h2>
                     </div>
-                    <div class="box-content nopadding">
+                    <div class="box-content #{DashboardForm.plugin.tasksHelper.historyEmpty ? '' : 'nopadding'}">
 
                         <h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.historyEmpty}">
                             <h:outputText value="#{msgs.dashboard_noJobsInList}"/>
