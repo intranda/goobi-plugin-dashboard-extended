@@ -59,7 +59,6 @@ import lombok.Setter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import spark.Service;
 
-@SuppressWarnings("deprecation")
 @PluginImplementation
 public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
 
@@ -91,6 +90,9 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
     @Setter
     private List<String> column3 = new ArrayList<>();
 
+    private String[] widgetNames = { "assignedSteps", "tasksLastChanges", "taskHistory", "processSearch", "htmlBox", "statisticsProcesses",
+            "processTemplates", "itm", "queue", "rss", "nagios" };
+
     public ExtendedDashboard() {
         pluginConfig = ConfigPlugins.getPluginConfig(PLUGIN_NAME);
 
@@ -109,14 +111,31 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
         for (String line : lines) {
             line = line.trim();
             if (line.startsWith("1")) {
-                column1.add(line.replace("1", "").trim());
+                String widget = line.replace("1", "").trim();
+                if (widgetExists(widget)) {
+                    column1.add(widget);
+                }
             } else if (line.startsWith("2")) {
-                column2.add(line.replace("2", "").trim());
+                String widget = line.replace("2", "").trim();
+                if (widgetExists(widget)) {
+                    column2.add(widget);
+                }
             } else if (line.startsWith("3")) {
-                column3.add(line.replace("3", "").trim());
+                String widget = line.replace("3", "").trim();
+                if (widgetExists(widget)) {
+                    column3.add(widget);
+                }
             }
         }
+    }
 
+    private boolean widgetExists(String widgetName) {
+        for (String knownWidgetName : widgetNames) {
+            if (knownWidgetName.equals(widgetName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
