@@ -1,5 +1,20 @@
 package de.intranda.digiverso.model.helper;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+import org.apache.commons.configuration.XMLConfiguration;
+import org.goobi.beans.Process;
+import org.goobi.beans.Step;
+import org.goobi.beans.User;
+import org.goobi.managedbeans.ProcessBean;
+import org.goobi.managedbeans.StepBean;
+import org.goobi.production.flow.statistics.hibernate.FilterHelper;
+
 import de.intranda.digiverso.model.tasks.TaskChangeType;
 import de.intranda.digiverso.model.tasks.TaskHistory;
 import de.sub.goobi.helper.Helper;
@@ -10,20 +25,6 @@ import de.sub.goobi.persistence.managers.ProcessManager;
 import de.sub.goobi.persistence.managers.StepManager;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.configuration.XMLConfiguration;
-import org.goobi.beans.Process;
-import org.goobi.beans.Step;
-import org.goobi.beans.User;
-import org.goobi.managedbeans.ProcessBean;
-import org.goobi.managedbeans.StepBean;
-import org.goobi.production.flow.statistics.hibernate.FilterHelper;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 
 
 
@@ -175,7 +176,7 @@ public class DashboardHelperTasks {
                     taskChangeHistory.sort(Comparator.comparing(
                             taskChangeType -> taskChangeType.getClosedStep().getBearbeitungsende(),
                             Comparator.nullsLast(Comparator.reverseOrder()))
-                    );
+                            );
                 }
             }
         }
@@ -224,9 +225,11 @@ public class DashboardHelperTasks {
 
     public String loadStepsInWork() {
         StringBuilder searchFilter = new StringBuilder();
-        searchFilter.append("\"stepinwork:");
+        searchFilter.append("( \"stepinwork:");
         searchFilter.append(currentElement.getStepName());
-        searchFilter.append("\" \"stepstartdate>");
+        searchFilter.append("\" \"|stepinflight:");
+        searchFilter.append(currentElement.getStepName());
+        searchFilter.append("\" ) \"stepstartdate>");
         searchFilter.append(dateString);
         searchFilter.append("\"");
         ProcessBean bean = (ProcessBean) Helper.getBeanByName("ProzessverwaltungForm", ProcessBean.class);
