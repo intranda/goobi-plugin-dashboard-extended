@@ -60,7 +60,9 @@
         <script src="plugin_dashboard_extended_svelte.js"></script>
         <script>
 		    var language = "#{SpracheForm.locale.language}"
-			fetch("/goobi/api/messages/" + language).then(resp => {
+	    	var path = window.location.pathname;
+	        path = path.substring(0, path.indexOf("/uii/"));
+			fetch(path+ "/api/messages/" + language).then(resp => {
 		        resp.json().then(msgs => {
 		            var rssEle = document.getElementById("jsRssFeed")
 		            if(rssEle) {
