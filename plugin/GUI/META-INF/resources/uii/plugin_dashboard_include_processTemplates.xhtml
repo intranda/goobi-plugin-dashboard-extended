@@ -88,6 +88,7 @@
                                                     data-toggle="tooltip"
                                                     styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-done'):('progress-bar-success'))}"
                                                     style="width: #{item.fortschritt3}%;line-height:15px;"
+                                                    pt:role="figure"
                                                     pt:aria-label="#{item.fortschritt3}% #{msgs.statusAbgeschlossen}">
                                                     <h:outputText value="&#160;" />
                                                     <f:passThroughAttribute
@@ -115,6 +116,7 @@
                                                     data-toggle="tooltip"
                                                     styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-open'):('progress-bar-warning'))}"
                                                     style="width: #{item.fortschritt2}%;line-height:15px;"
+                                                    pt:role="figure"
                                                     pt:aria-label="#{item.fortschritt2}% #{msgs.statusOffen} / #{msgs.statusInBearbeitung}">
                                                     <h:outputText value="&#160;" />
                                                     <f:passThroughAttribute
@@ -142,6 +144,7 @@
                                                     data-toggle="tooltip"
                                                     styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-error'):('progress-bar-danger progressbar-status-error'))} "
                                                     style="width: #{item.fortschrittError}%;line-height:15px;"
+                                                    pt:role="figure"
                                                     pt:aria-label="#{item.fortschrittError}% #{msgs.statusError}">
                                                     <h:outputText value="&#160;" />
                                                     <f:passThroughAttribute
@@ -169,6 +172,7 @@
                                                     data-toggle="tooltip"
                                                     styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-locked'):('progress-bar-danger'))} "
                                                     style="width: #{item.fortschritt1}%;line-height:15px;"
+                                                    pt:role="figure"
                                                     pt:aria-label="#{item.fortschritt1}% #{msgs.statusGesperrt}">
                                                     <h:outputText value="&#160;" />
                                                     <f:passThroughAttribute
@@ -249,6 +253,7 @@
                                                         <button
                                                             type="button"
                                                             class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
+                                                            aria-label="#{msgs.projekte}"
                                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                                             style="padding-left: 4px; padding-right: 4px;"> <span class="caret"></span>
                                                         </button>
