@@ -12,7 +12,7 @@
     </composite:interface>
 
     <composite:implementation>
-        <h:panelGroup rendered="#{DashboardForm.plugin.messageQueueStatus.showMessageQueue}">
+        <h:panelGroup rendered="#{DashboardForm.plugin.messageQueueStatus.showMessageQueue and not DashboardForm.plugin.messageQueueStatus.jobListEmpty}">
 
             <div class="box box-color box-bordered">
                 <h:form id="slow_queue">
@@ -46,47 +46,38 @@
                         </h2>
                     </div>
                     <div class="box-content #{DashboardForm.plugin.messageQueueStatus.jobListEmpty ? '' : 'nopadding'}">
-                        <h:panelGroup rendered="#{DashboardForm.plugin.messageQueueStatus.jobListEmpty}">
-                            <h:outputText value="#{msgs.dashboard_noJobsInList}" />
-                        </h:panelGroup>
+                        <h:dataTable
+                            styleClass="table table-hover table-bordered responsive"
+                            var="entry"
+                            value="#{DashboardForm.plugin.messageQueueStatus.currentJobs}">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.message_queue_ticket_type}" />
+                                </f:facet>
+                                <h:outputText value="#{entry.jobTypeName}" />
+                            </h:column>
 
-
-                        <h:panelGroup rendered="#{!DashboardForm.plugin.messageQueueStatus.jobListEmpty}">
-
-
-                            <h:dataTable
-                                styleClass="table table-hover table-bordered responsive"
-                                var="entry"
-                                value="#{DashboardForm.plugin.messageQueueStatus.currentJobs}">
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.message_queue_ticket_type}" />
-                                    </f:facet>
-                                    <h:outputText value="#{entry.jobTypeName}" />
-                                </h:column>
-
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="#{msgs.count}" />
-                                    </f:facet>
-                                    <h:outputText value="#{entry.numberOfTickets}" />
-                                    <button
-                                        class="expandbutton icon-only-button"
-                                        title="#{msgs.search}"
-                                        data-toggle="tooltip"
-                                        jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}"
-                                        jsf:rendered="#{entry.numberOfTickets gt 0 and LoginForm.hasRole('Workflow_Processes')}">
-                                        <f:setPropertyActionListener
-                                            value="#{entry}"
-                                            target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />
-              							<f:setPropertyActionListener
-										    target="#{NavigationForm.aktuell}"
-											value="a22" />
-                                        <i class="fa fa-search" />
-                                    </button>
-                                </h:column>
-                            </h:dataTable>
-                        </h:panelGroup>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs.count}" />
+                                </f:facet>
+                                <h:outputText value="#{entry.numberOfTickets}" />
+                                <button
+                                    class="expandbutton icon-only-button"
+                                    title="#{msgs.search}"
+                                    data-toggle="tooltip"
+                                    jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}"
+                                    jsf:rendered="#{entry.numberOfTickets gt 0 and LoginForm.hasRole('Workflow_Processes')}">
+                                    <f:setPropertyActionListener
+                                        value="#{entry}"
+                                        target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />
+                                    <f:setPropertyActionListener
+                                        target="#{NavigationForm.aktuell}"
+                                        value="a22" />
+                                    <i class="fa fa-search" />
+                                </button>
+                            </h:column>
+                        </h:dataTable>
                     </div>
                 </h:form>
             </div>
