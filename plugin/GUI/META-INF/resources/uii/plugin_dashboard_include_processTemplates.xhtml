@@ -33,330 +33,325 @@
                                 <div class="dataTables_wrapper">
 
                                     <h:form id="processTemplateForm">
-                                        <!-- +++++++++++++++++  Display as table ++++++++++++++++++++++++ -->
-                                        <x:dataTable
-                                            id="processTable"
-                                            rowIndexVar="count"
-                                            styleClass="table table-hover table-nomargin dataTable table-bordered responsive"
-                                            var="item"
-                                            value="#{DashboardForm.plugin.paginator.list}">
-
-                                            <x:column
-                                                rendered="true"
-                                                id="ajaxcolumn"
-                                                styleClass="tableColumnOverflow maxWidth120">
-                                                <f:facet name="header">
-                                                    <button
-                                                        class="font-black-block button-link button-sort"
-                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
-                                                        aria-label="#{msgs.defaultSortField} #{msgs.titel} #{NavigationForm.uiStatus.sorting=='titelDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='titelAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }"
-                                                        aria-sort="#{NavigationForm.uiStatus.sorting=='titelDesc'? 'descending' : NavigationForm.uiStatus.sorting=='titelAsc'? 'ascending' :'none'}">
-                                                        <h:outputText styleClass="pull-left" value="#{msgs.titel}" />
-                                                        <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='titelDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='titelAsc'?'fa-sort-asc':'fa-sort'}"></span>
-                                                        <f:setPropertyActionListener
-                                                            target="#{NavigationForm.uiStatus.sorting}"
-                                                            value="#{NavigationForm.uiStatus.sorting=='titelAsc'?'titelDesc':'titelAsc'}" />
-                                                        <f:ajax render="@form" />
-                                                    </button>
-                                                </f:facet>
-                                                <h:outputText value="#{item.titel}" />
-                                            </x:column>
-
-
-
-                                            <!-- +++++++++++++++++  Status ++++++++++++++++++++++++ -->
-                                            <x:column
-                                                styleClass="tableColumnOverflow maxWidth80"
-                                                rendered="#{DashboardForm.plugin.showProcessTemplateStatusColumn}">
-                                                <f:facet name="header">
-                                                    <button
-                                                        class="font-black-block button-link button-sort"
-                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
-                                                        aria-label="#{msgs.defaultSortField} #{msgs.status} #{NavigationForm.uiStatus.sorting=='fortschrittDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='fortschrittAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }"
-                                                        aria-sort="#{NavigationForm.uiStatus.sorting=='fortschrittDesc'? 'descending' : NavigationForm.uiStatus.sorting=='fortschrittAsc'? 'ascending' :'none'}">
-                                                        <h:outputText styleClass="pull-left" value="#{msgs.status}" />
-                                                        <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='fortschrittDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fa-sort-asc':'fa-sort'}"></span>
-                                                        <f:setPropertyActionListener
-                                                            target="#{NavigationForm.uiStatus.sorting}"
-                                                            value="#{NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fortschrittDesc':'fortschrittAsc'}" />
-                                                        <f:ajax render="@form" />
-                                                    </button>
-                                                </f:facet>
-
-                                                <h:panelGroup
-                                                    rendered="#{item.fortschritt3 gt 0}"
-                                                    data-toggle="tooltip"
-                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-done'):('progress-bar-success'))}"
-                                                    style="width: #{item.fortschritt3}%;line-height:15px;"
-                                                    pt:role="figure"
-                                                    pt:aria-label="#{item.fortschritt3}% #{msgs.statusAbgeschlossen}">
-                                                    <h:outputText value="&#160;" />
-                                                    <f:passThroughAttribute
-                                                        name="data-trigger"
-                                                        value="hover" />
-                                                    <f:passThroughAttribute
-                                                        name="data-container"
-                                                        value="body" />
-                                                    <f:passThroughAttribute
-                                                        name="data-toggle"
-                                                        value="popover" />
-                                                    <f:passThroughAttribute
-                                                        name="data-placement"
-                                                        value="top" />
-                                                    <f:passThroughAttribute
-                                                        name="data-html"
-                                                        value="true" />
-                                                    <f:passThroughAttribute
-                                                        name="data-content"
-                                                        value="&lt;b class='font-status-done'&gt;#{msgs.statusAbgeschlossen}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(3, ', ')}" />
-                                                </h:panelGroup>
-
-                                                <h:panelGroup
-                                                    rendered="#{item.fortschritt2 gt 0}"
-                                                    data-toggle="tooltip"
-                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-open'):('progress-bar-warning'))}"
-                                                    style="width: #{item.fortschritt2}%;line-height:15px;"
-                                                    pt:role="figure"
-                                                    pt:aria-label="#{item.fortschritt2}% #{msgs.statusOffen} / #{msgs.statusInBearbeitung}">
-                                                    <h:outputText value="&#160;" />
-                                                    <f:passThroughAttribute
-                                                        name="data-trigger"
-                                                        value="hover" />
-                                                    <f:passThroughAttribute
-                                                        name="data-container"
-                                                        value="body" />
-                                                    <f:passThroughAttribute
-                                                        name="data-toggle"
-                                                        value="popover" />
-                                                    <f:passThroughAttribute
-                                                        name="data-placement"
-                                                        value="top" />
-                                                    <f:passThroughAttribute
-                                                        name="data-html"
-                                                        value="true" />
-                                                    <f:passThroughAttribute
-                                                        name="data-content"
-                                                        value="&lt;b class='font-status-open'&gt;#{msgs.statusOffen} / #{msgs.statusInBearbeitung}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(1, ', ')}#{item.getStepsAsString(1, ', ') ne '' and item.getStepsAsString(2, ', ') ne ''?', ':''} #{item.getStepsAsString(2, ', ')}" />
-                                                </h:panelGroup>
-
-                                                <h:panelGroup
-                                                    rendered="#{item.fortschrittError gt 0}"
-                                                    data-toggle="tooltip"
-                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-error'):('progress-bar-danger progressbar-status-error'))} "
-                                                    style="width: #{item.fortschrittError}%;line-height:15px;"
-                                                    pt:role="figure"
-                                                    pt:aria-label="#{item.fortschrittError}% #{msgs.statusError}">
-                                                    <h:outputText value="&#160;" />
-                                                    <f:passThroughAttribute
-                                                        name="data-trigger"
-                                                        value="hover" />
-                                                    <f:passThroughAttribute
-                                                        name="data-container"
-                                                        value="body" />
-                                                    <f:passThroughAttribute
-                                                        name="data-toggle"
-                                                        value="popover" />
-                                                    <f:passThroughAttribute
-                                                        name="data-placement"
-                                                        value="top" />
-                                                    <f:passThroughAttribute
-                                                        name="data-html"
-                                                        value="true" />
-                                                    <f:passThroughAttribute
-                                                        name="data-content"
-                                                        value="&lt;b class='font-status-error'&gt;#{msgs.statusError}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(4, ', ')}" />
-                                                </h:panelGroup>
-
-                                                <h:panelGroup
-                                                    rendered="#{item.fortschritt1 gt 0}"
-                                                    data-toggle="tooltip"
-                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-locked'):('progress-bar-danger'))} "
-                                                    style="width: #{item.fortschritt1}%;line-height:15px;"
-                                                    pt:role="figure"
-                                                    pt:aria-label="#{item.fortschritt1}% #{msgs.statusGesperrt}">
-                                                    <h:outputText value="&#160;" />
-                                                    <f:passThroughAttribute
-                                                        name="data-trigger"
-                                                        value="hover" />
-                                                    <f:passThroughAttribute
-                                                        name="data-container"
-                                                        value="body" />
-                                                    <f:passThroughAttribute
-                                                        name="data-toggle"
-                                                        value="popover" />
-                                                    <f:passThroughAttribute
-                                                        name="data-placement"
-                                                        value="top" />
-                                                    <f:passThroughAttribute
-                                                        name="data-html"
-                                                        value="true" />
-                                                    <f:passThroughAttribute
-                                                        name="data-content"
-                                                        value="&lt;b class='font-status-locked'&gt;#{msgs.statusGesperrt}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(0, ', ')}" />
-                                                </h:panelGroup>
-                                            </x:column>
-
-                                            <x:column
-                                                styleClass="tableColumnOverflow maxWidth80"
-                                                rendered="#{DashboardForm.plugin.showProcessTemplateProjectColumn}">
-                                                <f:facet name="header">
-                                                    <!-- Header -->
-                                                    <button
-                                                        class="font-black-block button-link button-sort"
-                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
-                                                        title="#{msgs.projekt}"
-                                                        aria-label="#{msgs.defaultSortField} #{msgs.projekt} #{NavigationForm.uiStatus.sorting=='projektDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='projektAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }"
-                                                        aria-sort="#{NavigationForm.uiStatus.sorting=='projektDesc'? 'descending' : NavigationForm.uiStatus.sorting=='projektAsc'? 'ascending' :'none'}">
-                                                        <h:outputText styleClass="pull-left" value="#{msgs.projekt}" />
-                                                        <span
-                                                            class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='projektDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='projektAsc'?'fa-sort-asc':'fa-sort'}"></span>
-
-                                                        <f:setPropertyActionListener
-                                                            target="#{NavigationForm.uiStatus.sorting}"
-                                                            value="#{NavigationForm.uiStatus.sorting=='projektAsc'?'projektDesc':'projektAsc'}" />
-                                                        <f:ajax render="@form" />
-                                                    </button>
-                                                </f:facet>
-                                                <h:outputText value="#{item.projekt.titel}" />
-                                            </x:column>
-
-
-                                            <x:column styleClass="maxWidth80">
-                                                <f:facet name="header">
-                                                    <h:outputText value="#{msgs.auswahl}" />
-                                                </f:facet>
-
-                                                <!-- ProzessKopie-Schaltknopf -->
-                                                <button
-                                                    jsf:action="#{ProzesskopieForm.Prepare}"
-                                                    jsf:id="action22"
-                                                    jsf:rel="tooltip"
-                                                    onclick="preventDoubleSubmit(this);"
-                                                    aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-                                                    title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-                                                    jsf:rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1}"
-                                                    class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} ">
-                                                    <f:passThroughAttribute
-                                                        name="data-toggle"
-                                                        value="tooltip" />
-                                                    <x:updateActionListener
-                                                        property="#{ProzesskopieForm.prozessVorlage}"
-                                                        value="#{item}" />
-                                                </button>
-
-                                                <h:panelGroup
-                                                    rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() gt 1}">
-                                                    <div
-                                                        class="btn-group"
-                                                        title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-                                                        data-toggle="tooltip">
-                                                        <button
-                                                            type="button"
-                                                            class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
-                                                            aria-label="#{msgs.projekte}"
-                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                            style="padding-left: 4px; padding-right: 4px;"> <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu  pull-right">
-                                                            <ui:repeat
-                                                                var="proj"
-                                                                value="#{ProzesskopieForm.availableProjects}">
-                                                                <li><button jsf:action="#{ProzesskopieForm.Prepare}"
-                                                                		aria-label="#{proj.titel}" class="dropdown-item">
-                                                                        <h:outputText value="#{proj.titel}" />
-                                                                        <x:updateActionListener
-                                                                            property="#{item.projekt}"
-                                                                            value="#{proj}" />
-                                                                        <x:updateActionListener
-                                                                            property="#{ProzesskopieForm.prozessVorlage}"
-                                                                            value="#{item}" />
-                                                                    </button></li>
-                                                            </ui:repeat>
-                                                        </ul>
-                                                        <button
-                                                            aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-                                                            jsf:action="#{ProzesskopieForm.Prepare}"
-                                                            jsf:rel="tooltip"
-                                                            class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} ">
-                                                            <f:passThroughAttribute
-                                                                name="data-toggle"
-                                                                value="tooltip" />
-                                                            <x:updateActionListener
-                                                                property="#{ProzesskopieForm.prozessVorlage}"
-                                                                value="#{item}" />
-                                                        </button>
-                                                        
-                                                    </div>
-                                                </h:panelGroup>
-
-                                                <!-- MassenImport -->
-                                                <button
-                                                    jsf:action="#{MassImportForm.Prepare}"
-                                                    aria-label="#{msgs.MassenImport}"
-                                                    jsf:id="action222"
-                                                    jsf:rel="tooltip"
-                                                    class="btn fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
-                                                    title="#{msgs.MassenImport}"
-                                                    onclick="preventDoubleSubmit(this);"
-                                                    jsf:rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() eq 1}">
-                                                    <f:passThroughAttribute
-                                                        name="data-toggle"
-                                                        value="tooltip" />
-                                                    <x:updateActionListener
-                                                        property="#{MassImportForm.template}"
-                                                        value="#{item}" />
-                                                </button>
-
-                                                <h:panelGroup
-                                                    rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() gt 1}">
-                                                    <div
-                                                        class="btn-group"
-                                                        title="#{msgs.MassenImport}"
-                                                        data-toggle="tooltip">
-                                                        <button
-                                                            class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
-                                                            style="padding-left: 4px; padding-right: 4px;"
-                                                            data-toggle="dropdown" type="button"> <span class="caret"></span>
-                                                        </button>
-                                                        <button
-                                                            jsf:action="#{MassImportForm.Prepare}"
-                                                            jsf:rel="tooltip" aria-label="#{msgs.MassenImport}" class="btn">
-                                                            <i
-                                                                class="fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
-                                                                style="padding-left: 7px; padding-right: 7px;" />
-                                                            <f:passThroughAttribute
-                                                                name="data-toggle"
-                                                                value="tooltip" />
-                                                            <x:updateActionListener
-                                                                property="#{MassImportForm.template}"
-                                                                value="#{item}" />
-                                                        </button>
-                                                        <ul class="dropdown-menu  pull-right">
-                                                            <ui:repeat
-                                                                var="proj"
-                                                                value="#{ProzesskopieForm.availableProjects}">
-                                                                <li><button jsf:action="#{MassImportForm.Prepare}"
-                                                                		aria-label="#{proj.titel}" class="dropdown-item">
-                                                                        <h:outputText value="#{proj.titel}" />
-                                                                        <x:updateActionListener
-                                                                            property="#{item.projekt}"
-                                                                            value="#{proj}" />
-                                                                        <x:updateActionListener
-                                                                            property="#{item.projectId}"
-                                                                            value="#{proj.id}" />
-                                                                        <x:updateActionListener
-                                                                            property="#{MassImportForm.template}"
-                                                                            value="#{item}" />
-                                                                    </button></li>
-                                                            </ui:repeat>
-                                                        </ul>
-                                                    </div>
-                                                </h:panelGroup>
-
-                                            </x:column>
-
-                                        </x:dataTable>
-
+                                    	<!-- table -->
+                                    	<table role="grid" id="processTable"
+										class="table table-hover table-nomargin dataTable table-bordered responsive">
+											<thead>
+												<tr role="row">
+													<!-- title -->
+				                                   <th scope="col" role="columnheader" id="ajaxcolumn" class="tableColumnOverflow maxWidth120"
+													aria-sort="#{cc.attrs.form.sortierung== titelDesc ? 'descending' : cc.attrs.form.sortierung== titelAsc ? 'ascending' :'none'}">
+					                                   <button
+	                                                        class="font-black-block button-link button-sort"
+	                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
+	                                                        aria-label="#{msgs.defaultSortField} #{msgs.titel} #{NavigationForm.uiStatus.sorting=='titelDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='titelAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }">
+	                                                        <h:outputText styleClass="pull-left" value="#{msgs.titel}" />
+	                                                        <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='titelDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='titelAsc'?'fa-sort-asc':'fa-sort'}"></span>
+	                                                        <f:setPropertyActionListener
+	                                                            target="#{NavigationForm.uiStatus.sorting}"
+	                                                            value="#{NavigationForm.uiStatus.sorting=='titelAsc'?'titelDesc':'titelAsc'}" />
+	                                                        <f:ajax render="@form" />
+	                                                    </button>
+	                                                </th>
+				                                    <!-- status -->
+				                                    <th scope="col" role="columnheader" class="tableColumnOverflow maxWidth80"
+													aria-sort="#{cc.attrs.form.sortierung== fortschrittDesc ? 'descending' : cc.attrs.form.sortierung== fortschrittAsc ? 'ascending' :'none'}">
+				                                    	<button
+	                                                        class="font-black-block button-link button-sort"
+	                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
+	                                                        aria-label="#{msgs.defaultSortField} #{msgs.status} #{NavigationForm.uiStatus.sorting=='fortschrittDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='fortschrittAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }">
+	                                                        <h:outputText styleClass="pull-left" value="#{msgs.status}" />
+	                                                        <span class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='fortschrittDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fa-sort-asc':'fa-sort'}"></span>
+	                                                        <f:setPropertyActionListener
+	                                                            target="#{NavigationForm.uiStatus.sorting}"
+	                                                            value="#{NavigationForm.uiStatus.sorting=='fortschrittAsc'?'fortschrittDesc':'fortschrittAsc'}" />
+	                                                        <f:ajax render="@form" />
+	                                                    </button>
+				                                    </th>
+				                                    <!-- projekt -->
+				                                    <th scope="col" role="columnheader" class="tableColumnOverflow maxWidth80"
+													aria-sort="#{cc.attrs.form.sortierung== projektDesc ? 'descending' : cc.attrs.form.sortierung== projektAsc ? 'ascending' :'none'}">
+				                                    	<button
+	                                                        class="font-black-block button-link button-sort"
+	                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
+	                                                        title="#{msgs.projekt}"
+	                                                        aria-label="#{msgs.defaultSortField} #{msgs.projekt} #{NavigationForm.uiStatus.sorting=='projektDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='projektAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }">
+	                                                        <h:outputText styleClass="pull-left" value="#{msgs.projekt}" />
+	                                                        <span
+	                                                            class="pull-right table-sort-icon fa #{NavigationForm.uiStatus.sorting=='projektDesc'?'fa-sort-desc':NavigationForm.uiStatus.sorting=='projektAsc'?'fa-sort-asc':'fa-sort'}"></span>
+	
+	                                                        <f:setPropertyActionListener
+	                                                            target="#{NavigationForm.uiStatus.sorting}"
+	                                                            value="#{NavigationForm.uiStatus.sorting=='projektAsc'?'projektDesc':'projektAsc'}" />
+	                                                        <f:ajax render="@form" />
+	                                                    </button>
+				                                    </th>
+				                                    <!-- Actions -->
+				                                    <intranda:columnheader
+														class="maxWidth80"
+				                                        value="#{msgs.auswahl}"
+				                                        sortable="false" />
+												</tr>
+											</thead>
+											<!-- +++++ Content rows ++++++ -->
+											<ui:repeat var="item"
+												value="#{DashboardForm.plugin.paginator.list}"
+												varStatus="status">
+												<tr>
+													<!-- title -->
+													<td>
+														<h:outputText value="#{item.titel}" />
+													</td>
+													<!-- Status -->
+													<td>
+														<h:panelGroup
+		                                                    rendered="#{item.fortschritt3 gt 0}"
+		                                                    data-toggle="tooltip"
+		                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-done'):('progress-bar-success'))}"
+		                                                    style="width: #{item.fortschritt3}%;line-height:15px;"
+		                                                    pt:role="figure"
+		                                                    pt:aria-label="#{item.fortschritt3}% #{msgs.statusAbgeschlossen}">
+		                                                    <h:outputText value="&#160;" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-trigger"
+		                                                        value="hover" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-container"
+		                                                        value="body" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-toggle"
+		                                                        value="popover" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-placement"
+		                                                        value="top" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-html"
+		                                                        value="true" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-content"
+		                                                        value="&lt;b class='font-status-done'&gt;#{msgs.statusAbgeschlossen}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(3, ', ')}" />
+		                                                </h:panelGroup>
+		
+		                                                <h:panelGroup
+		                                                    rendered="#{item.fortschritt2 gt 0}"
+		                                                    data-toggle="tooltip"
+		                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-open'):('progress-bar-warning'))}"
+		                                                    style="width: #{item.fortschritt2}%;line-height:15px;"
+		                                                    pt:role="figure"
+		                                                    pt:aria-label="#{item.fortschritt2}% #{msgs.statusOffen} / #{msgs.statusInBearbeitung}">
+		                                                    <h:outputText value="&#160;" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-trigger"
+		                                                        value="hover" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-container"
+		                                                        value="body" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-toggle"
+		                                                        value="popover" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-placement"
+		                                                        value="top" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-html"
+		                                                        value="true" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-content"
+		                                                        value="&lt;b class='font-status-open'&gt;#{msgs.statusOffen} / #{msgs.statusInBearbeitung}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(1, ', ')}#{item.getStepsAsString(1, ', ') ne '' and item.getStepsAsString(2, ', ') ne ''?', ':''} #{item.getStepsAsString(2, ', ')}" />
+		                                                </h:panelGroup>
+		
+		                                                <h:panelGroup
+		                                                    rendered="#{item.fortschrittError gt 0}"
+		                                                    data-toggle="tooltip"
+		                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-error'):('progress-bar-danger progressbar-status-error'))} "
+		                                                    style="width: #{item.fortschrittError}%;line-height:15px;"
+		                                                    pt:role="figure"
+		                                                    pt:aria-label="#{item.fortschrittError}% #{msgs.statusError}">
+		                                                    <h:outputText value="&#160;" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-trigger"
+		                                                        value="hover" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-container"
+		                                                        value="body" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-toggle"
+		                                                        value="popover" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-placement"
+		                                                        value="top" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-html"
+		                                                        value="true" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-content"
+		                                                        value="&lt;b class='font-status-error'&gt;#{msgs.statusError}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(4, ', ')}" />
+		                                                </h:panelGroup>
+		
+		                                                <h:panelGroup
+		                                                    rendered="#{item.fortschritt1 gt 0}"
+		                                                    data-toggle="tooltip"
+		                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-locked'):('progress-bar-danger'))} "
+		                                                    style="width: #{item.fortschritt1}%;line-height:15px;"
+		                                                    pt:role="figure"
+		                                                    pt:aria-label="#{item.fortschritt1}% #{msgs.statusGesperrt}">
+		                                                    <h:outputText value="&#160;" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-trigger"
+		                                                        value="hover" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-container"
+		                                                        value="body" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-toggle"
+		                                                        value="popover" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-placement"
+		                                                        value="top" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-html"
+		                                                        value="true" />
+		                                                    <f:passThroughAttribute
+		                                                        name="data-content"
+		                                                        value="&lt;b class='font-status-locked'&gt;#{msgs.statusGesperrt}:&lt;/b&gt;&lt;br/&gt; #{item.getStepsAsString(0, ', ')}" />
+		                                                </h:panelGroup>
+													</td>
+													<!-- Projekt -->
+													<td>
+														<h:outputText value="#{item.projekt.titel}" />
+													</td>
+													<!-- Actions -->
+													<td>
+														<!-- ProzessKopie-Schaltknopf -->
+		                                                <button
+		                                                    jsf:action="#{ProzesskopieForm.Prepare}"
+		                                                    jsf:id="action22"
+		                                                    jsf:rel="tooltip"
+		                                                    onclick="preventDoubleSubmit(this);"
+		                                                    aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
+		                                                    title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
+		                                                    jsf:rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1}"
+		                                                    class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} ">
+		                                                    <f:passThroughAttribute
+		                                                        name="data-toggle"
+		                                                        value="tooltip" />
+		                                                    <x:updateActionListener
+		                                                        property="#{ProzesskopieForm.prozessVorlage}"
+		                                                        value="#{item}" />
+		                                                </button>
+		
+		                                                <h:panelGroup
+		                                                    rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() gt 1}">
+		                                                    <div
+		                                                        class="btn-group"
+		                                                        title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
+		                                                        data-toggle="tooltip">
+		                                                        <button
+		                                                            type="button"
+		                                                            class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
+		                                                            aria-label="#{msgs.projekte}"
+		                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+		                                                            style="padding-left: 4px; padding-right: 4px;"> <span class="caret"></span>
+		                                                        </button>
+		                                                        <ul class="dropdown-menu  pull-right">
+		                                                            <ui:repeat
+		                                                                var="proj"
+		                                                                value="#{ProzesskopieForm.availableProjects}">
+		                                                                <li><button jsf:action="#{ProzesskopieForm.Prepare}"
+		                                                                		aria-label="#{proj.titel}" class="dropdown-item">
+		                                                                        <h:outputText value="#{proj.titel}" />
+		                                                                        <x:updateActionListener
+		                                                                            property="#{item.projekt}"
+		                                                                            value="#{proj}" />
+		                                                                        <x:updateActionListener
+		                                                                            property="#{ProzesskopieForm.prozessVorlage}"
+		                                                                            value="#{item}" />
+		                                                                    </button></li>
+		                                                            </ui:repeat>
+		                                                        </ul>
+		                                                        <button
+		                                                            aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
+		                                                            jsf:action="#{ProzesskopieForm.Prepare}"
+		                                                            jsf:rel="tooltip"
+		                                                            class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} ">
+		                                                            <f:passThroughAttribute
+		                                                                name="data-toggle"
+		                                                                value="tooltip" />
+		                                                            <x:updateActionListener
+		                                                                property="#{ProzesskopieForm.prozessVorlage}"
+		                                                                value="#{item}" />
+		                                                        </button>
+		                                                        
+		                                                    </div>
+		                                                </h:panelGroup>
+		
+		                                                <!-- MassenImport -->
+		                                                <button
+		                                                    jsf:action="#{MassImportForm.Prepare}"
+		                                                    aria-label="#{msgs.MassenImport}"
+		                                                    jsf:id="action222"
+		                                                    jsf:rel="tooltip"
+		                                                    class="btn fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
+		                                                    title="#{msgs.MassenImport}"
+		                                                    onclick="preventDoubleSubmit(this);"
+		                                                    jsf:rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() eq 1}">
+		                                                    <f:passThroughAttribute
+		                                                        name="data-toggle"
+		                                                        value="tooltip" />
+		                                                    <x:updateActionListener
+		                                                        property="#{MassImportForm.template}"
+		                                                        value="#{item}" />
+		                                                </button>
+		
+		                                                <h:panelGroup
+		                                                    rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() gt 1}">
+		                                                    <div
+		                                                        class="btn-group"
+		                                                        title="#{msgs.MassenImport}"
+		                                                        data-toggle="tooltip">
+		                                                        <button
+		                                                            class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
+		                                                            style="padding-left: 4px; padding-right: 4px;"
+		                                                            data-toggle="dropdown" type="button"> <span class="caret"></span>
+		                                                        </button>
+		                                                        <button
+		                                                            jsf:action="#{MassImportForm.Prepare}"
+		                                                            jsf:rel="tooltip" aria-label="#{msgs.MassenImport}" class="btn">
+		                                                            <i
+		                                                                class="fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
+		                                                                style="padding-left: 7px; padding-right: 7px;" />
+		                                                            <f:passThroughAttribute
+		                                                                name="data-toggle"
+		                                                                value="tooltip" />
+		                                                            <x:updateActionListener
+		                                                                property="#{MassImportForm.template}"
+		                                                                value="#{item}" />
+		                                                        </button>
+		                                                        <ul class="dropdown-menu  pull-right">
+		                                                            <ui:repeat
+		                                                                var="proj"
+		                                                                value="#{ProzesskopieForm.availableProjects}">
+		                                                                <li><button jsf:action="#{MassImportForm.Prepare}"
+		                                                                		aria-label="#{proj.titel}" class="dropdown-item">
+		                                                                        <h:outputText value="#{proj.titel}" />
+		                                                                        <x:updateActionListener
+		                                                                            property="#{item.projekt}"
+		                                                                            value="#{proj}" />
+		                                                                        <x:updateActionListener
+		                                                                            property="#{item.projectId}"
+		                                                                            value="#{proj.id}" />
+		                                                                        <x:updateActionListener
+		                                                                            property="#{MassImportForm.template}"
+		                                                                            value="#{item}" />
+		                                                                    </button></li>
+		                                                            </ui:repeat>
+		                                                        </ul>
+		                                                    </div>
+		                                                </h:panelGroup>
+													</td>
+												</tr>
+											</ui:repeat>
+										</table>
                                         <div class="dataTables_paginate">
                                             <h:panelGroup
                                                 rendered="#{DashboardForm.plugin.paginator.totalResults > LoginForm.myBenutzer.tabellengroesse}">
