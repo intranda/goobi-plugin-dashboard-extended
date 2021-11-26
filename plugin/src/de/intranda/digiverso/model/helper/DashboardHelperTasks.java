@@ -114,7 +114,7 @@ public class DashboardHelperTasks {
 
             StringBuilder sb = new StringBuilder();
             sb.append("select titel, Bearbeitungsstatus, count(1) ");
-            sb.append("from schritte where Bearbeitungsstatus in (2,3,4,6) and ");
+            sb.append("from schritte where Bearbeitungsstatus in (1, 2,3,4,6) and ");
             sb.append("titel in (");
             sb.append(stepnameFilter.toString());
             sb.append(") and BearbeitungsEnde > '");
@@ -130,6 +130,9 @@ public class DashboardHelperTasks {
                 for (TaskHistory th : history) {
                     if (th.getStepName().equals(title)) {
                         switch (status) {
+                            case "1":
+                                th.setNumberOfOpenTasks(numberOfTasks);
+                                break;
                             case "2":
                             case "6":
                                 th.setNumberOfTasksInProcess(th.getNumberOfTasksInProcess() + numberOfTasks);
