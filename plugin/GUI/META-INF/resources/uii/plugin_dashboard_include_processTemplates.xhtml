@@ -42,7 +42,8 @@
 				                                   <th scope="col" role="columnheader" id="ajaxcolumn" class="tableColumnOverflow maxWidth120"
 													aria-sort="#{cc.attrs.form.sortierung== titelDesc ? 'descending' : cc.attrs.form.sortierung== titelAsc ? 'ascending' :'none'}">
 					                                   <button
-	                                                        class="font-black-block button-link button-sort"
+	                                                        class="button-link"
+	                                                        style="width: 100%; text-align: left;"
 	                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
 	                                                        aria-label="#{msgs.defaultSortField} #{msgs.titel} #{NavigationForm.uiStatus.sorting=='titelDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='titelAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }">
 	                                                        <h:outputText styleClass="pull-left" value="#{msgs.titel}" />
@@ -57,7 +58,8 @@
 				                                    <th scope="col" role="columnheader" class="tableColumnOverflow maxWidth80"
 													aria-sort="#{cc.attrs.form.sortierung== fortschrittDesc ? 'descending' : cc.attrs.form.sortierung== fortschrittAsc ? 'ascending' :'none'}">
 				                                    	<button
-	                                                        class="font-black-block button-link button-sort"
+	                                                        class="button-link"
+	                                                        style="width: 100%; text-align: left;"
 	                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
 	                                                        aria-label="#{msgs.defaultSortField} #{msgs.status} #{NavigationForm.uiStatus.sorting=='fortschrittDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='fortschrittAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }">
 	                                                        <h:outputText styleClass="pull-left" value="#{msgs.status}" />
@@ -72,7 +74,8 @@
 				                                    <th scope="col" role="columnheader" class="tableColumnOverflow maxWidth80"
 													aria-sort="#{cc.attrs.form.sortierung== projektDesc ? 'descending' : cc.attrs.form.sortierung== projektAsc ? 'ascending' :'none'}">
 				                                    	<button
-	                                                        class="font-black-block button-link button-sort"
+	                                                        class="button-link"
+	                                                        style="width: 100%; text-align: left;"
 	                                                        jsf:action="#{DashboardForm.plugin.filterTemplates}"
 	                                                        title="#{msgs.projekt}"
 	                                                        aria-label="#{msgs.defaultSortField} #{msgs.projekt} #{NavigationForm.uiStatus.sorting=='projektDesc'? msgs.defaultSortFieldDesc : NavigationForm.uiStatus.sorting=='projektAsc'? msgs.defaultSortFieldAsc : msgs.defaultSortFieldNotSorted }">
@@ -87,10 +90,9 @@
 	                                                    </button>
 				                                    </th>
 				                                    <!-- Actions -->
-				                                    <intranda:columnheader
-														class="maxWidth80"
-				                                        value="#{msgs.auswahl}"
-				                                        sortable="false" />
+				                                    <th scope="col" role="columnheader" class="maxWidth80" style="vertical-align: top">
+				                                    	<h:outputText value="#{msgs.auswahl}" />
+				                                    </th>
 												</tr>
 											</thead>
 											<!-- +++++ Content rows ++++++ -->
