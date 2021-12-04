@@ -24,6 +24,7 @@
                                 type="button"
                                 class="btn pull-right"
                                 jsf:rendered="#{!DashboardForm.plugin.messageQueueStatus.showAllTasks}"
+                                aria-label="#{msgs.showMore}"
                                 style="padding: 0; line-height: inherit; color: inherit; border: none; background: inherit; display: inline-block; margin-left: auto;">
                                 <i class="fa fa-angle-up"></i>
                                 <f:setPropertyActionListener
@@ -36,6 +37,7 @@
                                 type="button"
                                 class="btn pull-right"
                                 jsf:rendered="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
+                                aria-label="#{msgs.showLess}"
                                 style="padding: 0; line-height: inherit; color: inherit; border: none; background: inherit; display: inline-block; margin-left: auto;">
                                 <i class="fa fa-angle-down margin-right-5"></i>
                                 <f:setPropertyActionListener
