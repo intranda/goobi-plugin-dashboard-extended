@@ -63,6 +63,7 @@
                                 <thead>
                                     <tr>
                                         <th style="min-width: 100px">#{msgs.titel}</th>
+                                        <th style="min-width: 100px">#{msgs.statisticsStepOpen}</th>
                                         <th style="min-width: 100px">#{msgs.statisticsStepDone}</th>
                                         <th style="min-width: 100px">#{msgs.statisticsStepInWork}</th>
                                         <th style="min-width: 100px">#{msgs.statusError}</th>
@@ -76,6 +77,23 @@
                                         <tr>
 
                                             <td>#{historyStep.stepName}</td>
+                                            <td>
+                                             <h:outputText value="#{historyStep.numberOfOpenTasks}" />
+                                                <button
+                                                    jsf:rendered="#{historyStep.numberOfOpenTasks gt 0 and LoginForm.hasRole('Workflow_Processes')}"
+                                                    class="expandbutton icon-only-button"
+                                                    title="#{msgs.search}"
+                                                    data-toggle="tooltip"
+                                                    jsf:action="#{DashboardForm.plugin.tasksHelper.loadOpenSteps}">
+                                                    <f:setPropertyActionListener
+                                                        value="#{historyStep}"
+                                                        target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
+                                                    <f:setPropertyActionListener
+                                                        target="#{NavigationForm.aktuell}"
+                                                        value="a22" />
+                                                    <i class="fa fa-search" />
+                                                </button>
+                                            </td>
                                             <td>
                                                 <h:outputText value="#{historyStep.numberOfFinishedTasks}" />
                                                 <button

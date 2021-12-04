@@ -26,15 +26,10 @@ import de.sub.goobi.persistence.managers.StepManager;
 import lombok.Getter;
 import lombok.Setter;
 
-
-
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * <p>
- * Visit the websites for more information.
- * - https://goobi.io
- * - https://www.intranda.com
- * - https://github.com/intranda/goobi
+ * Visit the websites for more information. - https://goobi.io - https://www.intranda.com - https://github.com/intranda/goobi
  * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free
  * Software Foundation; either version 2 of the License, or (at your option) any later version.
@@ -178,8 +173,7 @@ public class DashboardHelperTasks {
                     // Ensure null-safe comparison for the date
                     taskChangeHistory.sort(Comparator.comparing(
                             taskChangeType -> taskChangeType.getClosedStep().getBearbeitungsende(),
-                            Comparator.nullsLast(Comparator.reverseOrder()))
-                            );
+                            Comparator.nullsLast(Comparator.reverseOrder())));
                 }
             }
         }
@@ -196,6 +190,20 @@ public class DashboardHelperTasks {
             this.assignedSteps = StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 10);
         }
         return assignedSteps;
+    }
+
+    public String loadOpenSteps() {
+        StringBuilder searchFilter = new StringBuilder();
+        searchFilter.append("\"stepopen:");
+        searchFilter.append(currentElement.getStepName());
+        searchFilter.append("\" \"stepfinishdate>");
+        searchFilter.append(dateString);
+        searchFilter.append("\"");
+        ProcessBean bean = (ProcessBean) Helper.getBeanByName("ProzessverwaltungForm", ProcessBean.class);
+        bean.setModusAnzeige("aktuell");
+        bean.setFilter(searchFilter.toString());
+
+        return bean.FilterAlleStart();
     }
 
     public String loadFinishedSteps() {
