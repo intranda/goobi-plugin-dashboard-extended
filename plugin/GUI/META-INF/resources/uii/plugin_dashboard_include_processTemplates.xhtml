@@ -318,10 +318,11 @@
 		                                                        </button>
 		                                                        <button
 		                                                            jsf:action="#{MassImportForm.Prepare}"
-		                                                            jsf:rel="tooltip" aria-label="#{msgs.MassenImport}" class="btn">
-		                                                            <i
-		                                                                class="fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
-		                                                                style="padding-left: 7px; padding-right: 7px;" />
+		                                                            jsf:rel="tooltip" 
+                                                                    aria-label="#{msgs.MassenImport}"
+                                                                    style="padding-top: 1px; padding-bottom: 1px" 
+                                                                    class="btn #{item.containsUnreachableSteps?' btn-danger':'btn-primary'}">
+		                                                            <i class="fa fa-files-o" />
 		                                                            <f:passThroughAttribute
 		                                                                name="data-toggle"
 		                                                                value="tooltip" />
