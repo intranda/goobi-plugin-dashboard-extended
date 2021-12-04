@@ -47,7 +47,7 @@ public class DashboardHelperItm {
     }
 
     public List<DashQueuesObj> getItmPlugins() throws MalformedURLException {
-        String basisUrl = config.getString("itm-url", "http://goobitest02.fritz.box/itm/") + "api?";
+        String basisUrl = config.getString("itm-url", "") + "api?";
         Gson gson = new Gson();
 
         // read all plugin types of the itm

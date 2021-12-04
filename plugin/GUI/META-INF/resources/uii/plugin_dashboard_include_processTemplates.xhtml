@@ -355,26 +355,29 @@
 											</ui:repeat>
 										</table>
                                         <div class="dataTables_paginate">
-                                            <h:panelGroup
-                                                rendered="#{DashboardForm.plugin.paginator.totalResults > LoginForm.myBenutzer.tabellengroesse}">
+                                            <h:panelGroup rendered="#{DashboardForm.plugin.paginator.totalResults > LoginForm.myBenutzer.tabellengroesse}">
 
                                                 <div class="pull-right">
 
-                                                    <h:commandLink
-                                                        styleClass="btn font-size-s margin-sides-10"
-                                                        action="#{DashboardForm.plugin.paginator.cmdMoveFirst}"
-                                                        id="navfirst">
+                                                    <button
+                                                        jsf:id="navfirst"
+                                                        class="btn font-size-s margin-sides-10"
+                                                        jsf:rel="tooltip"
+                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMoveFirst}">
                                                         <i class="fa fa-double-angle-left"></i>
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </h:commandLink>
-                                                    <h:commandLink
-                                                        styleClass="btn btn-primary font-size-s navigator-previous"
-                                                        action="#{DashboardForm.plugin.paginator.cmdMovePrevious}"
-                                                        id="navprev">
+                                                    </button>
+
+                                                    <button
+                                                        jsf:id="navprev"
+                                                        class="btn btn-primary font-size-s navigator-previous"
+                                                        jsf:rel="tooltip"
+                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMovePrevious}">
                                                         <i class="fa fa-angle-left"></i>
                                                         <h:outputText value=" #{msgs.pagePrevious}" />
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </h:commandLink>
+                                                    </button>
+
 
                                                     <div class="margin-sides-10">
                                                         <!-- aktuelle Seite anzeigen -->
@@ -401,26 +404,28 @@
                                                             id="cmdMoveTo"
                                                             forceId="true"
                                                             value="go"
-                                                            style="display:none">
-
+                                                            style="display:none"
+                                                            aria-hidden="true">
                                                         </x:commandButton>
                                                     </div>
 
-                                                    <h:commandLink
-                                                        styleClass="btn btn-primary font-size-s navigator-next"
-                                                        action="#{DashboardForm.plugin.paginator.cmdMoveNext}"
-                                                        id="navnext">
+                                                    <button
+                                                        jsf:id="navnext"
+                                                        class="btn btn-primary font-size-s navigator-next"
+                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMoveNext}">
                                                         <h:outputText value="#{msgs.pageNext} " />
                                                         <i class="fa fa-angle-right"></i>
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </h:commandLink>
-                                                    <h:commandLink
-                                                        styleClass="btn font-size-s margin-sides-10"
-                                                        action="#{DashboardForm.plugin.paginator.cmdMoveLast}"
-                                                        id="navlast">
+                                                    </button>
+
+                                                    <button
+                                                        jsf:id="navlast"
+                                                        class="btn font-size-s margin-sides-10"
+                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMoveLast}">
                                                         <i class="fa fa-double-angle-right"></i>
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </h:commandLink>
+                                                    </button>
+
                                                 </div>
                                             </h:panelGroup>
 

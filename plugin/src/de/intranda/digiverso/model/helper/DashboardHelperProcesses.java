@@ -30,9 +30,12 @@ import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.log4j.Logger;
+import org.goobi.beans.User;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
 
+import de.sub.goobi.helper.Helper;
+import de.sub.goobi.persistence.managers.ControllingManager;
 import de.sub.goobi.persistence.managers.ProcessManager;
 
 public class DashboardHelperProcesses {
@@ -49,13 +52,32 @@ public class DashboardHelperProcesses {
 
     public LineChartModel getProcessesPerMonth() {
         if (this.processesPerMonth == null) {
+            
+            String strProjecIds = "(";
+            User user = Helper.getCurrentUser();
+            if (user != null) {
+                String sql = "select ProjekteID from projektbenutzer where BenutzerID = "
+                        + user.getId();
+                List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sql);
+                for (Object[] objArr : rawvalues) {
+                    String projectId = (String) objArr[0];
+                    if (strProjecIds.length()> 1) {
+                        strProjecIds += ",";       
+                    }
+                    strProjecIds += projectId;
+                }
+            }
+            
+            strProjecIds += ")";                      
+            
             LineChartModel model = new LineChartModel();
             model.setExtender("ext");
             ChartSeries series = new ChartSeries();
             series.setLabel("Months");
 
             List<?> list = ProcessManager.runSQL(
-                    "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false  GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
+                    "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false AND ProjekteID in " + 
+                            strProjecIds +  " GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
             Collections.reverse(list);
             for (Object obj : list) {
                 Object[] o = (Object[]) obj;
@@ -81,6 +103,13 @@ public class DashboardHelperProcesses {
         return false;
     }
 
+    public boolean isProcessPerMonthEmpty() {
+        
+        List<?> list = ProcessManager.runSQL(
+                "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false  GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
+        
+        return list.isEmpty();
+    }
 
     //	public LineChartModel getProcessesPerMonth() {
     //		LineChartModel model = new LineChartModel();

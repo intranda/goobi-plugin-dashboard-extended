@@ -95,8 +95,10 @@ export default {
        if(this.state.feed.length > 0) {
 	       this.state.feed = [];
 	       this.update();
-       }
-       fetch(`/goobi/plugins/exdashboard/rssfeed`).then(resp => {
+       } 
+       var path = window.location.pathname;
+       path = path.substring(0, path.indexOf("/uii/"));
+       fetch(`${path}/plugins/exdashboard/rssfeed`).then(resp => {
         resp.json().then(json => {
           this.state.feed = json;
           this.update();

@@ -1,13 +1,21 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:composite="http://xmlns.jcp.org/jsf/composite"
-    xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:p="http://primefaces.org/ui">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:x="http://myfaces.apache.org/tomahawk"
+    xmlns:p="http://primefaces.org/ui">
 
     <composite:interface>
     </composite:interface>
 
     <composite:implementation>
-		<h:form id="dashboard-rss">
-			<div id="jsRssFeed"  aria-hidden="true"></div>
-        </h:form>
+        <h:panelGroup rendered="#{DashboardForm.plugin.rssHelper.showRss}">
+            <h:form id="dashboard-rss">
+                <div id="jsRssFeed" aria-hidden="true"></div>
+            </h:form>
+        </h:panelGroup>
     </composite:implementation>
 
 </ui:composition>
