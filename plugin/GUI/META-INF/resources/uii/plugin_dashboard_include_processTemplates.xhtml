@@ -15,7 +15,19 @@
     </composite:interface>
 
     <composite:implementation>
-
+		<script type="text/javascript">
+        	function switchExpanded(id){
+        		console.log("called by: "+id);
+				var x = document.getElementById(id).getAttribute("aria-expanded"); 
+				console.log(x)
+				if (x == "true"){
+					x = "false"
+				} else {
+					x = "true"
+				}
+				document.getElementById(id).setAttribute("aria-expanded", x);
+        	}
+        </script>
         <h:panelGroup rendered="#{LoginForm.hasRole('Workflow_Processes') or LoginForm.hasRole('Workflow_ProcessTemplates')}">
 
             <ui:fragment rendered="#{DashboardForm.plugin.processHelper.showProcessTemplates}">
@@ -250,9 +262,11 @@
 		                                                        data-toggle="tooltip">
 		                                                        <button
 		                                                            type="button"
+		                                                            id="projectsDropdown"
 		                                                            class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
 		                                                            aria-label="#{msgs.projekte}"
 		                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+		                                                            onclick="switchExpanded(this.id)"
 		                                                            style="padding-left: 4px; padding-right: 4px;"> <span class="caret"></span>
 		                                                        </button>
 		                                                        <ul class="dropdown-menu  pull-right">
@@ -312,18 +326,17 @@
 		                                                        title="#{msgs.MassenImport}"
 		                                                        data-toggle="tooltip">
 		                                                        <button
+		                                                        	id="dropdownUnreachableSteps"
 		                                                            class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
 		                                                            style="padding-left: 4px; padding-right: 4px;"
-                                                                    aria-label="#{msgs.projekte}"
-		                                                            data-toggle="dropdown" type="button"> <span class="caret"></span>
+		                                                            data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" onclick="switchExpanded(this.id)"> <span class="caret"></span>
 		                                                        </button>
 		                                                        <button
 		                                                            jsf:action="#{MassImportForm.Prepare}"
-		                                                            jsf:rel="tooltip" 
-                                                                    aria-label="#{msgs.MassenImport}"
-                                                                    style="padding-top: 1px; padding-bottom: 1px" 
-                                                                    class="btn #{item.containsUnreachableSteps?' btn-danger':'btn-primary'}">
-		                                                            <i class="fa fa-files-o" />
+		                                                            jsf:rel="tooltip" aria-label="#{msgs.MassenImport}" class="btn">
+		                                                            <i
+		                                                                class="fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
+		                                                                style="padding-left: 7px; padding-right: 7px;" />
 		                                                            <f:passThroughAttribute
 		                                                                name="data-toggle"
 		                                                                value="tooltip" />
@@ -357,29 +370,26 @@
 											</ui:repeat>
 										</table>
                                         <div class="dataTables_paginate">
-                                            <h:panelGroup rendered="#{DashboardForm.plugin.paginator.totalResults > LoginForm.myBenutzer.tabellengroesse}">
+                                            <h:panelGroup
+                                                rendered="#{DashboardForm.plugin.paginator.totalResults > LoginForm.myBenutzer.tabellengroesse}">
 
                                                 <div class="pull-right">
 
-                                                    <button
-                                                        jsf:id="navfirst"
-                                                        class="btn font-size-s margin-sides-10"
-                                                        jsf:rel="tooltip"
-                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMoveFirst}">
+                                                    <h:commandLink
+                                                        styleClass="btn font-size-s margin-sides-10"
+                                                        action="#{DashboardForm.plugin.paginator.cmdMoveFirst}"
+                                                        id="navfirst">
                                                         <i class="fa fa-double-angle-left"></i>
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </button>
-
-                                                    <button
-                                                        jsf:id="navprev"
-                                                        class="btn btn-primary font-size-s navigator-previous"
-                                                        jsf:rel="tooltip"
-                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMovePrevious}">
+                                                    </h:commandLink>
+                                                    <h:commandLink
+                                                        styleClass="btn btn-primary font-size-s navigator-previous"
+                                                        action="#{DashboardForm.plugin.paginator.cmdMovePrevious}"
+                                                        id="navprev">
                                                         <i class="fa fa-angle-left"></i>
                                                         <h:outputText value=" #{msgs.pagePrevious}" />
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </button>
-
+                                                    </h:commandLink>
 
                                                     <div class="margin-sides-10">
                                                         <!-- aktuelle Seite anzeigen -->
@@ -406,28 +416,26 @@
                                                             id="cmdMoveTo"
                                                             forceId="true"
                                                             value="go"
-                                                            style="display:none"
-                                                            aria-hidden="true">
+                                                            style="display:none">
+
                                                         </x:commandButton>
                                                     </div>
 
-                                                    <button
-                                                        jsf:id="navnext"
-                                                        class="btn btn-primary font-size-s navigator-next"
-                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMoveNext}">
+                                                    <h:commandLink
+                                                        styleClass="btn btn-primary font-size-s navigator-next"
+                                                        action="#{DashboardForm.plugin.paginator.cmdMoveNext}"
+                                                        id="navnext">
                                                         <h:outputText value="#{msgs.pageNext} " />
                                                         <i class="fa fa-angle-right"></i>
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </button>
-
-                                                    <button
-                                                        jsf:id="navlast"
-                                                        class="btn font-size-s margin-sides-10"
-                                                        jsf:action="#{DashboardForm.plugin.paginator.cmdMoveLast}">
+                                                    </h:commandLink>
+                                                    <h:commandLink
+                                                        styleClass="btn font-size-s margin-sides-10"
+                                                        action="#{DashboardForm.plugin.paginator.cmdMoveLast}"
+                                                        id="navlast">
                                                         <i class="fa fa-double-angle-right"></i>
                                                         <f:ajax render=":processTemplateForm" />
-                                                    </button>
-
+                                                    </h:commandLink>
                                                 </div>
                                             </h:panelGroup>
 
