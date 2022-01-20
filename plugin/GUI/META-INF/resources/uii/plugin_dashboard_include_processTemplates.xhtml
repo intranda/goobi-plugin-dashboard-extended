@@ -239,13 +239,16 @@
 														<!-- ProzessKopie-Schaltknopf -->
 		                                                <button
 		                                                    jsf:action="#{ProzesskopieForm.Prepare}"
-		                                                    jsf:id="action22"
 		                                                    jsf:rel="tooltip"
 		                                                    onclick="preventDoubleSubmit(this);"
 		                                                    aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-		                                                    title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-		                                                    jsf:rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1}"
-		                                                    class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} ">
+		                                                    title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:
+                                                                               (item.getProjekt().projectIsArchived ? msgs.projectIsArchived : 
+                                                                                    (ProzesskopieForm.isUserInProcessProject(item) ? msgs.eineKopieDieserProzessvorlageAnlegen : msgs.nutzerNichtFuerProjektZugeordnet)
+                                                                               )
+                                                                      }"
+		                                                    jsf:rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1 and ProzesskopieForm.availableProjects.contains(item))}"
+		                                                    class="btn fa fa-file-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-danger':'btn-primary'}">
 		                                                    <f:passThroughAttribute
 		                                                        name="data-toggle"
 		                                                        value="tooltip" />
@@ -255,14 +258,17 @@
 		                                                </button>
 		
 		                                                <h:panelGroup
-		                                                    rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() gt 1}">
+		                                                    rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and (ProzesskopieForm.availableProjects.size() gt 1 or !ProzesskopieForm.availableProjects.contains(item))}">
 		                                                    <div
 		                                                        class="btn-group"
-		                                                        title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
-		                                                        data-toggle="tooltip">
+		                                                        title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:
+                                                                               (item.getProjekt().projectIsArchived ? msgs.projectIsArchived : 
+                                                                                    (ProzesskopieForm.isUserInProcessProject(item) ? msgs.eineKopieDieserProzessvorlageAnlegen : msgs.nutzerNichtFuerProjektZugeordnet)
+                                                                               )
+                                                                      }"
+                                                                data-toggle="tooltip">
 		                                                        <button
 		                                                            type="button"
-		                                                            id="projectsDropdown"
 		                                                            class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
 		                                                            aria-label="#{msgs.projekte}"
 		                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -289,7 +295,7 @@
 		                                                            aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.eineKopieDieserProzessvorlageAnlegen}"
 		                                                            jsf:action="#{ProzesskopieForm.Prepare}"
 		                                                            jsf:rel="tooltip"
-		                                                            class="btn fa #{item.containsUnreachableSteps?'fa-file-o btn-danger':'fa-file-o btn-primary'} ">
+		                                                            class="btn fa fa-file-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-danger':'btn-primary'}">
 		                                                            <f:passThroughAttribute
 		                                                                name="data-toggle"
 		                                                                value="tooltip" />
@@ -302,13 +308,16 @@
 		                                                </h:panelGroup>
 		
 		                                                <!-- MassenImport -->
-		                                                <button
+                                                        <button
 		                                                    jsf:action="#{MassImportForm.Prepare}"
-		                                                    aria-label="#{msgs.MassenImport}"
-		                                                    jsf:id="action222"
-		                                                    jsf:rel="tooltip"
-		                                                    class="btn fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
-		                                                    title="#{msgs.MassenImport}"
+		                                                    aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.MassenImport}"
+                                                            jsf:rel="tooltip"
+		                                                    class="btn button-schaltknopf fa fa-files-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-danger':'btn-primary'}"
+		                                                    title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:
+                                                                               (item.getProjekt().projectIsArchived ? msgs.projectIsArchived : 
+                                                                                    (ProzesskopieForm.isUserInProcessProject(item) ? msgs.MassenImport : msgs.nutzerNichtFuerProjektZugeordnet)
+                                                                               )
+                                                                      }"
 		                                                    onclick="preventDoubleSubmit(this);"
 		                                                    jsf:rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() eq 1}">
 		                                                    <f:passThroughAttribute
@@ -323,26 +332,17 @@
 		                                                    rendered="#{DashboardForm.plugin.showProcessTemplateMassImportButton and HelperForm.massImportAllowed and LoginForm.hasRole('Workflow_ProcessTemplates_Import_Multi') and ProzesskopieForm.availableProjects.size() gt 1}">
 		                                                    <div
 		                                                        class="btn-group"
-		                                                        title="#{msgs.MassenImport}"
+		                                                        title="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:
+                                                                               (item.getProjekt().projectIsArchived ? msgs.projectIsArchived : 
+                                                                                    (ProzesskopieForm.isUserInProcessProject(item) ? msgs.MassenImport : msgs.nutzerNichtFuerProjektZugeordnet)
+                                                                               )
+                                                                      }"
 		                                                        data-toggle="tooltip">
 		                                                        <button
-		                                                        	id="dropdownUnreachableSteps"
-		                                                            class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
+		                                                        	class="btn #{item.containsUnreachableSteps?'btn-danger':'btn-primary'} dropdown-toggle fa pull-right"
 		                                                            style="padding-left: 4px; padding-right: 4px;"
-		                                                            data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" onclick="switchExpanded(this.id)"> <span class="caret"></span>
-		                                                        </button>
-		                                                        <button
-		                                                            jsf:action="#{MassImportForm.Prepare}"
-		                                                            jsf:rel="tooltip" aria-label="#{msgs.MassenImport}" class="btn">
-		                                                            <i
-		                                                                class="fa #{item.containsUnreachableSteps?'fa-files-o btn-danger':'fa-files-o btn-primary'} "
-		                                                                style="padding-left: 7px; padding-right: 7px;" />
-		                                                            <f:passThroughAttribute
-		                                                                name="data-toggle"
-		                                                                value="tooltip" />
-		                                                            <x:updateActionListener
-		                                                                property="#{MassImportForm.template}"
-		                                                                value="#{item}" />
+		                                                            aria-label="#{msgs.projekte}"
+                                                                    data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" onclick="switchExpanded(this.id)"> <span class="caret"></span>
 		                                                        </button>
 		                                                        <ul class="dropdown-menu  pull-right">
 		                                                            <ui:repeat
@@ -363,6 +363,17 @@
 		                                                                    </button></li>
 		                                                            </ui:repeat>
 		                                                        </ul>
+		                                                        <button
+		                                                            jsf:action="#{MassImportForm.Prepare}"
+		                                                            jsf:rel="tooltip" aria-label="#{item.containsUnreachableSteps?msgs.prozessvorlageMitUnvollstaendigenSchrittdetails:msgs.MassenImport}" 
+                                                                    class="btn fa fa-files-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-danger':'btn-primary'}">
+		                                                            <f:passThroughAttribute
+		                                                                name="data-toggle"
+		                                                                value="tooltip" />
+		                                                            <x:updateActionListener
+		                                                                property="#{MassImportForm.template}"
+		                                                                value="#{item}" />
+		                                                        </button>
 		                                                    </div>
 		                                                </h:panelGroup>
 													</td>
