@@ -247,7 +247,7 @@
                                                                                     (ProzesskopieForm.isUserInProcessProject(item) ? msgs.eineKopieDieserProzessvorlageAnlegen : msgs.nutzerNichtFuerProjektZugeordnet)
                                                                                )
                                                                       }"
-		                                                    jsf:rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1 and ProzesskopieForm.availableProjects.contains(item))}"
+		                                                    jsf:rendered="#{LoginForm.hasRole('Workflow_ProcessTemplates_Import_Single') and ProzesskopieForm.availableProjects.size() eq 1 and ProzesskopieForm.availableProjects.contains(item)}"
 		                                                    class="btn fa fa-file-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-danger':'btn-primary'}">
 		                                                    <f:passThroughAttribute
 		                                                        name="data-toggle"
