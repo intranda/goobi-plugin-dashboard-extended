@@ -121,7 +121,7 @@
 														<h:panelGroup
 		                                                    rendered="#{item.fortschritt3 gt 0}"
 		                                                    data-toggle="tooltip"
-		                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-done'):('progress-bar-success'))}"
+		                                                    styleClass="progress-bar #{(LoginForm.myBenutzer.uiMode=='low_vision'?('easy-read-progressbar-status-done'):('progress-bar-success'))}"
 		                                                    style="width: #{item.fortschritt3}%;line-height:15px;"
 		                                                    pt:role="figure"
 		                                                    pt:aria-label="#{item.fortschritt3}% #{msgs.statusAbgeschlossen}">
@@ -149,7 +149,7 @@
 		                                                <h:panelGroup
 		                                                    rendered="#{item.fortschritt2 gt 0}"
 		                                                    data-toggle="tooltip"
-		                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-open'):('progress-bar-warning'))}"
+		                                                    styleClass="progress-bar #{(LoginForm.myBenutzer.uiMode=='low_vision'?('easy-read-progressbar-status-open'):('progress-bar-warning'))}"
 		                                                    style="width: #{item.fortschritt2}%;line-height:15px;"
 		                                                    pt:role="figure"
 		                                                    pt:aria-label="#{item.fortschritt2}% #{msgs.statusOffen} / #{msgs.statusInBearbeitung}">
@@ -177,7 +177,7 @@
 		                                                <h:panelGroup
 		                                                    rendered="#{item.fortschrittError gt 0}"
 		                                                    data-toggle="tooltip"
-		                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-error'):('progress-bar-danger progressbar-status-error'))} "
+		                                                    styleClass="progress-bar #{(LoginForm.myBenutzer.uiMode=='low_vision'?('easy-read-progressbar-status-error'):('progress-bar-danger progressbar-status-error'))} "
 		                                                    style="width: #{item.fortschrittError}%;line-height:15px;"
 		                                                    pt:role="figure"
 		                                                    pt:aria-label="#{item.fortschrittError}% #{msgs.statusError}">
@@ -205,7 +205,7 @@
 		                                                <h:panelGroup
 		                                                    rendered="#{item.fortschritt1 gt 0}"
 		                                                    data-toggle="tooltip"
-		                                                    styleClass="progress-bar #{(NavigationForm.showEasyRead?('easy-read-progressbar-status-locked'):('progress-bar-danger'))} "
+		                                                    styleClass="progress-bar #{(LoginForm.myBenutzer.uiMode=='low_vision'?('easy-read-progressbar-status-locked'):('progress-bar-danger'))} "
 		                                                    style="width: #{item.fortschritt1}%;line-height:15px;"
 		                                                    pt:role="figure"
 		                                                    pt:aria-label="#{item.fortschritt1}% #{msgs.statusGesperrt}">
