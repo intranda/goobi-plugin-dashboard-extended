@@ -147,9 +147,14 @@ public class DashboardHelperTasks {
         if (showLastChanges) {
             User user = Helper.getCurrentUser();
             if (user != null) {
-                String sql = "select ProzesseID, SchritteID, titel from schritte where Bearbeitungsstatus = 3 and BearbeitungsBenutzerID = "
-                        + user.getId() + " order by BearbeitungsEnde desc limit 5;";
-                List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sql);
+
+                StringBuilder sql = new StringBuilder();
+                sql.append("SELECT schritte.ProzesseID, schritte.SchritteID, schritte.titel");
+                sql.append(" FROM schritte LEFT JOIN prozesse ON schritte.ProzesseID = prozesse.ProzesseID");
+                sql.append(" WHERE Bearbeitungsstatus = 3 AND BearbeitungsBenutzerID = " + user.getId() + " AND prozesse.IstTemplate = 0");
+                sql.append(" ORDER BY BearbeitungsEnde DESC LIMIT 5;");
+
+                List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sql.toString());
                 for (Object[] objArr : rawvalues) {
                     String processId = (String) objArr[0];
                     String stepId = (String) objArr[1];
