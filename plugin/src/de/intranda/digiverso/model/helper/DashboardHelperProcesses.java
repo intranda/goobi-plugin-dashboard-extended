@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.log4j.Logger;
 import org.goobi.beans.User;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
@@ -39,8 +38,6 @@ import de.sub.goobi.persistence.managers.ControllingManager;
 import de.sub.goobi.persistence.managers.ProcessManager;
 
 public class DashboardHelperProcesses {
-
-    private static final Logger logger = Logger.getLogger(DashboardHelperProcesses.class);
     private XMLConfiguration config;
     private LineChartModel processesPerMonth = null;
 

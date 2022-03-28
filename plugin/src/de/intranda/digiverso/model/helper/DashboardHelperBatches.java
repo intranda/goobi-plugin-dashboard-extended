@@ -48,10 +48,10 @@ import com.google.gson.Gson;
 import de.intranda.digiverso.model.batches.SimpleBatch;
 import de.sub.goobi.persistence.managers.MySQLHelper;
 import lombok.Data;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 
 @Data
-@Log4j
+@Log4j2
 public class DashboardHelperBatches {
 
     private XMLConfiguration config;
