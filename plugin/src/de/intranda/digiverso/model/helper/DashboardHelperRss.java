@@ -3,7 +3,7 @@ package de.intranda.digiverso.model.helper;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -33,9 +33,9 @@ import java.util.List;
 
 import org.apache.commons.configuration.XMLConfiguration;
 
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.SyndFeedInput;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.SyndFeedInput;
 
 import de.intranda.digiverso.model.rss.RssEntry;
 import de.sub.goobi.helper.HttpClientHelper;
@@ -83,7 +83,7 @@ public class DashboardHelperRss {
                 internalFeeds.add(rss);
             }
         } catch (Exception e) {
-            internalFeeds = new ArrayList<RssEntry>();
+            internalFeeds = new ArrayList<>();
             RssEntry rss = new RssEntry();
             rss.setTitle("Error");
             rss.setAuthor("");
