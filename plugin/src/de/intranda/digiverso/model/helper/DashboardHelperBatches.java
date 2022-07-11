@@ -262,29 +262,29 @@ public class DashboardHelperBatches {
         Connection connection = null;
         try {
             connection = MySQLHelper.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sb.toString());
-            ResultSet rs = statement.executeQuery();
+            try (PreparedStatement statement = connection.prepareStatement(sb.toString())) {
+                ResultSet rs = statement.executeQuery();
 
-            while (rs.next()) {
-                totalBatches = totalBatches + 1;
-                int completed = rs.getInt("completed");
-                int inWork = rs.getInt("inWork");
-                int locked = rs.getInt("locked");
-                if (locked == 0 && inWork == 0) {
-                    // completed
-                    finishedBatches = finishedBatches + 1;
-                } else if (inWork != 0) {
-                    // inwork
-                    batchesInwork = batchesInwork + 1;
-                } else if (completed == 0 && inWork == 0) {
-                    // not started
-                    batchesNotStarted = batchesNotStarted + 1;
-                } else {
-                    // error, should not occur
-                    log.error("Something happened during creation of batch details");
+                while (rs.next()) {
+                    totalBatches = totalBatches + 1;
+                    int completed = rs.getInt("completed");
+                    int inWork = rs.getInt("inWork");
+                    int locked = rs.getInt("locked");
+                    if (locked == 0 && inWork == 0) {
+                        // completed
+                        finishedBatches = finishedBatches + 1;
+                    } else if (inWork != 0) {
+                        // inwork
+                        batchesInwork = batchesInwork + 1;
+                    } else if (completed == 0 && inWork == 0) {
+                        // not started
+                        batchesNotStarted = batchesNotStarted + 1;
+                    } else {
+                        // error, should not occur
+                        log.error("Something happened during creation of batch details");
+                    }
                 }
             }
-
             QueryRunner run = new QueryRunner();
             processesWithoutBatch =
                     run.query(connection, "SELECT count(ProzesseID) from prozesse WHERE batchID is null", MySQLHelper.resultSetToIntegerHandler);
