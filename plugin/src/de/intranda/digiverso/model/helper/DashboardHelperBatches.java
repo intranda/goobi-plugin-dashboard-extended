@@ -3,7 +3,7 @@ package de.intranda.digiverso.model.helper;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -99,7 +99,7 @@ public class DashboardHelperBatches {
     }
 
     private void loadDatesInIntervall() {
-        datesInInterval = new ArrayList<String>();
+        datesInInterval = new ArrayList<>();
         int days = Days.daysBetween(selectedStartDate, selectedEndDate).getDays() + 1;
         for (int i = 0; i < days; i++) {
             DateTime d = selectedStartDate.withFieldAdded(DurationFieldType.days(), i);
@@ -185,7 +185,7 @@ public class DashboardHelperBatches {
         try {
             connection = MySQLHelper.getInstance().getConnection();
             QueryRunner run = new QueryRunner();
-            batchesInInterval = run.query(connection, batches.toString(), new BeanListHandler<SimpleBatch>(SimpleBatch.class));
+            batchesInInterval = run.query(connection, batches.toString(), new BeanListHandler<>(SimpleBatch.class));
             for (SimpleBatch batch : batchesInInterval) {
 
                 List<StringPair> spl = run.query(connection, batchDetails, rsh, batch.getId());
@@ -323,8 +323,7 @@ public class DashboardHelperBatches {
                     list.add(sp);
                 }
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                log.error(e);
             }
             return list;
         }
