@@ -62,17 +62,19 @@ import spark.Service;
 @PluginImplementation
 public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
 
-    private DashboardHelperRss rssHelper;
-    private DashboardHelperItm itmHelper;
-    private DashboardHelperNagios nagiosHelper;
-    private DashboardHelperProcesses processHelper;
+    private static final long serialVersionUID = -3380191539964504517L;
+
+    private transient DashboardHelperRss rssHelper;
+    private transient DashboardHelperItm itmHelper;
+    private transient DashboardHelperNagios nagiosHelper;
+    private transient DashboardHelperProcesses processHelper;
     private static final String PLUGIN_NAME = "intranda_dashboard_extended";
-    private DashboardHelperBatches batchHelper;
-    private DashboardHelperTasks tasksHelper;
+    private transient DashboardHelperBatches batchHelper;
+    private transient DashboardHelperTasks tasksHelper;
 
     private DatabasePaginator paginator = null;
 
-    private MessageQueueStatus mq;
+    private transient MessageQueueStatus mq;
 
     @Getter
     @Setter
@@ -96,7 +98,6 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
     public ExtendedDashboard() {
         pluginConfig = ConfigPlugins.getPluginConfig(PLUGIN_NAME);
 
-        // TODO get default layout from configuration?
         String value =
                 "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 itm,2 queue,3 rss,3 nagios";
 
@@ -149,7 +150,7 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
     }
 
     public String getDescription() {
-        return PLUGIN_NAME;
+        return getTitle();
     }
 
     @Override
@@ -235,7 +236,6 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
     }
 
     public void update() {
-        // System.out.println("ich polle");
         // do nothing
     }
 
