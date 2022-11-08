@@ -56,7 +56,7 @@
     <queue-show>true</queue-show>
 
 	<!-- HTML box -->
-	<html-box-show>true</html-box-show>
+	<html-box-show>false</html-box-show>
 	<html-box-title>Goobi to go - Sample accounts</html-box-title>
 	<html-box-content><![CDATA[
 		This is the Goobi workflow instance inside of your Goobi-to-go environment. It contains some demonstration material as well as sample user accounts. In the following table you can see the list of all user accounts which are available inside of this Goobi-to-go package. <br/><br/>
