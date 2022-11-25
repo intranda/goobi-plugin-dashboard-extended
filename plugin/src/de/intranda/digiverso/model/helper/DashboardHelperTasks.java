@@ -257,7 +257,9 @@ public class DashboardHelperTasks {
     public String reOpenTask() {
         currentStep.getClosedStep().setBearbeitungsstatusEnum(StepStatus.INWORK);
         currentStep.getClosedStep().setBearbeitungsende(null);
-        currentStep.getFollowingStep().setBearbeitungsstatusEnum(StepStatus.LOCKED);
+        if (currentStep.getFollowingStep()!=null) {
+            currentStep.getFollowingStep().setBearbeitungsstatusEnum(StepStatus.LOCKED);
+        }
         try {
             ProcessManager.saveProcess(currentStep.getProcess());
         } catch (DAOException e) {
