@@ -15,8 +15,8 @@
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@riotjs/compiler": "^4.2.6",
-    "@riotjs/webpack-loader": "^4.0.1",
-    "babel-loader": "^8.0.6",
-    "webpack": "^4.43.0"
+    "@riotjs/webpack-loader": "^6.0.0",
+    "babel-loader": "^8.3.0",
+    "webpack": "^5.75.0"
   }
 }
