@@ -121,7 +121,7 @@ public class DashboardHelperTasks {
             for (Object[] objArr : rawvalues) {
                 String title = (String) objArr[0];
                 String status = (String) objArr[1];
-                int numberOfTasks = Integer.valueOf((String) objArr[2]);
+                int numberOfTasks = Integer.parseInt((String) objArr[2]);
                 for (TaskHistory th : history) {
                     if (th.getStepName().equals(title)) {
                         switch (status) {
@@ -160,7 +160,7 @@ public class DashboardHelperTasks {
                     String stepId = (String) objArr[1];
                     Step currentStep = null;
                     Step followingStep = null;
-                    Process process = ProcessManager.getProcessById(Integer.valueOf(processId));
+                    Process process = ProcessManager.getProcessById(Integer.parseInt(processId));
                     for (Step step : process.getSchritte()) {
                         if (step.getId().equals(Integer.valueOf(stepId))) {
                             currentStep = step;
@@ -192,7 +192,7 @@ public class DashboardHelperTasks {
     public List<Step> getAssignedSteps() {
         if (Helper.getCurrentUser() != null && this.assignedSteps == null) {
             String sql = FilterHelper.criteriaBuilder("", false, false, true, true, false, true);
-            this.assignedSteps = StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 10);
+            this.assignedSteps = StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 10, null);
         }
         return assignedSteps;
     }
@@ -257,7 +257,7 @@ public class DashboardHelperTasks {
     public String reOpenTask() {
         currentStep.getClosedStep().setBearbeitungsstatusEnum(StepStatus.INWORK);
         currentStep.getClosedStep().setBearbeitungsende(null);
-        if (currentStep.getFollowingStep()!=null) {
+        if (currentStep.getFollowingStep() != null) {
             currentStep.getFollowingStep().setBearbeitungsstatusEnum(StepStatus.LOCKED);
         }
         try {
