@@ -6,26 +6,32 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:x="http://myfaces.apache.org/tomahawk"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:jsf="http://xmlns.jcp.org/jsf">
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/compositesPG">
 
     <composite:interface>
     </composite:interface>
 
     <composite:implementation>
-        <h:panelGroup rendered="#{DashboardForm.plugin.messageQueueStatus.showMessageQueue and not DashboardForm.plugin.messageQueueStatus.jobListEmpty}">
+        <ui:fragment rendered="#{DashboardForm.plugin.messageQueueStatus.showMessageQueue and not DashboardForm.plugin.messageQueueStatus.jobListEmpty}">
+            <h:form id="slow_queue" styleClass="mb-3">
+                
+                <intranda:box
+                    boxType="primary"
+                    boxPadding="false"
+                    boxTitle="false">
 
-            <div class="box box-color box-bordered">
-                <h:form id="slow_queue">
-                    <div class="box-title">
-                        <h2 style="width: 100%;">
-                            <h:outputText value="#{msgs.plugin_dashboard_tasks_in_messageQueue}" />
+                    <!-- BUTTONS TO EXPAND LIST -->
+                    <intranda:boxTitle
+                        title="#{msgs.plugin_dashboard_tasks_in_messageQueue}"
+                        icon="fa-list">
 
+                        <div class="actions d-flex">
                             <button
                                 type="button"
-                                class="btn pull-right"
+                                class="btn d-flex align-items-center btn--title-action"
                                 jsf:rendered="#{!DashboardForm.plugin.messageQueueStatus.showAllTasks}"
-                                aria-label="#{msgs.showMore}"
-                                style="padding: 0; line-height: inherit; color: inherit; border: none; background: inherit; display: inline-block; margin-left: auto;">
+                                aria-label="#{msgs.showMore}">
                                 <i class="fa fa-angle-up"></i>
                                 <f:setPropertyActionListener
                                     target="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
@@ -35,56 +41,58 @@
 
                             <button
                                 type="button"
-                                class="btn pull-right"
+                                class="btn d-flex align-items-center btn--title-action"
                                 jsf:rendered="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
-                                aria-label="#{msgs.showLess}"
-                                style="padding: 0; line-height: inherit; color: inherit; border: none; background: inherit; display: inline-block; margin-left: auto;">
-                                <i class="fa fa-angle-down margin-right-5"></i>
+                                aria-label="#{msgs.showLess}">
+                                <i class="fa fa-angle-down"></i>
                                 <f:setPropertyActionListener
                                     target="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
                                     value="false" />
                                 <f:ajax render="@form" />
                             </button>
-                        </h2>
+                        </div>
+                    </intranda:boxTitle>
+                    <!-- // BUTTONS TO EXPAND LIST -->
+                    
+                    <div class="gw-table">
+                        <div class="gw-table__wrapper">
+                            <h:dataTable
+                                styleClass="table table-hover table-bordered responsive"
+                                var="entry"
+                                value="#{DashboardForm.plugin.messageQueueStatus.currentJobs}">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs.message_queue_ticket_type}" />
+                                    </f:facet>
+                                    <h:outputText value="#{entry.jobTypeName}" />
+                                </h:column>
+    
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs.count}" />
+                                    </f:facet>
+                                    <h:outputText value="#{entry.numberOfTickets}" />
+                                    <button
+                                        class="btn btn-blank"
+                                        title="#{msgs.search}"
+                                        data-toggle="tooltip"
+                                        jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}"
+                                        jsf:rendered="#{entry.numberOfTickets gt 0 and LoginForm.hasRole('Workflow_Processes')}">
+                                        <f:setPropertyActionListener
+                                            value="#{entry}"
+                                            target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />
+                                        <f:setPropertyActionListener
+                                            target="#{NavigationForm.aktuell}"
+                                            value="a22" />
+                                        <i class="fa fa-search" />
+                                    </button>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
                     </div>
-                    <div class="box-content #{DashboardForm.plugin.messageQueueStatus.jobListEmpty ? '' : 'nopadding'}">
-                        <h:dataTable
-                            styleClass="table table-hover table-bordered responsive"
-                            var="entry"
-                            value="#{DashboardForm.plugin.messageQueueStatus.currentJobs}">
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.message_queue_ticket_type}" />
-                                </f:facet>
-                                <h:outputText value="#{entry.jobTypeName}" />
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs.count}" />
-                                </f:facet>
-                                <h:outputText value="#{entry.numberOfTickets}" />
-                                <button
-                                    class="expandbutton icon-only-button"
-                                    title="#{msgs.search}"
-                                    data-toggle="tooltip"
-                                    jsf:action="#{DashboardForm.plugin.messageQueueStatus.loadProcesses}"
-                                    jsf:rendered="#{entry.numberOfTickets gt 0 and LoginForm.hasRole('Workflow_Processes')}">
-                                    <f:setPropertyActionListener
-                                        value="#{entry}"
-                                        target="#{DashboardForm.plugin.messageQueueStatus.currentType}" />
-                                    <f:setPropertyActionListener
-                                        target="#{NavigationForm.aktuell}"
-                                        value="a22" />
-                                    <i class="fa fa-search" />
-                                </button>
-                            </h:column>
-                        </h:dataTable>
-                    </div>
-                </h:form>
-            </div>
-
-        </h:panelGroup>
+                </intranda:box>
+            </h:form>
+        </ui:fragment>
     </composite:implementation>
 
 </ui:composition>

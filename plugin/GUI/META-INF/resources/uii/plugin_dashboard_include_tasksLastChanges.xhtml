@@ -6,76 +6,99 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:x="http://myfaces.apache.org/tomahawk"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-    xmlns:jsf="http://xmlns.jcp.org/jsf">
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/compositesPG">
 
     <composite:interface>
     </composite:interface>
 
     <composite:implementation>
 
-        <h:panelGroup rendered="#{DashboardForm.plugin.tasksHelper.showLastChanges and DashboardForm.plugin.tasksHelper.taskChangeHistory.size() gt 0}">
-            <div class="box box-color box-bordered">
-                <div class="box-title">
-                    <h2>
-                        <i class="fa fa-list"></i>
-                        <h:outputText value="#{msgs.plugin_dashboard_extended_recentlyClosedTasks}" />
-                    </h2>
-                </div>
-                <div class="box-content nopadding">
-                    <div class="dataTables_wrapper">
-                    <h:form>
-                        <table class="table table-hover dataTable table-bordered  responsive">
-                            <thead>
-                                <tr>
-                                    <th>#{msgs.prozess}</th>
-                                    <th>#{msgs.arbeitsschritt}</th>
-                                    <th>#{msgs.statusAbgeschlossen}</th>
-                                    <th>#{msgs.auswahl}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+        <ui:fragment
+            rendered="#{DashboardForm.plugin.tasksHelper.showLastChanges and DashboardForm.plugin.tasksHelper.taskChangeHistory.size() gt 0}">
+            <div class="mb-3">
+                <intranda:box
+                    boxType="primary"
+                    boxPadding="false"
+                    icon="fa-list"
+                    title="#{msgs.plugin_dashboard_extended_recentlyClosedTasks}">
 
-                                <ui:repeat
-                                    var="historyStep"
-                                    value="#{DashboardForm.plugin.tasksHelper.taskChangeHistory}">
-                                    <tr>
+                    <h:form
+                        id="recenttasks"
+                        prependId="false">
+                        <div class="gw-table">
+                            <div class="gw-table__wrapper">
+                                <table
+                                    role="grid"
+                                    id="recenttasksTable"
+                                    class="table table-bordered table-hover">
 
-                                        <td
-                                            class="tableColumnMaxWidthLong"
-                                            title="#{historyStep.process.titel}">#{historyStep.process.titel}</td>
-                                        <td>#{historyStep.closedStep.titel}</td>
-                                        <td>#{DashboardForm.plugin.getFormattedDate(historyStep.closedStep.bearbeitungsende)}<br />#{DashboardForm.plugin.getFormattedTime(historyStep.closedStep.bearbeitungsende)}</td>
-                                        
-                                        <td>
-                                            <!-- Bearbeiten-Schaltknopf (eigener Schritt) -->
-                                            <button
-                                                rel="tooltip"
-                                                jsf:rendered="#{historyStep.assignable}"
-                                                jsf:title="#{msgs.plugin_dashboard_extended_reOpenTask}"
-                                                pt:aria-label="#{msgs.plugin_dashboard_extended_reOpenTask}"
-                                                jsf:id="view1"
-                                                class="btn"
-                                                jsf:action="#{DashboardForm.plugin.tasksHelper.reOpenTask}">
-                                                <i class="fa fa-undo"></i>
-                                                <f:passThroughAttribute
-                                                    name="data-toggle"
-                                                    value="tooltip" />
-                                                <f:setPropertyActionListener
-                                                    value="#{historyStep}"
-                                                    target="#{DashboardForm.plugin.tasksHelper.currentStep}" />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </ui:repeat>
-                            </tbody>
-                        </table>
+                                    <!-- COLUMNHEADER -->
+                                    <thead>
+                                        <tr role="row">
+                                            <th>#{msgs.prozess}</th>
+                                            <th>#{msgs.arbeitsschritt}</th>
+                                            <th>#{msgs.statusAbgeschlossen}</th>
+                                            <th>#{msgs.auswahl}</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // COLUMNHEADER -->
+
+                                    <!-- TABLE BODY -->
+                                    <tbody>
+                                        <ui:repeat
+                                            var="historyStep"
+                                            value="#{DashboardForm.plugin.tasksHelper.taskChangeHistory}">
+                                            <tr>
+                                                <!-- PROCESS TITLE -->
+                                                <td title="#{historyStep.process.titel}">
+                                                    <h:outputText value="#{historyStep.process.titel}" />
+                                                </td>
+                                                <!-- STEP TITLE -->
+                                                <td>
+                                                    <h:outputText value="#{historyStep.closedStep.titel}" />
+                                                </td>
+                                                <!-- EDIT DATE -->
+                                                <td>
+                                                    <h:outputText
+                                                        value="#{DashboardForm.plugin.getFormattedDate(historyStep.closedStep.bearbeitungsende)}" />
+                                                    <br />
+                                                    <h:outputText
+                                                        value="#{DashboardForm.plugin.getFormattedTime(historyStep.closedStep.bearbeitungsende)}" />
+                                                </td>
+                                                <!-- BUTTON -->
+                                                <td>
+                                                    <button
+                                                        rel="tooltip"
+                                                        jsf:rendered="#{historyStep.assignable}"
+                                                        jsf:title="#{msgs.plugin_dashboard_extended_reOpenTask}"
+                                                        pt:aria-label="#{msgs.plugin_dashboard_extended_reOpenTask}"
+                                                        jsf:id="view1"
+                                                        class="btn btn-blank"
+                                                        jsf:action="#{DashboardForm.plugin.tasksHelper.reOpenTask}">
+                                                        <i class="fa fa-undo"></i>
+                                                        <f:passThroughAttribute
+                                                            name="data-toggle"
+                                                            value="tooltip" />
+                                                        <f:setPropertyActionListener
+                                                            value="#{historyStep}"
+                                                            target="#{DashboardForm.plugin.tasksHelper.currentStep}" />
+                                                    </button>
+                                                </td>
+
+                                            </tr>
+                                        </ui:repeat>
+                                    </tbody>
+                                    <!-- // TABLE BODY -->
+
+                                </table>
+                            </div>
+                        </div>
                     </h:form>
-                    </div>
-                </div>
+                </intranda:box>
             </div>
-        </h:panelGroup>
 
-
+        </ui:fragment>
     </composite:implementation>
 
 </ui:composition>

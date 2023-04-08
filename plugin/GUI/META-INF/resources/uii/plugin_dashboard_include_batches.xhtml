@@ -1,79 +1,92 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:composite="http://xmlns.jcp.org/jsf/composite" xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:x="http://myfaces.apache.org/tomahawk" xmlns:p="http://primefaces.org/ui"
-	xmlns:jsf="http://xmlns.jcp.org/jsf">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite" 
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+    xmlns:x="http://myfaces.apache.org/tomahawk" 
+    xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/compositesPG">
 
 	<composite:interface>
 	</composite:interface>
 
 	<composite:implementation>
 
-		<h:panelGroup rendered="#{DashboardForm.plugin.batchHelper.showBatches and DashboardForm.plugin.batchHelper.batchesInInterval.size() gt 0}">
+		<ui:fragment rendered="#{DashboardForm.plugin.batchHelper.showBatches and DashboardForm.plugin.batchHelper.batchesInInterval.size() gt 0}">
 
-			<div id="batchestooltip" style="background-color: white; border:1px solid #ddd; padding: 5px; display: none;position:fixed;z-index: 999" />
+			<div id="batchestooltip" style="background-color: white; width: 200px; border:1px solid #ddd; padding: 5px; display: none;position:fixed;z-index: 999" />
 
-			<div class="col-sm-8">
+			<div class="col-sm-8 mb-3">
 				<h:form>
-					<div class="box box-color box-bordered">
-						<div class="box-title">
-							<h2>
-								<i class="fa fa-table"></i>
-								<h:outputText value="#{msgs.plugin_dashboard_batches_current}" class="margin-right-5" />
-							</h2>
-							<div class="actions">
-								<button jsf:id="reload" jsf:action="#{DashboardForm.plugin.batchHelper.loadAllData}" class="btn btn-mini"
-									title="#{msgs.reload}" jsf:rel="tooltip">
-									<i class="fa fa-refresh" title="#{msgs.reload}" rel="tooltip" />
-									<f:passThroughAttribute name="data-toggle" value="tooltip" />
-								</button>
-							</div>
-						</div>
-						<div id="myCanvasDiv" class="box-content" style="padding:5px;">
-							<canvas id="myCanvas" width="1000" height="50" style="margin-left:0px;margin-top: 5px;" onmousemove="batchesCanvasMouseOver(event)"></canvas>
-						</div>
-					</div>
-				</h:form>
+					
+                    <intranda:box
+                        boxType="primary"
+                        boxPadding="false"
+                        boxTitle="false">
+    
+                        <!-- BUTTONS -->
+                        <intranda:boxTitle
+                            title="#{msgs.plugin_dashboard_batches_current}"
+                            icon="fa-table">
+    
+                            <div class="actions d-flex">
+                                <button jsf:id="reload" 
+                                    jsf:action="#{DashboardForm.plugin.batchHelper.loadAllData}" 
+                                    class="btn d-flex align-items-center btn--title-action"
+                                    title="#{msgs.reload}" 
+                                    jsf:rel="tooltip">
+                                    <i class="fa fa-refresh"></i>
+                                    <f:passThroughAttribute name="data-toggle" value="tooltip" />
+                                </button>
+                            </div>
+                        </intranda:boxTitle>
+                        <!-- // BUTTONS -->
+                    
+                        <div id="myCanvasDiv" class="box-content" style="padding:5px;">
+                            <canvas id="myCanvas" width="1000" height="50" style="margin-left:0px;margin-top: 5px;" onmousemove="batchesCanvasMouseOver(event)"></canvas>
+                        </div>
+                    
+                    </intranda:box>
+                </h:form>
 			</div>
 
 			<!-- ###################################### Small box on right side ########################################### -->
-			<div class="col-sm-4">
-				<div class="box box-color box-bordered">
-					<div class="box-title">
-						<h2>
-							<i class="fa fa-table"></i>
-							<h:outputText value="#{msgs.plugin_dashboard_batches_overview}" class="margin-right-5" />
-						</h2>
-					</div>
-					<div class="box-content nopadding">
-						<h:panelGrid columns="2" styleClass="table table-hover table-bordered" columnClasses="columnLabel, columnValue">
+			<div class="col-sm-4 mb-3">
+				<intranda:box
+                    boxType="primary"
+                    boxPadding="false"
+                    icon="fa-table"
+                    title="#{msgs.plugin_dashboard_batches_overview}">
+                
+					<h:panelGrid columns="2" styleClass="table table-hover table-bordered" columnClasses="columnLabel, columnValue">
 
-							<h:outputText value="#{msgs.plugin_dashboard_batches_timerange_start}:" />
-							<h:outputText value="#{DashboardForm.plugin.batchHelper.selectedStartDayAsString}" />
+						<h:outputText value="#{msgs.plugin_dashboard_batches_timerange_start}:" />
+						<h:outputText value="#{DashboardForm.plugin.batchHelper.selectedStartDayAsString}" />
 
-							<h:outputText value="#{msgs.plugin_dashboard_batches_timerange_end}:" />
-							<h:outputText value="#{DashboardForm.plugin.batchHelper.selectedEndDayAsString}" />
-						
-							<h:outputText value="#{msgs.plugin_dashboard_batches_notStarted}:" />
-							<h:outputText value="#{DashboardForm.plugin.batchHelper.batchesNotStarted}" />
+						<h:outputText value="#{msgs.plugin_dashboard_batches_timerange_end}:" />
+						<h:outputText value="#{DashboardForm.plugin.batchHelper.selectedEndDayAsString}" />
+					
+						<h:outputText value="#{msgs.plugin_dashboard_batches_notStarted}:" />
+						<h:outputText value="#{DashboardForm.plugin.batchHelper.batchesNotStarted}" />
 
-							<h:outputText value="#{msgs.plugin_dashboard_batches_inWork}:" />
-							<h:outputText value="#{DashboardForm.plugin.batchHelper.batchesInwork}" />
+						<h:outputText value="#{msgs.plugin_dashboard_batches_inWork}:" />
+						<h:outputText value="#{DashboardForm.plugin.batchHelper.batchesInwork}" />
 
-							<h:outputText value="#{msgs.plugin_dashboard_batches_finished}:" />
-							<h:outputText value="#{DashboardForm.plugin.batchHelper.finishedBatches}" />
+						<h:outputText value="#{msgs.plugin_dashboard_batches_finished}:" />
+						<h:outputText value="#{DashboardForm.plugin.batchHelper.finishedBatches}" />
 
-							<h:outputText value="#{msgs.plugin_dashboard_batches_processesWithoutBatch}:" />
-							<h:outputText value="#{DashboardForm.plugin.batchHelper.processesWithoutBatch}" />
+						<h:outputText value="#{msgs.plugin_dashboard_batches_processesWithoutBatch}:" />
+						<h:outputText value="#{DashboardForm.plugin.batchHelper.processesWithoutBatch}" />
 
-							<h:outputText value="#{msgs.plugin_dashboard_batches_processesWithErrors}:" />
-							<h:outputText value="#{DashboardForm.plugin.batchHelper.processesWithErrors}" />
+						<h:outputText value="#{msgs.plugin_dashboard_batches_processesWithErrors}:" />
+						<h:outputText value="#{DashboardForm.plugin.batchHelper.processesWithErrors}" />
 
-							<h:outputText value="#{msgs.plugin_dashboard_batches_progress}:" />
-							<h:outputText value="#{DashboardForm.plugin.batchHelper.totalProgress} %" />
-						</h:panelGrid>
+						<h:outputText value="#{msgs.plugin_dashboard_batches_progress}:" />
+						<h:outputText value="#{DashboardForm.plugin.batchHelper.totalProgress} %" />
+					</h:panelGrid>
 
-					</div>
-				</div>
+				</intranda:box>
 			</div>
 			<!-- ###################################### // Small box on right side ########################################### -->
 
@@ -129,7 +142,7 @@
 	                var dateWidth = canvas.width / (dates.length - 1);
 	                var dateVals = {};
 	                myRects = [];
-	                ctx.font = "20px Goobi2";
+	                ctx.font = "20px Goobi";
 	                for (var i = 0; i < dates.length; i++) {
 		                var date = dates[i];
 		                dateVals[date] = i * dateWidth;
@@ -275,7 +288,7 @@
                 //]]>
 			</script>
 
-		</h:panelGroup>
+		</ui:fragment>
 	</composite:implementation>
 
 </ui:composition>

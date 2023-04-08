@@ -3,7 +3,7 @@ package de.intranda.digiverso.model.helper;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -36,7 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import de.intranda.digiverso.model.itm.DashQueuesObj;
 import de.intranda.digiverso.model.itm.IJob;
 import de.intranda.digiverso.model.itm.JobImpl;
-import de.sub.goobi.helper.HttpClientHelper;
+import io.goobi.workflow.api.connection.HttpUtils;
 
 public class DashboardHelperItm {
 
@@ -51,24 +51,24 @@ public class DashboardHelperItm {
         Gson gson = new Gson();
 
         // read all plugin types of the itm
-        String response = HttpClientHelper.getStringFromUrl(basisUrl + "action=getPlugins");
+        String response = HttpUtils.getStringFromUrl(basisUrl + "action=getPlugins");
         List<DashQueuesObj> itmPluginList = gson.fromJson(response, new TypeToken<List<DashQueuesObj>>() {
         }.getType());
 
         if (itmPluginList != null) {
             // read all job queues for this plugin type
             for (DashQueuesObj dqo : itmPluginList) {
-                response = HttpClientHelper.getStringFromUrl(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=DONE");
+                response = HttpUtils.getStringFromUrl(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=DONE");
                 List<IJob> jobsDone = gson.fromJson(response, new TypeToken<List<JobImpl>>() {
                 }.getType());
                 dqo.setListDone(jobsDone);
 
-                response = HttpClientHelper.getStringFromUrl(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=ERROR");
+                response = HttpUtils.getStringFromUrl(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=ERROR");
                 List<IJob> jobsError = gson.fromJson(response, new TypeToken<List<JobImpl>>() {
                 }.getType());
                 dqo.setListError(jobsError);
 
-                response = HttpClientHelper.getStringFromUrl(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=PROCESSING");
+                response = HttpUtils.getStringFromUrl(basisUrl + "action=getJobs&jobtype=" + dqo.getStrInt().getStr() + "&status=PROCESSING");
                 List<IJob> jobsProcessing = gson.fromJson(response, new TypeToken<List<JobImpl>>() {
                 }.getType());
                 dqo.setListProcessing(jobsProcessing);

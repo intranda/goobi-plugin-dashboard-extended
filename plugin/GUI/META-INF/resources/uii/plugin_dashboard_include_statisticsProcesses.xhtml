@@ -4,7 +4,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:x="http://myfaces.apache.org/tomahawk"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/compositesPG">
 
 	<composite:interface>
 	</composite:interface>
@@ -48,7 +49,7 @@
                             tickOptions: {
                               angle: -50,
                               fontSize: '8pt',
-                              fontFamily: 'Goobi2',
+                              fontFamily: 'Goobi',
                               textColor: '#000000',
                             }
                         },
@@ -56,7 +57,7 @@
                             tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
                             tickOptions: {
                               fontSize: '8pt',
-                              fontFamily: 'Goobi2',
+                              fontFamily: 'Goobi',
                               textColor: '#000000',
                               formatString: "%d"
                             },
@@ -66,37 +67,29 @@
                     
                 }
             </script>
-            <h:panelGroup rendered="#{DashboardForm.plugin.processHelper.showStatistics and !DashboardForm.plugin.processHelper.isProcessPerMonthEmpty()}">
-    		<style>
-    		.jqplot-title {
-    			font-size: 28px;
-    		}
-            .jqplot-point-label {
-                font-size: 12px;
-            }
+            <ui:fragment rendered="#{DashboardForm.plugin.processHelper.showStatistics and !DashboardForm.plugin.processHelper.isProcessPerMonthEmpty()}">
+        		<style>
+            		.jqplot-title {
+            			font-size: 28px;
+            		}
+                    .jqplot-point-label {
+                        font-size: 12px;
+                    }
+                </style>
+                
+                <div class="mb-3">
+                    <intranda:box
+                        boxType="primary"
+                        boxPadding="true"
+                        icon="fa-list"
+                        title="#{msgs.dashboard_processesPerMonth}">
+                        
+                        <p:chart type="line"
+        					model="#{DashboardForm.plugin.processHelper.processesPerMonth}"
+        					style="height:300px;"/>
+                    </intranda:box>
+                </div>
             
-    		</style>
-    
-    		<h:panelGroup>
-    			<div class="box box-color box-bordered" aria-hidden="true">
-    				<div class="box-title">
-    					<h2>
-    						<i class="fa fa-list"></i>
-    						<h:outputText value="#{msgs.dashboard_processesPerMonth}" />
-    					</h2>
-    				</div>
-    				<div class="box-content">
-    					<p:chart type="line"
-    						model="#{DashboardForm.plugin.processHelper.processesPerMonth}"
-    						style="height:300px;"/>
-    				</div>
-    			</div>
-    		</h:panelGroup>
-
-		
-		</h:panelGroup>
+    	  </ui:fragment>
 	</composite:implementation>
-
 </ui:composition>
-
-

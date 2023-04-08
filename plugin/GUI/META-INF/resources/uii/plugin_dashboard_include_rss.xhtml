@@ -11,11 +11,11 @@
     </composite:interface>
 
     <composite:implementation>
-        <h:panelGroup rendered="#{DashboardForm.plugin.rssHelper.showRss}">
-            <h:form id="dashboard-rss">
+        <ui:fragment rendered="#{DashboardForm.plugin.rssHelper.showRss}">
+            <h:form id="dashboard-rss" styleClass="mb-3">
                 <div id="jsRssFeed" aria-hidden="false"></div>
             </h:form>
-        </h:panelGroup>
+        </ui:fragment>
     </composite:implementation>
 
 </ui:composition>

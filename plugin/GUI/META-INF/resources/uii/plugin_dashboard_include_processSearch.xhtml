@@ -6,77 +6,74 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:x="http://myfaces.apache.org/tomahawk"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-    xmlns:jsf="http://xmlns.jcp.org/jsf">
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/compositesPG">
 
     <composite:interface>
     </composite:interface>
 
     <composite:implementation>
-        <ui:fragment rendered="#{LoginForm.hasRole('Workflow_General_Search') or LoginForm.hasRole('Workflow_Processes')}">
+        <ui:fragment
+            rendered="#{DashboardForm.plugin.showSearch and (LoginForm.hasRole('Workflow_General_Search') or LoginForm.hasRole('Workflow_Processes'))}">
 
-            <h:panelGroup rendered="#{DashboardForm.plugin.showSearch}">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="box box-color orange box-bordered">
-                            <div class="box-title">
-                                <h2>
-                                    <i class="fa fa-search"></i>
-                                    <h:outputText value="#{msgs.suche}" />
-                                </h2>
+            <div class="mb-3">
+                <intranda:box
+                    boxType="action"
+                    boxPadding="true"
+                    icon="fa-search"
+                    title="#{msgs.suche}">
+
+                    <h:form
+                        id="myform"
+                        styleClass="form-vertical form-striped form-bordered"
+                        onkeypress="submitOnEnter(event);">
+                        <div class="form-group">
+                            <h:outputLabel
+                                styleClass="control-label "
+                                value="#{msgs.nachEinemBandSuchen}:" />
+                            <x:inputText
+                                pt:aria-label="#{msgs.search}"
+                                styleClass="form-control"
+                                value="#{ProzessverwaltungForm.filter}" />
+                        </div>
+
+                        <div class="form-group">
+                            <h:outputLabel
+                                styleClass="control-label "
+                                value="#{msgs.anzeige}:" />
+                            <div class="checkbox">
+                                <label> <h:selectBooleanCheckbox
+                                        value="#{ProzessverwaltungForm.showClosedProcesses}" />
+                                    #{msgs.showClosedProcesses}
+                                </label>
                             </div>
-                            <div class="box-content nopadding">
-                                <h:form
-                                    id="myform"
-                                    styleClass="form-vertical form-striped form-bordered"
-                                    onkeypress="submitOnEnter(event);">
-                                    <div class="form-group">
-                                        <h:outputLabel
-                                            styleClass="control-label "
-                                            value="#{msgs.nachEinemBandSuchen}:" />
-                                        <x:inputText
-                                            pt:aria-label="#{msgs.search}"
-                                            styleClass="form-control"
-                                            value="#{ProzessverwaltungForm.filter}" />
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <h:outputLabel
-                                            styleClass="control-label "
-                                            value="#{msgs.anzeige}:" />
-                                        <div class="checkbox">
-                                            <label> <h:selectBooleanCheckbox value="#{ProzessverwaltungForm.showClosedProcesses}" />
-                                                #{msgs.showClosedProcesses}
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label> <h:selectBooleanCheckbox value="#{ProzessverwaltungForm.showArchivedProjects}" />
-                                                #{msgs.showArchivedProjects}
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-actions">
-                                        <!-- search -->
-                                        <button
-                                            class="btn btn-success submitOnEnter pull-right font-size-s margin-bottom-most"
-                                            jsf:id="absenden"
-                                            type="submit"
-                                            jsf:action="#{ProzessverwaltungForm.FilterAlleStart}">
-                                            <i class="fa fa-search margin-right-5"></i>
-                                            <h:outputText value="#{msgs.search}" />
-                                            <f:setPropertyActionListener
-                                                target="#{NavigationForm.aktuell}"
-                                                value="a22" />
-                                        </button>
-                                    </div>
-                                </h:form>
+                            <div class="checkbox">
+                                <label> <h:selectBooleanCheckbox
+                                        value="#{ProzessverwaltungForm.showArchivedProjects}" />
+                                    #{msgs.showArchivedProjects}
+                                </label>
                             </div>
                         </div>
-                    </div>
 
-                </div>
-            </h:panelGroup>
+                        <div class="form-actions">
+                            <!-- search -->
+                            <button
+                                class="btn btn-success submitOnEnter"
+                                jsf:id="absenden"
+                                type="submit"
+                                jsf:action="#{ProzessverwaltungForm.FilterAlleStart}">
+                                <i class="fa fa-search margin-right-5"></i>
+                                <span>
+                                    <h:outputText value="#{msgs.search}" />
+                                </span>
+                                <f:setPropertyActionListener
+                                    target="#{NavigationForm.aktuell}"
+                                    value="a22" />
+                            </button>
+                        </div>
+                    </h:form>
+                </intranda:box>
+            </div>
         </ui:fragment>
     </composite:implementation>
 
