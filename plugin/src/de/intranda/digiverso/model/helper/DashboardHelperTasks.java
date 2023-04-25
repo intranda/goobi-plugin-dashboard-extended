@@ -67,6 +67,7 @@ public class DashboardHelperTasks {
 
     @Getter
     private boolean showLastChanges;
+    private int showLastChangesSize;
     @Getter
     private List<TaskChangeType> taskChangeHistory = new ArrayList<>();
     @Getter
@@ -83,6 +84,7 @@ public class DashboardHelperTasks {
         config = pluginConfig;
         showHistory = config.getBoolean("tasks-history", false);
         showLastChanges = config.getBoolean("tasks-latestChanges", false);
+        showLastChangesSize = config.getInt("tasks-latestChanges-size", 10);
         if (showHistory) {
 
             numberOfDays = config.getInt("tasks-history-period", 7);
@@ -152,7 +154,7 @@ public class DashboardHelperTasks {
                 sql.append("SELECT schritte.ProzesseID, schritte.SchritteID, schritte.titel");
                 sql.append(" FROM schritte LEFT JOIN prozesse ON schritte.ProzesseID = prozesse.ProzesseID");
                 sql.append(" WHERE Bearbeitungsstatus = 3 AND BearbeitungsBenutzerID = " + user.getId() + " AND prozesse.IstTemplate = 0");
-                sql.append(" ORDER BY BearbeitungsEnde DESC LIMIT 5;");
+                sql.append(" ORDER BY BearbeitungsEnde DESC LIMIT " + showLastChangesSize + ";");
 
                 List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sql.toString());
                 for (Object[] objArr : rawvalues) {
@@ -191,8 +193,9 @@ public class DashboardHelperTasks {
 
     public List<Step> getAssignedSteps() {
         if (Helper.getCurrentUser() != null && this.assignedSteps == null) {
+            int size = config.getInt("tasks-show-size", 5);
             String sql = FilterHelper.criteriaBuilder("", false, false, true, true, false, true);
-            this.assignedSteps = StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, 10, null);
+            this.assignedSteps = StepManager.getSteps("BearbeitungsBeginn desc", sql, 0, size, null);
         }
         return assignedSteps;
     }
