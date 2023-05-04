@@ -26,7 +26,7 @@
                     <h:form
                         id="recenttasks"
                         prependId="false">
-                        <div class="gw-table" style="overflow-y:auto; max-height:225px;">
+                        <div class="gw-table" style="#{DashboardForm.plugin.tasksHelper.taskChangeHistory.size() gt 4 ? 'overflow-y:auto; max-height:225px;' : ''}">
                             <div class="gw-table__wrapper">
                                 <table
                                     role="grid"

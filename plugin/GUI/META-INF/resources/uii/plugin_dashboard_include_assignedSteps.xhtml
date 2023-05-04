@@ -25,7 +25,7 @@
                     <h:form
                         id="currentTasks"
                         prependId="false">
-                        <div class="gw-table" style="overflow-y:auto; max-height:225px;">
+                        <div class="gw-table" style="#{DashboardForm.plugin.tasksHelper.assignedSteps.size() gt 4 ? 'overflow-y:auto; max-height:225px;':''}'">
                             <div class="gw-table__wrapper">
                                 <table
                                     role="grid"
@@ -44,50 +44,50 @@
                                     <!-- // COLUMNHEADER -->
         
                                     <!-- TABLE BODY -->
-                            <tbody>
-                                <ui:repeat
-                                    var="assignedStep"
-                                    value="#{DashboardForm.plugin.tasksHelper.assignedSteps}">
-                                    <tr>
-                                        <!-- PROCESS TITLE -->
-                                        <td title="#{assignedStep.prozess.titel}">
-                                            <h:outputText value="#{assignedStep.prozess.titel}" />
-                                        </td>
-                                        <!-- STEP TITLE -->
-                                        <td>
-                                            <h:outputText value="#{assignedStep.titel}" />
-                                        </td>
-                                        <!-- EDIT DATE -->
-                                        <td>
-                                            <h:outputText
-                                                value="#{DashboardForm.plugin.getFormattedDate(assignedStep.bearbeitungszeitpunkt)}" />
-                                            <br />
-                                            <h:outputText
-                                                value="#{DashboardForm.plugin.getFormattedTime(assignedStep.bearbeitungszeitpunkt)}" />
-                                        </td>
-                                        <!-- BUTTON -->
-                                        <td>
-                                            <button
-                                                aria-label="#{msgs.inBearbeitungDurch}: #{assignedStep.bearbeitungsbenutzer!=null and assignedStep.bearbeitungsbenutzer.id!=0 ? assignedStep.bearbeitungsbenutzer.nachVorname:''}"
-                                                jsf:action="task_edit"
-                                                jsf:id="view1"
-                                                class="btn btn-action"
-                                                jsf:rel="tooltip"
-                                                jsf:rendered="#{(assignedStep.bearbeitungsstatusEnum == 'INWORK' and assignedStep.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and !assignedStep.batchStep) or (assignedStep.bearbeitungsstatusEnum == 'INWORK' and assignedStep.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and assignedStep.batchStep and !assignedStep.batchSize)}"
-                                                title="#{msgs.plugin_dashboard_extended_continueTask}">
-                                                <i class="fa fa-cog"></i>
-                                                <f:passThroughAttribute
-                                                    name="data-toggle"
-                                                    value="tooltip" />
-                                                <f:setPropertyActionListener
-                                                    target="#{AktuelleSchritteForm.mySchritt}"
-                                                    value="#{assignedStep}" />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </ui:repeat>
-                            </tbody>
-                            <!-- // TABLE BODY -->
+                                    <tbody>
+                                        <ui:repeat
+                                            var="assignedStep"
+                                            value="#{DashboardForm.plugin.tasksHelper.assignedSteps}">
+                                            <tr>
+                                                <!-- PROCESS TITLE -->
+                                                <td title="#{assignedStep.prozess.titel}">
+                                                    <h:outputText value="#{assignedStep.prozess.titel}" />
+                                                </td>
+                                                <!-- STEP TITLE -->
+                                                <td>
+                                                    <h:outputText value="#{assignedStep.titel}" />
+                                                </td>
+                                                <!-- EDIT DATE -->
+                                                <td>
+                                                    <h:outputText
+                                                        value="#{DashboardForm.plugin.getFormattedDate(assignedStep.bearbeitungszeitpunkt)}" />
+                                                    <br />
+                                                    <h:outputText
+                                                        value="#{DashboardForm.plugin.getFormattedTime(assignedStep.bearbeitungszeitpunkt)}" />
+                                                </td>
+                                                <!-- BUTTON -->
+                                                <td>
+                                                    <button
+                                                        aria-label="#{msgs.inBearbeitungDurch}: #{assignedStep.bearbeitungsbenutzer!=null and assignedStep.bearbeitungsbenutzer.id!=0 ? assignedStep.bearbeitungsbenutzer.nachVorname:''}"
+                                                        jsf:action="task_edit"
+                                                        jsf:id="view1"
+                                                        class="btn btn-action"
+                                                        jsf:rel="tooltip"
+                                                        jsf:rendered="#{(assignedStep.bearbeitungsstatusEnum == 'INWORK' and assignedStep.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and !assignedStep.batchStep) or (assignedStep.bearbeitungsstatusEnum == 'INWORK' and assignedStep.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and assignedStep.batchStep and !assignedStep.batchSize)}"
+                                                        title="#{msgs.plugin_dashboard_extended_continueTask}">
+                                                        <i class="fa fa-cog"></i>
+                                                        <f:passThroughAttribute
+                                                            name="data-toggle"
+                                                            value="tooltip" />
+                                                        <f:setPropertyActionListener
+                                                            target="#{AktuelleSchritteForm.mySchritt}"
+                                                            value="#{assignedStep}" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ui:repeat>
+                                    </tbody>
+                                    <!-- // TABLE BODY -->
         
                                 </table>
                             </div>
