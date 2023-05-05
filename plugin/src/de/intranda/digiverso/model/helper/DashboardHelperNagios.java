@@ -3,7 +3,7 @@ package de.intranda.digiverso.model.helper;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -34,7 +34,7 @@ import com.google.gson.Gson;
 
 import de.intranda.digiverso.model.nagios.Host;
 import de.intranda.digiverso.model.nagios.Nagios;
-import de.sub.goobi.helper.HttpClientHelper;
+import io.goobi.workflow.api.connection.HttpUtils;
 
 public class DashboardHelperNagios {
 
@@ -73,12 +73,12 @@ public class DashboardHelperNagios {
         String serverPassword = config.getString("nagios-password", "password");
 
         // run through all configured hosts
-        hosts = new ArrayList<Host>();
+        hosts = new ArrayList<>();
         int numberOfHosts = config.getMaxIndex("nagios-host");
         for (int i = 0; i <= numberOfHosts; i++) {
             String url = config.getString("nagios-host(" + i + ")");
             String serverURL = "http://monitoring.intranda.com/icinga/cgi-bin/status.cgi?host=" + url + "&jsonoutput";
-            String json = HttpClientHelper.getStringFromUrl(serverURL, serverLogin, serverPassword, "monitoring.intranda.com", "80");
+            String json = HttpUtils.getStringFromUrl(serverURL, serverLogin, serverPassword, "monitoring.intranda.com", "80");
             Gson gson = new Gson();
             Host host = new Host(url);
             host.setNagios(gson.fromJson(json, Nagios.class));
