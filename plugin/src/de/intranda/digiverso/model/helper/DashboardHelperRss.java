@@ -38,7 +38,7 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 
 import de.intranda.digiverso.model.rss.RssEntry;
-import de.sub.goobi.helper.HttpClientHelper;
+import io.goobi.workflow.api.connection.HttpUtils;
 
 public class DashboardHelperRss {
 
@@ -55,7 +55,7 @@ public class DashboardHelperRss {
 
         try {
             SyndFeedInput input = new SyndFeedInput();
-            SyndFeed feed = input.build(new StringReader(HttpClientHelper.getStringFromUrl(getFeedUrl())));
+            SyndFeed feed = input.build(new StringReader(HttpUtils.getStringFromUrl(getFeedUrl())));
 
             @SuppressWarnings("unchecked")
             List<SyndEntry> feedList = feed.getEntries();
