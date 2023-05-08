@@ -73,7 +73,7 @@ public class DashboardHelperNagios {
         String serverPassword = config.getString("nagios-password", "password");
 
         // run through all configured hosts
-        hosts = new ArrayList<Host>();
+        hosts = new ArrayList<>();
         int numberOfHosts = config.getMaxIndex("nagios-host");
         for (int i = 0; i <= numberOfHosts; i++) {
             String url = config.getString("nagios-host(" + i + ")");
