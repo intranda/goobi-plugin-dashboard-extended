@@ -1,4 +1,35 @@
 <nagios>
+
+<div class="box box--primary box--padded">
+    <div class="box__content">
+        <div class="box__content-inner">
+        
+            <div class="box__title">
+                <h2>
+                    <i class="fa fa-search "></i>
+                    Style Guide
+                </h2>
+                
+                <div class="actions d-flex">
+                    <button  
+                        type="submit" 
+                        value="" 
+                        title="This is my title" 
+                        class="btn d-flex align-items-center btn--title-action">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        
+            <div class="p-4">
+                Box with menu button
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
 <div class="box box-color lightgrey box-bordered">
 	<div class="box-title">
 		<h2>

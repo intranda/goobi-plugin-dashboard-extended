@@ -22,8 +22,10 @@
 	
 	<!-- Search -->
 	<search-show>true</search-show>
-	<!-- Tasks -->
+	
+	<!-- Show tasks the user works on -->
     <tasks-show>true</tasks-show>
+    <tasks-show-size>5</tasks-show-size>
     
     <!-- show recent history  -->
     <tasks-history>false</tasks-history>
@@ -34,8 +36,9 @@
     <!-- include status changes for the last X days -->
     <tasks-history-period>7</tasks-history-period>
 	
-    <!-- show the last 10 tasks of the user -->
+    <!-- show the last tasks of the user -->
     <tasks-latestChanges>true</tasks-latestChanges>
+    <tasks-latestChanges-size>5</tasks-latestChanges-size>
     
     <!-- Statistics -->
 	<statistics-show>true</statistics-show>
@@ -59,7 +62,7 @@
 	<html-box-show>false</html-box-show>
 	<html-box-title>Goobi to go - Sample accounts</html-box-title>
 	<html-box-content><![CDATA[
-		This is the Goobi workflow instance inside of your Goobi-to-go environment. It contains some demonstration material as well as sample user accounts. In the following table you can see the list of all user accounts which are available inside of this Goobi-to-go package. <br/><br/>
+		<p>This is the Goobi workflow instance inside of your Goobi-to-go environment. It contains some demonstration material as well as sample user accounts. In the following table you can see the list of all user accounts which are available inside of this Goobi-to-go package. <br/><br/>
 		<table class="table table-hover table-nomargin dataTable table-bordered responsive">
 			<thead>
 				<tr>

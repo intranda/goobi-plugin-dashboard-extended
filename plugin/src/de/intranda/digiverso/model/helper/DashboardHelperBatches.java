@@ -29,6 +29,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,11 +41,6 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.goobi.production.cli.helper.StringPair;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.DurationFieldType;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import com.google.gson.Gson;
 
@@ -63,14 +62,15 @@ public class DashboardHelperBatches {
         }
     }
 
-    private static final DateTimeFormatter sqlFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-    private static final DateTimeFormatter jsonFormatter = DateTimeFormat.forPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter jsonFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     private Gson gson = new Gson();
 
     // get start- and end date from date picker?
-    private DateTime selectedStartDate;
-    private DateTime selectedEndDate;
-    private DateTime today;
+    private LocalDateTime selectedStartDate;
+    private LocalDateTime selectedEndDate;
+    private LocalDateTime today;
 
     // contains the list of all batches in the current interval
     private List<SimpleBatch> batchesInInterval;
@@ -88,7 +88,7 @@ public class DashboardHelperBatches {
     private int completedProcesses;
 
     public void loadAllData() {
-        today = new DateTime().withTime(0, 0, 0, 0);
+        today = LocalDate.now().atStartOfDay();
         // set default search interval - replace it with configured value?
         selectedStartDate = today.minusMonths(config.getInt("batches-timerange-start", 3));
         selectedEndDate = today.plusMonths(config.getInt("batches-timerange-end", 3));
@@ -100,9 +100,9 @@ public class DashboardHelperBatches {
 
     private void loadDatesInIntervall() {
         datesInInterval = new ArrayList<>();
-        int days = Days.daysBetween(selectedStartDate, selectedEndDate).getDays() + 1;
+        long days = ChronoUnit.DAYS.between(selectedStartDate, selectedEndDate) + 1;
         for (int i = 0; i < days; i++) {
-            DateTime d = selectedStartDate.withFieldAdded(DurationFieldType.days(), i);
+            LocalDateTime d = selectedStartDate.plusDays(i);
             datesInInterval.add(getDateAsString(d));
         }
     }
@@ -137,19 +137,19 @@ public class DashboardHelperBatches {
             batches.append("FROM batches join prozesse ");
             batches.append("on prozesse.batchID = batches.id WHERE ");
             batches.append("(startDate BETWEEN '");
-            batches.append(sqlFormatter.print(selectedStartDate));
+            batches.append(sqlFormatter.format(selectedStartDate));
             batches.append("' AND '");
-            batches.append(sqlFormatter.print(selectedEndDate));
+            batches.append(sqlFormatter.format(selectedEndDate));
             batches.append("') OR ");
             batches.append("(endDate BETWEEN '");
-            batches.append(sqlFormatter.print(selectedStartDate));
+            batches.append(sqlFormatter.format(selectedStartDate));
             batches.append("' AND '");
-            batches.append(sqlFormatter.print(selectedEndDate));
+            batches.append(sqlFormatter.format(selectedEndDate));
             batches.append("') OR ");
             batches.append("(startDate between '0000-01-01' AND '");
-            batches.append(sqlFormatter.print(selectedStartDate));
+            batches.append(sqlFormatter.format(selectedStartDate));
             batches.append("' AND endDate between '");
-            batches.append(sqlFormatter.print(selectedEndDate));
+            batches.append(sqlFormatter.format(selectedEndDate));
             batches.append("' AND '9999-12-31') ");
             batches.append("group by batches.id");
         } else {
@@ -161,19 +161,19 @@ public class DashboardHelperBatches {
             batches.append("FROM batches join prozesse ");
             batches.append("on prozesse.batchID = batches.id WHERE ");
             batches.append("(startDate BETWEEN DATE(\"");
-            batches.append(sqlFormatter.print(selectedStartDate));
+            batches.append(sqlFormatter.format(selectedStartDate));
             batches.append("\") AND DATE(\"");
-            batches.append(sqlFormatter.print(selectedEndDate));
+            batches.append(sqlFormatter.format(selectedEndDate));
             batches.append("\")) OR ");
             batches.append("(endDate BETWEEN DATE(\"");
-            batches.append(sqlFormatter.print(selectedStartDate));
+            batches.append(sqlFormatter.format(selectedStartDate));
             batches.append("\") AND DATE(\"");
-            batches.append(sqlFormatter.print(selectedEndDate));
+            batches.append(sqlFormatter.format(selectedEndDate));
             batches.append("\")) OR ");
             batches.append("(startDate < DATE(\"");
-            batches.append(sqlFormatter.print(selectedStartDate));
+            batches.append(sqlFormatter.format(selectedStartDate));
             batches.append("\") AND endDate > DATE(\"");
-            batches.append(sqlFormatter.print(selectedEndDate));
+            batches.append(sqlFormatter.format(selectedEndDate));
             batches.append("\")) ");
             batches.append("group by batches.id");
         }
@@ -213,8 +213,8 @@ public class DashboardHelperBatches {
                     }
 
                     // write start and end dates for json communication
-                    batch.setStartDateJson(getDateAsString(new DateTime(batch.getStartDate())));
-                    batch.setEndDateJson(getDateAsString(new DateTime(batch.getEndDate())));
+                    batch.setStartDateJson(getDateAsString(batch.getStartDate()));
+                    batch.setEndDateJson(getDateAsString(batch.getEndDate()));
                 }
             }
         } catch (SQLException e) {
@@ -353,8 +353,8 @@ public class DashboardHelperBatches {
         return getDateAsString(selectedEndDate);
     }
 
-    private String getDateAsString(DateTime indate) {
-        return indate.toLocalDate().toString(jsonFormatter);
+    private String getDateAsString(LocalDateTime indate) {
+        return jsonFormatter.format(indate);
     }
 
     public boolean isShowBatches() {
