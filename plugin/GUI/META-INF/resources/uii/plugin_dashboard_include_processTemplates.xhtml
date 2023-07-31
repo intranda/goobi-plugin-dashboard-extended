@@ -268,7 +268,7 @@
                                                 <!-- CREATE PROCESS - ONE PROJECT -->
                                                 <button
                                                     class="btn fa fa-file-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-hot':'btn-primary-400'} button-schaltknopf"
-                                                    jsf:action="#{ProzesskopieForm.Prepare}"
+                                                    jsf:action="#{ProzesskopieForm.prepare}"
                                                     jsf:id="action22"
                                                     jsf:rel="tooltip"
                                                     onclick="preventDoubleSubmit(this);"
@@ -304,7 +304,7 @@
                                                                 jsf:id="copyProcessTempalte"
                                                                 class="btn fa fa-file-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-hot':'btn-primary-400'}"
                                                                 aria-label="#{msgs.eineKopieDieserProzessvorlageAnlegen}"
-                                                                jsf:action="#{ProzesskopieForm.Prepare}"
+                                                                jsf:action="#{ProzesskopieForm.prepare}"
                                                                 jsf:rel="tooltip">
                                                                 <f:passThroughAttribute
                                                                     name="data-toggle"
@@ -328,7 +328,7 @@
                                                                     <li>
                                                                         <button
                                                                             jsf:id="prepare"
-                                                                            jsf:action="#{ProzesskopieForm.Prepare}"
+                                                                            jsf:action="#{ProzesskopieForm.prepare}"
                                                                             class="dropdown-item">
                                                                             <h:outputText value="#{proj.titel}" />
                                                                             <x:updateActionListener
@@ -350,7 +350,7 @@
                                                 <!-- MASS IMPORT - ONE PROJECT -->
                                                 <button
                                                     class="btn fa fa-files-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-hot':'btn-primary-400'} button-schaltknopf"
-                                                    jsf:action="#{MassImportForm.Prepare}"
+                                                    jsf:action="#{MassImportForm.prepare}"
                                                     jsf:id="action222"
                                                     jsf:rel="tooltip"
                                                     data-bs-toggle="tooltip"
@@ -386,7 +386,7 @@
                                                                 jsf:id="massImportPrepare"
                                                                 class="btn fa fa-files-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-hot':'btn-primary-400'}"
                                                                 aria-label="#{msgs.eineKopieDieserProzessvorlageAnlegen}"
-                                                                jsf:action="#{MassImportForm.Prepare}"
+                                                                jsf:action="#{MassImportForm.prepare}"
                                                                 jsf:rel="tooltip">
                                                                 <f:passThroughAttribute
                                                                     name="data-toggle"
@@ -409,7 +409,7 @@
                                                                     value="#{ProzesskopieForm.availableProjects}">
                                                                     <li>
                                                                         <button
-                                                                            jsf:action="#{MassImportForm.Prepare}"
+                                                                            jsf:action="#{MassImportForm.prepare}"
                                                                             jsf:id="prepare"
                                                                             class="dropdown-item">
                                                                             <h:outputText value="#{proj.titel}" />
