@@ -75,6 +75,7 @@
                     .jqplot-point-label {
                         font-size: 12px;
                     }
+             
                 </style>
                 
                 <div class="mb-3">
@@ -83,10 +84,11 @@
                         boxPadding="true"
                         icon="fa-list"
                         title="#{msgs.dashboard_processesPerMonth}">
-                        
-                        <p:chart type="line"
-        					model="#{DashboardForm.plugin.processHelper.processesPerMonth}"
-        					style="height:300px;"/>
+                        <div class="card">
+                             <p:lineChart
+            					model="#{DashboardForm.plugin.processHelper.processesPerMonth}"
+            					style="width: 100%; height:300px;"/>
+                        </div>
                     </intranda:box>
                 </div>
             
