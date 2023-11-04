@@ -68,6 +68,9 @@
                                 <span>
                                     <h:outputText value="#{msgs.search}" />
                                 </span>
+                                <f:setPropertyActionListener 
+                                    target="#{ProzessverwaltungForm.modusAnzeige}"
+                                    value="aktuell"  />
                                 <f:setPropertyActionListener
                                     target="#{NavigationForm.aktuell}"
                                     value="a22" />
