@@ -25,13 +25,13 @@
                     <h:form
                         id="currentTasks"
                         prependId="false">
-                        <div class="gw-table" style="#{DashboardForm.plugin.tasksHelper.assignedSteps.size() gt 4 ? 'overflow-y:auto; max-height:225px;':''}'">
+                        <div class="gw-table gw-table__vscroll" >
                             <div class="gw-table__wrapper">
                                 <table
                                     role="grid"
                                     id="currentTasksTable"
                                     class="table table-bordered table-hover">
-        
+
                                     <!-- COLUMNHEADER -->
                                     <thead>
                                         <tr role="row">
@@ -42,7 +42,7 @@
                                         </tr>
                                     </thead>
                                     <!-- // COLUMNHEADER -->
-        
+
                                     <!-- TABLE BODY -->
                                     <tbody>
                                         <ui:repeat
@@ -88,17 +88,15 @@
                                         </ui:repeat>
                                     </tbody>
                                     <!-- // TABLE BODY -->
-        
+
                                 </table>
                             </div>
                         </div>
                     </h:form>
-            
+
                 </intranda:box>
             </div>
         </ui:fragment>
     </composite:implementation>
 
 </ui:composition>
-
-
