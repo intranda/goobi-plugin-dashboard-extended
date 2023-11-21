@@ -21,8 +21,6 @@ public class DashboardHelperProcesses {
     private XMLConfiguration config;
     private LineChartModel processesPerMonth = null;
 
-
-
     public DashboardHelperProcesses(XMLConfiguration xmlConfiguration) {
         config = xmlConfiguration;
     }
@@ -38,7 +36,7 @@ public class DashboardHelperProcesses {
                 List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sql);
                 for (Object[] objArr : rawvalues) {
                     String projectId = (String) objArr[0];
-                    if (strProjecIds.length()> 1) {
+                    if (strProjecIds.length() > 1) {
                         strProjecIds += ",";
                     }
                     strProjecIds += projectId;
@@ -47,15 +45,13 @@ public class DashboardHelperProcesses {
 
             strProjecIds += ")";
 
-
             List<Object> values = new ArrayList<>();
             List<String> labels = new ArrayList<>();
 
-
-
             List<?> list = ProcessManager.runSQL(
-                    "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false AND ProjekteID in " +
-                            strProjecIds +  " GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
+                    "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false AND ProjekteID in "
+                            +
+                            strProjecIds + " GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
             Collections.reverse(list);
             for (Object obj : list) {
                 Object[] o = (Object[]) obj;
@@ -78,7 +74,6 @@ public class DashboardHelperProcesses {
 
             data.setLabels(labels);
 
-
             //Options
             LineChartOptions options = new LineChartOptions();
             options.setMaintainAspectRatio(false);
@@ -97,6 +92,7 @@ public class DashboardHelperProcesses {
             options.setLegend(legend);
             processesPerMonth.setOptions(options);
             processesPerMonth.setData(data);
+            processesPerMonth.setExtender("chartExtender");
         }
         return this.processesPerMonth;
     }
