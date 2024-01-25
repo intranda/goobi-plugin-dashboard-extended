@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.faces.event.ActionEvent;
+
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.goobi.beans.User;
@@ -357,5 +359,9 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
             dateFormat = DateFormat.getDateInstance(formatType, userLang);
         }
         return dateFormat;
+    }
+
+    public void updateDashboard(ActionEvent event) {
+        tasksHelper = null;
     }
 }
