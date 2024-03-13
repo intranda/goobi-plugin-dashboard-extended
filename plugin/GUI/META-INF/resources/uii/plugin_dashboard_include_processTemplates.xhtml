@@ -36,7 +36,7 @@
             rendered="#{DashboardForm.plugin.processHelper.showProcessTemplates and (LoginForm.hasRole('Workflow_Processes') or LoginForm.hasRole('Workflow_ProcessTemplates'))}">
 
             <h:form id="processTemplateForm" styleClass="mb-3">
-              
+
                 <intranda:box
                     boxType="primary"
                     boxPadding="false"
@@ -54,7 +54,7 @@
                                 <!-- COLUMNHEADER -->
                                 <thead>
                                     <tr role="row">
-                                    
+
                                         <!-- Process title -->
                                         <th
                                             scope="col"
@@ -78,7 +78,6 @@
                                         <th
                                             scope="col"
                                             role="columnheader"
-                                            style="width:80px"
                                             aria-sort="#{NavigationForm.uiStatus.sorting == fortschrittDesc ? 'descending' : NavigationForm.uiStatus.sorting== fortschrittAsc ? 'ascending' :'none'}">
                                             <button
                                                 class="column-header-sort"
@@ -93,12 +92,11 @@
                                                 <f:ajax render="@form" />
                                             </button>
                                         </th>
-                                        
+
                                         <!-- project -->
                                         <th
                                             scope="col"
                                             role="columnheader"
-                                            style="max-width:110px"
                                             aria-sort="#{NavigationForm.uiStatus.sorting == projektDesc ? 'descending' : NavigationForm.uiStatus.sorting == projektAsc ? 'ascending' :'none'}">
                                             <button
                                                 class="column-header-sort"
@@ -115,14 +113,13 @@
                                                 <f:ajax render="@form" />
                                             </button>
                                         </th>
-                                        
+
                                         <!-- Actions -->
                                         <intranda:columnheader
     										value="#{msgs.auswahl}"
     										sortable="false"
-                                            style="width:120px"
     										addClass="gw-table-fixed__actions" />
-                                        
+
                                     </tr>
                                 </thead>
                                 <!-- // COLUMNHEADER -->
@@ -146,10 +143,12 @@
 														rendered="#{item.fortschritt3 gt 0}"
 														data-toggle="tooltip"
 														styleClass="progress-bar #{(LoginForm.myBenutzer.uiMode=='low_vision'?('easy-read-progressbar-status-done'):('progress-bar-success'))}"
-														style="width: #{item.fortschritt3}%;line-height:15px;"
 														pt:role="figure"
 														pt:aria-label="#{item.fortschritt3}% #{msgs.statusAbgeschlossen}">
 														<h:outputText value="&#160;" />
+                                                        <f:passThroughAttribute
+                                                            name="style"
+                                                            value ="--progress: #{item.fortschritt3}%" />
 														<f:passThroughAttribute
 															name="data-bs-trigger"
 															value="hover" />
@@ -174,10 +173,12 @@
 														rendered="#{item.fortschritt2 gt 0}"
 														data-toggle="tooltip"
 														styleClass="progress-bar #{(LoginForm.myBenutzer.uiMode=='low_vision'?('easy-read-progressbar-status-open'):('progress-bar-warning'))}"
-														style="width: #{item.fortschritt2}%;line-height:15px;"
 														pt:role="figure"
 														pt:aria-label="#{item.fortschritt2}% #{msgs.statusOffen} / #{msgs.statusInBearbeitung}">
 														<h:outputText value="&#160;" />
+                                                        <f:passThroughAttribute
+                                                            name="style"
+                                                            value ="--progress: #{item.fortschritt2}%" />
 														<f:passThroughAttribute
 															name="data-bs-trigger"
 															value="hover" />
@@ -202,10 +203,12 @@
 														rendered="#{item.fortschrittError gt 0}"
 														data-toggle="tooltip"
 														styleClass="progress-bar #{(LoginForm.myBenutzer.uiMode=='low_vision'?('easy-read-progressbar-status-error'):('progress-bar-danger progressbar-status-error'))} "
-														style="width: #{item.fortschrittError}%;line-height:15px;"
 														pt:role="figure"
 														pt:aria-label="#{item.fortschrittError}% #{msgs.statusError}">
 														<h:outputText value="&#160;" />
+                                                        <f:passThroughAttribute
+                                                            name="style"
+                                                            value ="--progress: #{item.fortschrittError}%" />
 														<f:passThroughAttribute
 															name="data-bs-trigger"
 															value="hover" />
@@ -230,10 +233,12 @@
 														rendered="#{item.fortschritt1 gt 0}"
 														data-toggle="tooltip"
 														styleClass="progress-bar #{(LoginForm.myBenutzer.uiMode=='low_vision'?('easy-read-progressbar-status-locked'):('progress-bar-danger'))} "
-														style="width: #{item.fortschritt1}%;line-height:15px;"
 														pt:role="figure"
 														pt:aria-label="#{item.fortschritt1}% #{msgs.statusGesperrt}">
 														<h:outputText value="&#160;" />
+                                                        <f:passThroughAttribute
+                                                            name="style"
+                                                            value ="--progress: #{item.fortschritt1}%" />
 														<f:passThroughAttribute
 															name="data-bs-trigger"
 															value="hover" />
@@ -256,15 +261,15 @@
 												</div>
 											</td>
 											<!-- // STATUS -->
-                                            
+
                                             <!-- PROJECT -->
                                             <td>
                                                 <h:outputText value="#{item.projekt.titel}" />
                                             </td>
-                                            
+
                                             <!-- BUTTONS -->
                                             <td>
-                                            
+
                                                 <!-- CREATE PROCESS - ONE PROJECT -->
                                                 <button
                                                     class="btn fa fa-file-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-hot':'btn-primary-400'} button-schaltknopf"
@@ -345,8 +350,8 @@
 
                                                     </span>
                                                 </h:panelGroup>
-                                                            
-                                                            
+
+
                                                 <!-- MASS IMPORT - ONE PROJECT -->
                                                 <button
                                                     class="btn fa fa-files-o #{!ProzesskopieForm.isUserInProcessProject(item) or item.getProjekt().projectIsArchived?'disabled':''} #{item.containsUnreachableSteps?'btn-hot':'btn-primary-400'} button-schaltknopf"
@@ -428,11 +433,11 @@
                                                             </ul>
                                                         </div>
                                                     </span>
-                                                </h:panelGroup>            
-                                            
-                                            
-                                                
-                                               
+                                                </h:panelGroup>
+
+
+
+
                                             </td>
                                         </tr>
                                     </ui:repeat>
@@ -441,7 +446,7 @@
 
                             </table>
                         </div>
-                        
+
                         <!-- PAGINATOR -->
                         <div class="box__actions" jsf:rendered="#{DashboardForm.plugin.paginator.totalResults > LoginForm.myBenutzer.tabellengroesse}">
                             <div class="dataTables__paginate">
@@ -460,5 +465,3 @@
     </composite:implementation>
 
 </ui:composition>
-
-

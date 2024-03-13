@@ -65,16 +65,16 @@
                     <h:panelGroup rendered="#{!DashboardForm.plugin.tasksHelper.historyEmpty}">
                         <div class="gw-table">
                             <div class="gw-table__wrapper">
-                                <table class="table table-bordered table-hover">
-                                    
+                                <table class="table table-bordered table-hover table-fixed">
+
                                     <!-- COLUMNHEADER -->
                                     <thead>
                                         <tr>
-                                            <th style="min-width: 100px">#{msgs.titel}</th>
-                                            <th style="min-width: 100px">#{msgs.statisticsStepOpen}</th>
-                                            <th style="min-width: 100px">#{msgs.statisticsStepDone}</th>
-                                            <th style="min-width: 100px">#{msgs.statisticsStepInWork}</th>
-                                            <th style="min-width: 100px">#{msgs.statusError}</th>
+                                            <th>#{msgs.titel}</th>
+                                            <th>#{msgs.statisticsStepOpen}</th>
+                                            <th>#{msgs.statisticsStepDone}</th>
+                                            <th>#{msgs.statisticsStepInWork}</th>
+                                            <th>#{msgs.statusError}</th>
                                         </tr>
                                     </thead>
                                     <!-- // COLUMNHEADER -->
@@ -85,7 +85,7 @@
                                             var="historyStep"
                                             value="#{DashboardForm.plugin.tasksHelper.currentHistory}">
                                             <tr>
-        
+
                                                 <td>#{historyStep.stepName}</td>
                                                 <td>
                                                     <h:outputText value="#{historyStep.numberOfOpenTasks}" />
@@ -137,7 +137,7 @@
                                                             value="a22" />
                                                         <i class="fa fa-search" />
                                                     </button>
-        
+
                                                 </td>
                                                 <td>
                                                     <h:outputText value="#{historyStep.numberOfErrorTasks}" />
@@ -160,7 +160,7 @@
                                         </ui:repeat>
                                     </tbody>
                                     <!-- // TABLE BODY -->
-                                    
+
                                 </table>
                             </div>
                         </div>
@@ -171,5 +171,3 @@
     </composite:implementation>
 
 </ui:composition>
-
-
