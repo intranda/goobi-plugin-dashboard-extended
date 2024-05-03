@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.faces.event.ActionEvent;
-
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.goobi.beans.User;
@@ -287,33 +285,33 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
             form.getUiStatus().put("sorting", sortOrder);
         }
         String answer = "prozesse.titel";
-        if (sortOrder.equals("titelAsc")) {
+        if ("titelAsc".equals(sortOrder)) {
             answer = "prozesse.titel";
-        } else if (sortOrder.equals("titelDesc")) {
+        } else if ("titelDesc".equals(sortOrder)) {
             answer = "prozesse.titel desc";
-        } else if (sortOrder.equals("batchAsc")) {
+        } else if ("batchAsc".equals(sortOrder)) {
             answer = "batchID";
-        } else if (sortOrder.equals("batchDesc")) {
+        } else if ("batchDesc".equals(sortOrder)) {
             answer = "batchID desc";
-        } else if (sortOrder.equals("projektAsc")) {
+        } else if ("projektAsc".equals(sortOrder)) {
             answer = "projekte.Titel";
-        } else if (sortOrder.equals("projektDesc")) {
+        } else if ("projektDesc".equals(sortOrder)) {
             answer = "projekte.Titel desc";
-        } else if (sortOrder.equals("vorgangsdatumAsc")) {
+        } else if ("vorgangsdatumAsc".equals(sortOrder)) {
             answer = "erstellungsdatum";
-        } else if (sortOrder.equals("vorgangsdatumDesc")) {
+        } else if ("vorgangsdatumDesc".equals(sortOrder)) {
             answer = "erstellungsdatum desc";
-        } else if (sortOrder.equals("fortschrittAsc")) {
+        } else if ("fortschrittAsc".equals(sortOrder)) {
             answer = "sortHelperStatus";
-        } else if (sortOrder.equals("fortschrittDesc")) {
+        } else if ("fortschrittDesc".equals(sortOrder)) {
             answer = "sortHelperStatus desc";
-        } else if (sortOrder.equals("idAsc")) {
+        } else if ("idAsc".equals(sortOrder)) {
             answer = "prozesse.ProzesseID";
-        } else if (sortOrder.equals("idDesc")) {
+        } else if ("idDesc".equals(sortOrder)) {
             answer = "prozesse.ProzesseID desc";
-        } else if (sortOrder.equals("institutionAsc")) {
+        } else if ("institutionAsc".equals(sortOrder)) {
             answer = "institution.shortName";
-        } else if (sortOrder.equals("institutionDesc")) {
+        } else if ("institutionDesc".equals(sortOrder)) {
             answer = "institution.shortName desc";
         }
 
@@ -359,9 +357,5 @@ public class ExtendedDashboard implements IDashboardPlugin, IRestPlugin {
             dateFormat = DateFormat.getDateInstance(formatType, userLang);
         }
         return dateFormat;
-    }
-
-    public void updateDashboard(ActionEvent event) {
-        tasksHelper = null;
     }
 }
