@@ -7,7 +7,11 @@
 target/
 bin/
 build/
-node_modules/
+**/node_modules/
+/home/simon/git/goobi-plugin-dashboard-extended/module-gui/src/main/webapp/resources/uii/public
+/home/simon/git/goobi-plugin-dashboard-extended/module-gui/src/main/webapp/resources/uii/plugin_dashboard_extended_svelte.js
+/home/simon/git/goobi-plugin-dashboard-extended/module-gui/src/main/webapp/resources/uii/plugin_dashboard_extended_svelte.js.map
+/home/simon/git/goobi-plugin-dashboard-extended/module-gui/src/main/webapp/resources/uii/plugin_dashboard_extended_tags.js
 
 # Eclipse
 .project
@@ -17,4 +21,3 @@ node_modules/
 # IntelliJ IDEA
 .idea
 *.iml
-

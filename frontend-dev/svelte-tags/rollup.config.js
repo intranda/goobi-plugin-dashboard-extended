@@ -12,7 +12,7 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: '../../module-gui/src/main/webapp/resources/uii/plugin_dashboard_extended_svelte.js'
 	},
 	plugins: [
 		svelte({

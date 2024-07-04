@@ -2,11 +2,10 @@ const path = require("path")
 const webpack = require("webpack")
 
 module.exports = {
-    watch: true,
     entry: './main.js',
     mode: "development",
     output: {
-        path: path.resolve(__dirname, '../../GUI/META-INF/resources/uii/'),
+        path: path.resolve(__dirname, '../../module-gui/src/main/webapp/resources/uii/'),
         filename: 'plugin_dashboard_extended_tags.js'
     },
     module: {
