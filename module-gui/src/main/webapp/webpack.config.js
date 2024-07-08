@@ -5,7 +5,7 @@ module.exports = {
     entry: './riotjs/main.js',
     mode: "development",
     output: {
-        path: path.resolve(__dirname, '../module-gui/src/main/webapp/resources/dist/'),
+        path: path.resolve(__dirname, 'resources/dist/intranda_dashboard_extended/js/'),
         filename: 'plugin_dashboard_extended_tags.js'
     },
     module: {
