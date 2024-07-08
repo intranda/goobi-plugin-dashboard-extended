@@ -7,22 +7,17 @@ import { terser } from 'rollup-plugin-terser';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src/main.js',
+	input: 'svelte-tags/src/main.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: '../../module-gui/src/main/webapp/resources/uii/plugin_dashboard_extended_svelte.js'
+		file: 'resources/dist/intranda_dashboard_extended/js/plugin_dashboard_extended_svelte.js'
 	},
 	plugins: [
 		svelte({
 			// enable run-time checks when not in production
-			dev: !production,
-			// we'll extract any component CSS out into
-			// a separate file — better for performance
-			css: css => {
-				css.write('public/build/bundle.css');
-			}
+			dev: !production
 		}),
 
 		// If you have external dependencies installed from
