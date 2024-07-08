@@ -9,15 +9,12 @@
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:p="http://primefaces.org/ui"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-
     <composite:interface>
     </composite:interface>
-
     <composite:implementation>
         <div class="row">
             <ui:include src="plugin_dashboard_include_batches.xhtml" />
         </div>
-
         <div class="row">
             <div class="col-md-6 col-lg-4">
                 <!-- first column -->
@@ -27,7 +24,6 @@
                     <ui:include src="#{'plugin_dashboard_include_'.concat(colItem).concat('.xhtml')}" />
                 </c:forEach>
             </div>
-
             <div class="col-md-6 col-lg-4">
              <c:forEach
                     var="colItem"
@@ -35,7 +31,6 @@
                     <ui:include src="#{'plugin_dashboard_include_'.concat(colItem).concat('.xhtml')}" />
                 </c:forEach>
             </div>
-
             <div class="col-md-6 col-lg-4">
                 <c:forEach
                     var="colItem"
@@ -44,9 +39,8 @@
                 </c:forEach>
             </div>
         </div>
-
-        <script src="plugin_dashboard_extended_tags.js"></script>
-        <script src="plugin_dashboard_extended_svelte.js"></script>
+        <script src="../dist/plugin_dashboard_extended_tags.js"></script>
+        <script src="../dist/plugin_dashboard_extended_svelte.js"></script>
         <script>
 		    var language = "#{SpracheForm.locale.language}"
 	    	var path = window.location.pathname;
@@ -81,7 +75,6 @@
 		                	    msgs: msgs
 		                	}
 		                })
-
 						/*window.mountNagios(
 					        nagiosEle,
 					        {
@@ -93,5 +86,4 @@
 	        })
 		</script>
     </composite:implementation>
-
 </ui:composition>

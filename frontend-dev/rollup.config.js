@@ -7,12 +7,12 @@ import { terser } from 'rollup-plugin-terser';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src/main.js',
+	input: 'svelte-tags/src/main.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: '../../module-gui/src/main/webapp/resources/uii/plugin_dashboard_extended_svelte.js'
+		file: '../module-gui/src/main/webapp/resources/dist/plugin_dashboard_extended_svelte.js'
 	},
 	plugins: [
 		svelte({
