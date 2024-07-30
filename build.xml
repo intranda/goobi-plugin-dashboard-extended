@@ -3,7 +3,7 @@
 		<exec executable="mvn">
 			<arg value="package"/>
 		</exec>
-		<copy file="module-gui/target/plugin_intranda_dashboard_extended-GUI.jar" todir="/opt/digiverso/goobi/plugins/GUI/"/>
-		<copy file="module-main/target/plugin_intranda_dashboard_extended.jar" todir="/opt/digiverso/goobi/plugins/dashboard/"/>
+		<copy file="module-gui/target/plugin-dashboard-extended-gui.jar" todir="/opt/digiverso/goobi/plugins/GUI/"/>
+		<copy file="module-base/target/plugin-dashboard-extended-base.jar" todir="/opt/digiverso/goobi/plugins/dashboard/"/>
 	</target>
 </project>
