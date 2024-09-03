@@ -36,6 +36,13 @@ Die folgende Tabelle enthält eine Zusammenstellung der Parameter und ihrer Besc
 
 Parameter               | Erläuterung
 ------------------------|------------------------------------
+`<itm-show>`            | Dieser Parameter legt fest, ob die Aufgaben innerhalb des Intranda Task Managers angezeigt werden sollen.                              |
+`<itm-cache-time>`                      | Dieser Wert wird in Millisekunden angegeben und gibt an, wie lange es dauert, bis die Werte aus dem Intranda Task Manager neugeladen werden. | 
+`<itm-url>`                      | Hier wird die url angegeben, auf welcher der Intranda Task Manager erreichbar ist.|
+`<rss-show>`                      | Dieser Parameter legt fest, ob Neuigkeiten angezeigt werden sollen. | 
+`<rss-cache-time>`                      | Dieser Wert wird in Millisekunden angegeben und gibt an, wie lange es dauert, bis die Neuigkeiten neugeladen werden. |
+`<rss-url>`                      | Dieser Paramter legt fest, von welcher Webseite die die Neuigkeiten kommen sollen. | 
+`<rss-title>`                      | Hier wird der Titel der über den Neuigkeiten steht festgelegt. | 
 `<search-show>`                           | Dieser Parameter legt fest, ob das `Suche`-Feld angezeigt werden soll. |
 `<tasks-show>`                            | Dieser Parameter legt fest, ob das `Kürzlich abgeschlossene Aufgaben`-Feld angezeigt werden soll. |
 `<tasks-show-size>`                       | Hier wird festgelegt, wie viele der kürzlich abgeschlossenen Aufgaben angezeigt werden sollen. |
@@ -52,3 +59,4 @@ Parameter               | Erläuterung
 `<processTemplates-show-statusColumn>`    | Hier wird festgelegt, ob die Status-Spalte angezeigt werden soll. |
 `<processTemplates-show-projectColumn>`   | Hier wird festgelegt, ob die Projekt-Spalte angezeigt werden soll. |
 `<processTemplates-show-massImportButton>`| Hier wird festgelegt, ob der Massenimport-Knopf angezeigt werden soll. |
+`<queue-show>`                      | Dieser Parameter legt fest, ob im Dashboard angezeigt werden soll, wie viele Vorgänge gerade in der Warteschlange sind und entweder darauf warten oder aktuell bearbeitet werden. | 

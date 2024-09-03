@@ -36,6 +36,13 @@ The following table contains a summary of the parameters and their descriptions:
 
 Parameter               | Explanation
 ------------------------|------------------------------------
+`<itm-show>`                              | This parameter determines whether tasks within the Intranda Task Manager should be displayed.|
+`<itm-cache-time>`                        | This value is specified in milliseconds and indicates how long it takes for the values from the Intranda Task Manager to be reloaded. | 
+`<itm-url>`                               | Here, the URL where the Intranda Task Manager is accessible is specified.|
+`<rss-show>`                              | This parameter determines whether news should be displayed. | 
+`<rss-cache-time>`                        | This value is specified in milliseconds and indicates how long it takes for the news to be reloaded. |
+`<rss-url>`                               | This parameter specifies from which website the news should come. | 
+`<rss-title>`                             |Here, the title displayed above the news is set. | 
 | `<search-show>`                         | This parameter determines whether the `Search` field should be displayed. |
 | `<tasks-show>`                          | This parameter determines whether the `Recently completed tasks` field should be displayed. |
 | `<tasks-show-size>`                     | Here you can specify how many of the recently completed tasks should be displayed. |
@@ -52,3 +59,4 @@ Parameter               | Explanation
 | `<processTemplates-show-statusColumn>`  | Here you can specify whether the status column should be displayed. |
 | `<processTemplates-show-projectColumn>` | Here you can specify whether the project column should be displayed. |
 | `<processTemplates-show-massImportButton>` | This parameter determines whether the mass import button should be displayed. |
+| `<queue-show>`                          | This parameter determines whether the dashboard should display how many processes are currently in the queue and are either waiting or being processed. | 
