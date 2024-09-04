@@ -43,8 +43,8 @@ Parameter               | Explanation
 `<rss-cache-time>`      | This value is specified in milliseconds and indicates how often the RSS feed should be updated.
 `<rss-url>`             | This parameter specifies the website from which the RSS feed is to be loaded.
 `<rss-title>`           | The title that is to appear above the news items is defined here.
-`<search-show>`         | This parameter determines whether the ‘Search’ form should be displayed.
-`<tasks-show>`          | This parameter defines whether the ‘Recently completed tasks’ area should be displayed.
+`<search-show>`         | This parameter determines whether the `Search` form should be displayed.
+`<tasks-show>`          | This parameter defines whether the `Recently completed tasks` area should be displayed.
 `<tasks-show-size>`     | Here you can specify how many of the recently completed tasks should be displayed.
 `<tasks-history>`       | This can be used to display the history of the last tasks. 
 `<tasks-history-title>` | This parameter can be used to specify which task type is to be displayed.
