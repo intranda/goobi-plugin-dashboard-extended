@@ -36,27 +36,27 @@ The following table contains a summary of the parameters and their descriptions:
 
 Parameter               | Explanation
 ------------------------|------------------------------------
-`<itm-show>`                              | This parameter determines whether tasks within the Intranda Task Manager should be displayed.|
-`<itm-cache-time>`                        | This value is specified in milliseconds and indicates how long it takes for the values from the Intranda Task Manager to be reloaded. | 
-`<itm-url>`                               | Here, the URL where the Intranda Task Manager is accessible is specified.|
-`<rss-show>`                              | This parameter determines whether news should be displayed. | 
-`<rss-cache-time>`                        | This value is specified in milliseconds and indicates how long it takes for the news to be reloaded. |
-`<rss-url>`                               | This parameter specifies from which website the news should come. | 
-`<rss-title>`                             |Here, the title displayed above the news is set. | 
-| `<search-show>`                         | This parameter determines whether the `Search` field should be displayed. |
-| `<tasks-show>`                          | This parameter determines whether the `Recently completed tasks` field should be displayed. |
-| `<tasks-show-size>`                     | Here you can specify how many of the recently completed tasks should be displayed. |
-| `<tasks-history>`                       | This allows you to display the history of the last tasks. |
-| `<tasks-history-title>`                 | With this parameter, you can specify which task type should be displayed. |
-| `<tasks-history-period>`                | This parameter defines how long ago the last edit can be (in days) for it to still be displayed. |
-| `<tasks-latestChanges>`                 | Here you can specify whether the most recently edited tasks should be displayed. |
-| `<tasks-latestChanges-size>`            | This parameter specifies the number of recent changes to be shown. |
-| `<statistics-show>`                     | Here it is defined whether statistics should be displayed. |
-| `<batches-show>`                        | This parameter specifies whether the `Batches` should be displayed. |
-| `<batches-timerange-start>`             | Here you can specify how many months ago the batches must have started being processed for them to be displayed. | 
-| `<batches-timerange-end>`               | Here you can specify how many months after the start of processing the batches should be displayed. |
-| `<processTemplates-show>`               | This parameter determines whether the production templates should be displayed. |
-| `<processTemplates-show-statusColumn>`  | Here you can specify whether the status column should be displayed. |
-| `<processTemplates-show-projectColumn>` | Here you can specify whether the project column should be displayed. |
-| `<processTemplates-show-massImportButton>` | This parameter determines whether the mass import button should be displayed. |
-| `<queue-show>`                          | This parameter determines whether the dashboard should display how many processes are currently in the queue and are either waiting or being processed. | 
+`<itm-show>`            | This parameter defines whether the currently running jobs of the intranda Task Manager should be displayed. 
+`<itm-cache-time>`      | This value is specified in milliseconds and defines how often the values from the intranda Task Manager should be updated.
+`<itm-url>`             | The URL at which the intranda Task Manager can be accessed is specified here.
+`<rss-show>`            | This parameter defines whether news that can be retrieved via RSS feed should be displayed.
+`<rss-cache-time>`      | This value is specified in milliseconds and indicates how often the RSS feed should be updated.
+`<rss-url>`             | This parameter specifies the website from which the RSS feed is to be loaded.
+`<rss-title>`           | The title that is to appear above the news items is defined here.
+`<search-show>`         | This parameter determines whether the ‘Search’ form should be displayed.
+`<tasks-show>`          | This parameter defines whether the ‘Recently completed tasks’ area should be displayed.
+`<tasks-show-size>`     | Here you can specify how many of the recently completed tasks should be displayed.
+`<tasks-history>`       | This can be used to display the history of the last tasks. 
+`<tasks-history-title>` | This parameter can be used to specify which task type is to be displayed.
+`<tasks-history-period>` | This parameter defines the maximum length of time (in days) that may have passed since the last edit for it to still be displayed.
+`<tasks-latestChanges>` | Here you can specify whether the most recently processed tasks should be displayed.
+`<tasks-latestChanges-size>` | This parameter specifies the number of the last changes to be shown.
+`<statistics-show>`     | Here you define whether statistics are to be displayed.
+`<batches-show>`        | This parameter specifies whether the batches are to be displayed.
+`<batches-timerange-start>` | Here you specify how many months ago the batches were started to be processed so that they are displayed.
+`<batches-timerange-end>` | Here you can specify how many months after the start of processing the batches are displayed.
+`<processTemplates-show>` | This parameter defines whether the production templates are to be displayed.
+`<processTemplates-show-statusColumn>` | Here you can specify whether the status column should be displayed.
+`<processTemplates-show-projectColumn>` | Here you can specify whether the project column should be displayed.
+`<processTemplates-show-massImportButton>` | Here you can specify whether the bulk import button should be displayed.
+`<queue-show>`.           | This parameter defines whether the dashboard should display how many processes are currently in the queue and what their status is.
