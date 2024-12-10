@@ -15,7 +15,7 @@
 	<nagios-password>pass</nagios-password>
 	
 	<!-- RSS-Feed e.g. of last imports -->
-	<rss-show>false</rss-show>
+	<rss-show>true</rss-show>
 	<rss-cache-time>900000</rss-cache-time>
 	<rss-url>https://www.intranda.com/feed/</rss-url>
 	<rss-title>News by intranda GmbH</rss-title>
