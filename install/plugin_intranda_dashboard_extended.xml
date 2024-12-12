@@ -44,7 +44,7 @@
 	<statistics-show>true</statistics-show>
 	
 	<!-- Batches -->
-	<batches-show>true</batches-show>
+	<batches-show>false</batches-show>
 	<!-- define time range as months before and after the today date -->
 	<batches-timerange-start>2</batches-timerange-start>
 	<batches-timerange-end>4</batches-timerange-end>
