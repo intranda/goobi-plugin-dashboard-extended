@@ -116,7 +116,6 @@ public class DashboardHelperBatches {
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter()) //
             .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY) //
             .setDateFormat("YYYY-MM-dd") //
-            .setPrettyPrinting() //
             .create();
 
     // get start- and end date from date picker?
