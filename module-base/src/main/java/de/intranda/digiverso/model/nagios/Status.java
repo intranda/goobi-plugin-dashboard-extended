@@ -4,7 +4,7 @@ package de.intranda.digiverso.model.nagios;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -29,17 +29,17 @@ package de.intranda.digiverso.model.nagios;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Generated;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import jakarta.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class Status {
 
     @SerializedName("service_status")
     @Expose
-    private List<ServiceStatu> serviceStatus = new ArrayList<ServiceStatu>();
+    private List<ServiceStatu> serviceStatus = new ArrayList<>();
 
     /**
      * 
