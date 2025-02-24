@@ -5,14 +5,6 @@
     <artifactId>plugin-dashboard-extended</artifactId>
     <version>25.02-SNAPSHOT</version>
   </parent>
-  <artifactId>plugin-dashboard-extended-base</artifactId>
+  <artifactId>plugin-dashboard-extended-lib</artifactId>
   <packaging>jar</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>io.goobi.workflow.plugin</groupId>
-            <artifactId>plugin-dashboard-extended-lib</artifactId>
-            <version>25.02-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
 </project>
