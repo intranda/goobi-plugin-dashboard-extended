@@ -4,6 +4,8 @@
 			<arg value="package"/>
 		</exec>
 		<copy file="module-gui/target/plugin-dashboard-extended-gui.jar" todir="/opt/digiverso/goobi/plugins/GUI/"/>
+		<copy file="module-api/target/plugin-dashboard-extended-api.jar" todir="/opt/digiverso/goobi/plugins/GUI/"/>
 		<copy file="module-base/target/plugin-dashboard-extended-base.jar" todir="/opt/digiverso/goobi/plugins/dashboard/"/>
+		<copy file="module-lib/target/plugin-dashboard-extended-lib.jar" todir="/opt/digiverso/goobi/plugins/GUI/"/>
 	</target>
 </project>
