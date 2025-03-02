@@ -1,10 +1,13 @@
 
 package de.intranda.digiverso.model.nagios;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -26,35 +29,66 @@ package de.intranda.digiverso.model.nagios;
  * library, you may extend this exception to your version of the library, but you are not obliged to do so. If you do not wish to do so, delete this
  * exception statement from your version.
  */
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Generated;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import jakarta.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Status {
+public class Nagios {
 
-    @SerializedName("service_status")
+    @SerializedName("cgi_json_version")
     @Expose
-    private List<ServiceStatu> serviceStatus = new ArrayList<ServiceStatu>();
+    private String cgiJsonVersion;
+    @SerializedName("icinga_status")
+    @Expose
+    private IcingaStatus icingaStatus;
+    @Expose
+    private Status status;
 
     /**
      * 
-     * @return The serviceStatus
+     * @return The cgiJsonVersion
      */
-    public List<ServiceStatu> getServiceStatus() {
-        return serviceStatus;
+    public String getCgiJsonVersion() {
+        return cgiJsonVersion;
     }
 
     /**
      * 
-     * @param serviceStatus The service_status
+     * @param cgiJsonVersion The cgi_json_version
      */
-    public void setServiceStatus(List<ServiceStatu> serviceStatus) {
-        this.serviceStatus = serviceStatus;
+    public void setCgiJsonVersion(String cgiJsonVersion) {
+        this.cgiJsonVersion = cgiJsonVersion;
+    }
+
+    /**
+     * 
+     * @return The icingaStatus
+     */
+    public IcingaStatus getIcingaStatus() {
+        return icingaStatus;
+    }
+
+    /**
+     * 
+     * @param icingaStatus The icinga_status
+     */
+    public void setIcingaStatus(IcingaStatus icingaStatus) {
+        this.icingaStatus = icingaStatus;
+    }
+
+    /**
+     * 
+     * @return The status
+     */
+    public Status getStatus() {
+        return status;
+    }
+
+    /**
+     * 
+     * @param status The status
+     */
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
 }

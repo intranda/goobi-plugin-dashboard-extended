@@ -25,17 +25,26 @@ package de.intranda.digiverso.model.helper;
  * library, you may extend this exception to your version of the library, but you are not obliged to do so. If you do not wish to do so, delete this
  * exception statement from your version.
  */
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -52,6 +61,44 @@ import lombok.extern.log4j.Log4j2;
 @Data
 @Log4j2
 public class DashboardHelperBatches {
+    class LocalDateTimeTypeAdapter extends TypeAdapter<LocalDateTime> {
+        @Override
+        public void write(final JsonWriter jsonWriter, final LocalDateTime localDate) throws IOException {
+            if (localDate == null) {
+                jsonWriter.nullValue();
+                return;
+            }
+            jsonWriter.beginObject();  // Beginn des JSON-Objekts
+
+            // Schreibe das 'date' Objekt
+            jsonWriter.name("date");
+            jsonWriter.beginObject();
+            jsonWriter.name("year").value(localDate.getYear());
+            jsonWriter.name("month").value(localDate.getMonthValue());
+            jsonWriter.name("day").value(localDate.getDayOfMonth());
+            jsonWriter.endObject();  // Ende des 'date' Objekts
+
+            // Schreibe das 'time' Objekt
+            jsonWriter.name("time");
+            jsonWriter.beginObject();
+            jsonWriter.name("hour").value(localDate.getHour());
+            jsonWriter.name("minute").value(localDate.getMinute());
+            jsonWriter.name("second").value(localDate.getSecond());
+            jsonWriter.name("nano").value(localDate.getNano());
+            jsonWriter.endObject();  // Ende des 'time' Objekts
+
+            jsonWriter.endObject();  // Ende des gesamten JSON-Objekts
+        }
+
+        @Override
+        public LocalDateTime read(final JsonReader jsonReader) throws IOException {
+            if (jsonReader.peek() == JsonToken.NULL) {
+                jsonReader.nextNull();
+                return null;
+            }
+            return ZonedDateTime.parse(jsonReader.nextString()).toLocalDateTime();
+        }
+    }
 
     private XMLConfiguration config;
 
@@ -65,7 +112,11 @@ public class DashboardHelperBatches {
     private static final DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter jsonFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    private Gson gson = new Gson();
+    private Gson gson = new GsonBuilder() //
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter()) //
+            .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY) //
+            .setDateFormat("YYYY-MM-dd") //
+            .create();
 
     // get start- and end date from date picker?
     private LocalDateTime selectedStartDate;

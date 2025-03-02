@@ -78,7 +78,7 @@
 </style>
 <script>
 import Raw from './raw.tag'
- 
+
 export default {
     components: {
         Raw
@@ -118,10 +118,9 @@ export default {
        if(this.state.feed.length > 0) {
 	       this.state.feed = [];
 	       this.update();
-       } 
-       var path = window.location.pathname;
-       path = path.substring(0, path.indexOf("/uii/"));
-       fetch(`${path}/plugins/exdashboard/rssfeed`).then(resp => {
+       }
+       const goobi_path = location.pathname.split('/')[1];
+       fetch(`/${goobi_path}/api/plugins/exdashboard/rssfeed`).then(resp => {
         resp.json().then(json => {
           this.state.feed = json;
           this.update();

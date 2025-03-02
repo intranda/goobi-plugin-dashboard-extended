@@ -175,9 +175,8 @@ export default {
             this.state.itmPlugins = [];
             this.update();
         }
-        var path = window.location.pathname;
-        path = path.substring(0, path.indexOf("/uii/"));
-        fetch(`${path}/plugins/exdashboard/itm`).then(resp => {
+        const goobi_path = location.pathname.split('/')[1];
+        fetch(`/${goobi_path}/plugins/exdashboard/itm`).then(resp => {
 	        resp.json().then(json => {
 	          this.state.itmPlugins = json;
 	          this.update();

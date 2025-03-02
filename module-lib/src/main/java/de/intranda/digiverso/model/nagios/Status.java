@@ -4,7 +4,7 @@ package de.intranda.digiverso.model.nagios;
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
  * 
- * Visit the websites for more information. 
+ * Visit the websites for more information.
  *          - https://goobi.io
  *          - https://www.intranda.com
  *          - https://github.com/intranda/goobi
@@ -26,69 +26,35 @@ package de.intranda.digiverso.model.nagios;
  * library, you may extend this exception to your version of the library, but you are not obliged to do so. If you do not wish to do so, delete this
  * exception statement from your version.
  */
-import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import jakarta.annotation.Generated;
+
 @Generated("org.jsonschema2pojo")
-public class Nagios {
+public class Status {
 
-    @SerializedName("cgi_json_version")
+    @SerializedName("service_status")
     @Expose
-    private String cgiJsonVersion;
-    @SerializedName("icinga_status")
-    @Expose
-    private IcingaStatus icingaStatus;
-    @Expose
-    private Status status;
+    private List<ServiceStatu> serviceStatus = new ArrayList<>();
 
     /**
      * 
-     * @return The cgiJsonVersion
+     * @return The serviceStatus
      */
-    public String getCgiJsonVersion() {
-        return cgiJsonVersion;
+    public List<ServiceStatu> getServiceStatus() {
+        return serviceStatus;
     }
 
     /**
      * 
-     * @param cgiJsonVersion The cgi_json_version
+     * @param serviceStatus The service_status
      */
-    public void setCgiJsonVersion(String cgiJsonVersion) {
-        this.cgiJsonVersion = cgiJsonVersion;
-    }
-
-    /**
-     * 
-     * @return The icingaStatus
-     */
-    public IcingaStatus getIcingaStatus() {
-        return icingaStatus;
-    }
-
-    /**
-     * 
-     * @param icingaStatus The icinga_status
-     */
-    public void setIcingaStatus(IcingaStatus icingaStatus) {
-        this.icingaStatus = icingaStatus;
-    }
-
-    /**
-     * 
-     * @return The status
-     */
-    public Status getStatus() {
-        return status;
-    }
-
-    /**
-     * 
-     * @param status The status
-     */
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setServiceStatus(List<ServiceStatu> serviceStatus) {
+        this.serviceStatus = serviceStatus;
     }
 
 }
