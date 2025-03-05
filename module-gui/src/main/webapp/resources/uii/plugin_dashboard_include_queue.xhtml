@@ -6,7 +6,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:jsf="http://xmlns.jcp.org/jsf"
-    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/compositesPG">
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites">
 
     <composite:interface>
     </composite:interface>
@@ -14,7 +14,7 @@
     <composite:implementation>
         <ui:fragment rendered="#{DashboardForm.plugin.messageQueueStatus.showMessageQueue and not DashboardForm.plugin.messageQueueStatus.jobListEmpty}">
             <h:form id="slow_queue" styleClass="mb-3">
-                
+
                 <intranda:box
                     boxType="primary"
                     boxPadding="false"
@@ -52,7 +52,7 @@
                         </div>
                     </intranda:boxTitle>
                     <!-- // BUTTONS TO EXPAND LIST -->
-                    
+
                     <div class="gw-table">
                         <div class="gw-table__wrapper">
                             <h:dataTable
@@ -65,7 +65,7 @@
                                     </f:facet>
                                     <h:outputText value="#{entry.jobTypeName}" />
                                 </h:column>
-    
+
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="#{msgs.count}" />
@@ -95,5 +95,3 @@
     </composite:implementation>
 
 </ui:composition>
-
-
