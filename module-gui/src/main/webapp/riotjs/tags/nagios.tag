@@ -178,7 +178,7 @@ export default {
 	      this.update();
       }
 	  const goobi_path = location.pathname.split('/')[1];
-      fetch(`/${goobi_path}/plugins/exdashboard/nagios`).then(resp => {
+      fetch(`/${goobi_path}/api/plugins/exdashboard/nagios`).then(resp => {
           resp.json().then(json => {
             console.log(json)
             this.state.hosts = json;
