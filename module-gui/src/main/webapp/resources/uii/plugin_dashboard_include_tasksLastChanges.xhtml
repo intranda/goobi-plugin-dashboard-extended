@@ -38,6 +38,7 @@
                                             <th>#{msgs.prozess}</th>
                                             <th>#{msgs.arbeitsschritt}</th>
                                             <th>#{msgs.statusAbgeschlossen}</th>
+                                            <th>#{msgs.NumberOfImages}</th>
                                             <th>#{msgs.auswahl}</th>
                                         </tr>
                                     </thead>
@@ -64,6 +65,11 @@
                                                     <br />
                                                     <h:outputText
                                                         value="#{DashboardForm.plugin.getFormattedTime(historyStep.closedStep.bearbeitungsende)}" />
+                                                </td>
+                                                
+                                                <td>
+                                                <h:outputText value="#{historyStep.process.sortHelperImages}" />
+                                                
                                                 </td>
                                                 <!-- BUTTON -->
                                                 <td>
