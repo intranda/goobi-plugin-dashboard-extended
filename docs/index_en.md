@@ -3,6 +3,10 @@ title: Extended Dashboard
 identifier: intranda_dashboard_extended
 description: Dashboard plugin for extended information display
 published: true
+keywords:
+    - Goobi workflow
+    - Plugin
+    - Dashboard Plugin
 ---
 
 ## Introduction
