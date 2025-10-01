@@ -64,7 +64,7 @@ public class DashboardHelperProcesses {
                     maxValue = number;
                 }
             }
-            maxValue = 10000;
+
             processesPerMonth = new LineChartModel();
             ChartData data = new ChartData();
 
