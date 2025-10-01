@@ -11,46 +11,8 @@
 
 	<composite:implementation>
 
-        <h:outputScript>
-            let options = {
-                options: {
-                    plugins: {
-                        title: {
-                            display: false,
-                            text: "Processes per month"
-                        },
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            };
-            function chartExtender() {
-                let options = $.extend(true, {}, this.cfg.config);
-            };
-            function chartExtenderLog() {
-                let options = $.extend(true, {}, this.cfg.config);
-                options.options = {
-                    scales: {
-                        y: {
-                            type: 'logarithmic',
-                            min: 0,
-                            ticks: {
-                                callback: function(value, index, values) {
-                                    // Show only powers of 10
-                                    if (value === 1 || value === 10 || value === 100 || value === 1000 || value === 10000) {
-                                        return value;
-                                    }
-                                    return '';
-                                }
-                            }
-                        }
-                    }
-                };
+        <h:outputScript library="js" name="chart-utils.js" />
 
-                $.extend(true, this.cfg.config, options);
-            };
-        </h:outputScript>
         <ui:fragment rendered="#{DashboardForm.plugin.processHelper.showStatistics and !DashboardForm.plugin.processHelper.isProcessPerMonthEmpty()}">
             <div class="mb-3">
                 <intranda:box
