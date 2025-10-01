@@ -21,7 +21,6 @@ let defaultChartOptions = {
  * Standard chart extender function
  */
 function chartExtender() {
-    console.log("Applying standard chart extender");
     let options = $.extend(true, {}, this.cfg.config);
 
     options.options = {
@@ -64,7 +63,6 @@ const calculateLogTicks = (maxValue) => {
  * Chart extender function for logarithmic scale with dynamic ticks
  */
 function chartExtenderLog() {
-    console.log("Applying logarithmic scale extender");
     let options = $.extend(true, {}, this.cfg.config);
 
     options.options = {
