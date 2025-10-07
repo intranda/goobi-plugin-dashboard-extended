@@ -48,9 +48,6 @@ const calculateLogTicks = (maxValue) => {
     // Find the highest power of 10 needed
     let maxPower = Math.ceil(Math.log10(maxValue));
 
-    // Always start with 1
-    ticks.push(1);
-
     // Add powers of 10 up to the max needed
     for (let i = 1; i <= maxPower; i++) {
         ticks.push(Math.pow(10, i));
@@ -69,7 +66,7 @@ function chartExtenderLog() {
         scales: {
             y: {
                 type: 'logarithmic',
-                min: 0,
+                min: 1,
                 ticks: {
                     callback: function(value, index, values) {
                         // Get the maximum value from the chart data
