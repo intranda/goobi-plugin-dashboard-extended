@@ -47,6 +47,7 @@ public class DashboardHelperProcesses {
 
             List<Object> values = new ArrayList<>();
             List<String> labels = new ArrayList<>();
+            int maxValue = 0;
 
             List<?> list = ProcessManager.runSQL(
                     "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false AND ProjekteID in "
@@ -59,7 +60,11 @@ public class DashboardHelperProcesses {
                 Integer number = Integer.valueOf((String) o[2]);
                 values.add(number);
                 labels.add(label);
+                if (number > maxValue) {
+                    maxValue = number;
+                }
             }
+
             processesPerMonth = new LineChartModel();
             ChartData data = new ChartData();
 
@@ -92,7 +97,13 @@ public class DashboardHelperProcesses {
             options.setLegend(legend);
             processesPerMonth.setOptions(options);
             processesPerMonth.setData(data);
-            processesPerMonth.setExtender("chartExtender");
+
+            // Use log scale if max value > 1000
+            if (maxValue > 1000) {
+                processesPerMonth.setExtender("chartExtenderLog");
+            } else {
+                processesPerMonth.setExtender("chartExtender");
+            }
         }
         return this.processesPerMonth;
     }

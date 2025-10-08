@@ -11,25 +11,8 @@
 
 	<composite:implementation>
 
-        <h:outputScript>
-            function chartExtender() {
-                var options = $.extend(true, {}, this.cfg.config);
-                options = {
-                    options: {
-                        plugins: {
-                            title: {
-                                display: false,
-                                text: "Processes per month"
-                            },
-                            legend: {
-                                display: false
-                            }
-                        }
-                    }
-                };
-                $.extend(true, this.cfg.config, options);
-            };
-        </h:outputScript>
+        <h:outputScript library="js" name="chart-utils.js" />
+
         <ui:fragment rendered="#{DashboardForm.plugin.processHelper.showStatistics and !DashboardForm.plugin.processHelper.isProcessPerMonthEmpty()}">
             <div class="mb-3">
                 <intranda:box
