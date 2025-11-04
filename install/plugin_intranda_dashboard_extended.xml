@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <config_plugin>
-	
+
 	<!-- intranda TaskManager -->
 	<itm-show>false</itm-show>
 	<itm-cache-time>180000</itm-cache-time>
 	<itm-url>http://localhost:8080/itm/</itm-url>
-	
+
 	<!-- Nagios Monitoring -->
 	<nagios-show>false</nagios-show>
 	<nagios-cache-time>180000</nagios-cache-time>
 	<nagios-host>host.example.org</nagios-host>
 	<nagios-login>user</nagios-login>
 	<nagios-password>pass</nagios-password>
-	
+
 	<!-- RSS-Feed e.g. of last imports -->
 	<rss-show>true</rss-show>
 	<rss-cache-time>900000</rss-cache-time>
 	<rss-url>https://www.intranda.com/feed/</rss-url>
 	<rss-title>News by intranda GmbH</rss-title>
-	
+
 	<!-- Search -->
 	<search-show>true</search-show>
-	
+
 	<!-- Show tasks the user works on -->
     <tasks-show>true</tasks-show>
     <tasks-show-size>5</tasks-show-size>
-    
+
     <!-- show recent history  -->
     <tasks-history>false</tasks-history>
     <!-- show history for configured tasks -->
@@ -35,26 +35,28 @@
     <tasks-history-title>Fileupload</tasks-history-title>
     <!-- include status changes for the last X days -->
     <tasks-history-period>7</tasks-history-period>
-	
+
     <!-- show the last tasks of the user -->
     <tasks-latestChanges>true</tasks-latestChanges>
     <tasks-latestChanges-size>5</tasks-latestChanges-size>
-    
+
     <!-- Statistics -->
 	<statistics-show>true</statistics-show>
-	
+	<!-- Number of months to show in statistics chart. Use 0 to show all available data, or a positive integer to limit the timeframe -->
+	<statistics-timerange-months>24</statistics-timerange-months>
+
 	<!-- Batches -->
 	<batches-show>false</batches-show>
 	<!-- define time range as months before and after the today date -->
 	<batches-timerange-start>2</batches-timerange-start>
 	<batches-timerange-end>4</batches-timerange-end>
-	
+
 	<!-- Process creation -->
 	<processTemplates-show>true</processTemplates-show>
 	<processTemplates-show-statusColumn>true</processTemplates-show-statusColumn>
 	<processTemplates-show-projectColumn>true</processTemplates-show-projectColumn>
 	<processTemplates-show-massImportButton>true</processTemplates-show-massImportButton>
-	
+
     <!-- Message queue -->
     <queue-show>true</queue-show>
 
@@ -106,8 +108,8 @@
 				<td>goobi</td>
 				<td>Administrator account</td>
 			</tr>
-			
+
 		</table>
 	]]></html-box-content>
-	
+
 </config_plugin>

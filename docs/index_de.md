@@ -21,7 +21,7 @@ Um das Plugin nutzen zu können, müssen folgende Dateien installiert werden:
 /opt/digiverso/goobi/config/plugin_intranda_dashboard_extended.xml
 ```
 
-Für eine Nutzung dieses Plugins muss der Nutzer innerhalb der Einstellungen für das Dashboard den Wert `intranda_dashboard_extended` auswählen. 
+Für eine Nutzung dieses Plugins muss der Nutzer innerhalb der Einstellungen für das Dashboard den Wert `intranda_dashboard_extended` auswählen.
 
 ![Auswahl des Dashboards in den Nutzereinstellungen](screen1_de.png)
 
@@ -40,7 +40,7 @@ Die folgende Tabelle enthält eine Zusammenstellung der Parameter und ihrer Besc
 
 Parameter               | Erläuterung
 ------------------------|------------------------------------
-`<itm-show>`            | Dieser Parameter legt fest, ob die aktuell laufenden Jobs des intranda Task Managers angezeigt werden sollen. 
+`<itm-show>`            | Dieser Parameter legt fest, ob die aktuell laufenden Jobs des intranda Task Managers angezeigt werden sollen.
 `<itm-cache-time>`      | Dieser Wert wird in Millisekunden angegeben und legt fest, wie oft die Werte aus dem intranda Task Manager aktualisiert werden sollen.
 `<itm-url>`             | Hier wird die URL angegeben, unter der der intranda Task Manager erreichbar ist.
 `<rss-show>`            | Dieser Parameter legt fest, ob Neuigkeiten angezeigt werden sollen, die per RSS-Feed abgefragt werden können.
@@ -50,12 +50,13 @@ Parameter               | Erläuterung
 `<search-show>`         | Dieser Parameter legt fest, ob das `Suche`-Formular angezeigt werden soll.
 `<tasks-show>`          | Dieser Parameter legt fest, ob der Bereich `Kürzlich abgeschlossene Aufgaben` angezeigt werden soll.
 `<tasks-show-size>`     | Hier wird festgelegt, wie viele der kürzlich abgeschlossenen Aufgaben angezeigt werden sollen.
-`<tasks-history>`       | Hiermit kann man sich den Verlauf der letzten Aufgaben anzeigen lassen. 
+`<tasks-history>`       | Hiermit kann man sich den Verlauf der letzten Aufgaben anzeigen lassen.
 `<tasks-history-title>` | Mithilfe dieses Parameters kann festgelegt werden, welcher Aufgabentyp angezeigt werden soll.
 `<tasks-history-period>` | Dieser Parameter legt fest, wie lange die letzte Bearbeitung maximal zurückliegen darf (in Tagen), damit diese noch angezeigt wird. |
 `<tasks-latestChanges>` | Hier kann festgelegt werden, ob die zuletzt bearbeiteten Aufgaben angezeigt werden sollen.
 `<tasks-latestChanges-size>` | Dieser Parameter gibt die Anzahl der letzten zu zeigenden Änderungen an.
 `<statistics-show>`     | Hier wird definiert, ob Statistiken angezeigt werden sollen.
+`<statistics-timerange-months>` | Dieser Parameter legt fest, wie viele Monate an Daten im Statistik-Diagramm angezeigt werden sollen. Verwenden Sie `0`, um alle verfügbaren Daten anzuzeigen, oder eine positive Ganzzahl, um den Zeitraum zu begrenzen (z.B. `24` für die letzten 24 Monate).
 `<batches-show>`        | Dieser Parameter gibt, ob die `Batches` angezeigt werden sollen.
 `<batches-timerange-start>` | Hier wird festgelegt, vor wie vielen Monaten die Batches angefangen wurden zu bearbeiten, damit diese angezeigt werden.
 `<batches-timerange-end>` | Hier wird festgelegt, wie vielen Monate nach Beginn der Bearbeitung die Batches angezeigt werden.

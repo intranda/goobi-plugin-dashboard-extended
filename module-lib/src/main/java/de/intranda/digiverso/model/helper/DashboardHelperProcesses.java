@@ -25,6 +25,20 @@ public class DashboardHelperProcesses {
         config = xmlConfiguration;
     }
 
+    /**
+     * Returns a SQL date filter clause based on the configured timerange.
+     *
+     * @return SQL WHERE clause fragment for date filtering, or empty string if no filter should be applied
+     */
+    private String getStatisticsDateFilter() {
+        int timerangeMonths = config.getInt("statistics-timerange-months", 0);
+        if (timerangeMonths > 0) {
+            // Filter by actual date: only include processes created within the last X months
+            return " AND erstellungsdatum >= DATE_SUB(NOW(), INTERVAL " + timerangeMonths + " MONTH)";
+        }
+        return "";
+    }
+
     public LineChartModel getProcessesPerMonth() {
         if (this.processesPerMonth == null) {
 
@@ -49,10 +63,12 @@ public class DashboardHelperProcesses {
             List<String> labels = new ArrayList<>();
             int maxValue = 0;
 
+            String dateFilter = getStatisticsDateFilter();
+
             List<?> list = ProcessManager.runSQL(
                     "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false AND ProjekteID in "
                             +
-                            strProjecIds + " GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
+                            strProjecIds + dateFilter + " GROUP BY year, month  ORDER BY year desc, month desc;");
             Collections.reverse(list);
             for (Object obj : list) {
                 Object[] o = (Object[]) obj;
@@ -121,10 +137,16 @@ public class DashboardHelperProcesses {
 
     public boolean isProcessPerMonthEmpty() {
 
+        String dateFilter = getStatisticsDateFilter();
+
         List<?> list = ProcessManager.runSQL(
-                "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false  GROUP BY year, month  ORDER BY year desc, month desc LIMIT 24;");
+                "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false" + dateFilter + " GROUP BY year, month  ORDER BY year desc, month desc;");
 
         return list.isEmpty();
+    }
+
+    public String getStatisticsTimerange() {
+        return config.getString("statistics-timerange-months", "0");
     }
 
     //	public LineChartModel getProcessesPerMonth() {
