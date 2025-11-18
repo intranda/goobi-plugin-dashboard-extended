@@ -126,9 +126,9 @@
 
                                 <!-- TABLE BODY -->
                                 <tbody>
-                                    <ui:repeat
+                                    <c:forEach
                                         var="item"
-                                        value="#{DashboardForm.plugin.paginator.list}"
+                                        items="#{DashboardForm.plugin.paginator.list}"
                                         varStatus="status">
                                         <tr>
                                             <!-- title -->
@@ -439,7 +439,7 @@
 
                                             </td>
                                         </tr>
-                                    </ui:repeat>
+                                    </c:forEach>
                                 </tbody>
                                 <!-- // TABLE BODY -->
 
