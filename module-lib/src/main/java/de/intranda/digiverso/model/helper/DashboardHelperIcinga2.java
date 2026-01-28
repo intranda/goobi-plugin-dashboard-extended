@@ -89,19 +89,7 @@ public class DashboardHelperIcinga2 {
         String auth = Base64.getEncoder()
                 .encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
 
-        TrustManager[] trustAll = new TrustManager[]{
-                new X509TrustManager() {
-                    public void checkClientTrusted(X509Certificate[] chain, String authType) {}
-                    public void checkServerTrusted(X509Certificate[] chain, String authType) {}
-                    public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
-                }
-        };
-
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, trustAll, new java.security.SecureRandom());
-
         try (HttpClient client = HttpClient.newBuilder()
-                .sslContext(sslContext)
                 .build()) {
 
             HttpRequest hostsRequest = HttpRequest.newBuilder()
