@@ -41,10 +41,8 @@ Die folgende Tabelle enthält eine Zusammenstellung der Parameter und ihrer Besc
 Parameter               | Erläuterung
 ------------------------|------------------------------------
 `<itm-show>`            | Dieser Parameter legt fest, ob die aktuell laufenden Jobs des intranda Task Managers angezeigt werden sollen.
-`<itm-cache-time>`      | Dieser Wert wird in Millisekunden angegeben und legt fest, wie oft die Werte aus dem intranda Task Manager aktualisiert werden sollen.
 `<itm-url>`             | Hier wird die URL angegeben, unter der der intranda Task Manager erreichbar ist.
 `<rss-show>`            | Dieser Parameter legt fest, ob Neuigkeiten angezeigt werden sollen, die per RSS-Feed abgefragt werden können.
-`<rss-cache-time>`      | Dieser Wert wird in Millisekunden angegeben und gibt an, wie oft der RSS-Feed aktualisiert werden soll.
 `<rss-url>`             | Dieser Paramter legt fest, von welcher Webseite der RSS-Feed geladen werden soll.
 `<rss-title>`           | Hier wird der Titel festgelegt, der über den Neuigkeiten stehen soll.
 `<search-show>`         | Dieser Parameter legt fest, ob das `Suche`-Formular angezeigt werden soll.
