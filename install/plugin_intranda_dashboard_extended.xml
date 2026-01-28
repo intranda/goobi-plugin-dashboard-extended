@@ -14,7 +14,7 @@
 
 	<!-- Icinga2 Monitoring -->
 	<icinga2-show>false</icinga2-show>
-	<icinga2-host>monitoring03.intranda.com</icinga2-host>
+	<icinga2-host>monitor03.intranda.com</icinga2-host>
 	<icinga2-username>user</icinga2-username>
 	<icinga2-password>pass</icinga2-password>
 

@@ -7,4 +7,3 @@ const mountItmView = riot.component(Itmview)
 
 window.mountRssFeed = mountRssFeed;
 window.mountItmView = mountItmView;
-window.mountNagios = mountNagios;

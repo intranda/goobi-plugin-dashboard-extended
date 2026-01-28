@@ -66,21 +66,30 @@
 					        }
 					    );
 		            }
-					var nagiosEle = document.getElementById("jsNagiosView")
-		            if(nagiosEle) {
-		                new window.mountSvelteNagios({
-		                	target: nagiosEle,
-		                	props: {
-		                	    msgs: msgs
-		                	}
-		                })
-						/*window.mountNagios(
-					        nagiosEle,
-					        {
-					            msgs: msgs
-					        }
-					    );*/
-		             }
+                    var nagiosEle = document.getElementById("jsNagiosView")
+                    if(nagiosEle) {
+                        new window.mountSvelteNagios({
+                            target: nagiosEle,
+                            props: {
+                                msgs: msgs
+                            }
+                        })
+                        /*window.mountNagios(
+                            nagiosEle,
+                            {
+                                msgs: msgs
+                            }
+                        );*/
+                    }
+                    var icinga2Ele = document.getElementById("jsIcinga2View")
+                    if(icinga2Ele) {
+                        new window.mountSvelteIcinga2({
+                            target: icinga2Ele,
+                            props: {
+                                msgs: msgs
+                            }
+                        })
+                    }
 	        	})
 	        })
 		</script>

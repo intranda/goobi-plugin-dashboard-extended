@@ -78,7 +78,7 @@ public class ExtendedDashboardApi {
     }
 
     @GET
-    @Path("/icinga")
+    @Path("/icinga2")
     public List<Icinga2Host> icinga2() {
         return getIcinga2Helper().getHosts();
     }
