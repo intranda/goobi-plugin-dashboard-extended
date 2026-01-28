@@ -41,10 +41,8 @@ The following table contains a summary of the parameters and their descriptions:
 Parameter               | Explanation
 ------------------------|------------------------------------
 `<itm-show>`            | This parameter defines whether the currently running jobs of the intranda Task Manager should be displayed.
-`<itm-cache-time>`      | This value is specified in milliseconds and defines how often the values from the intranda Task Manager should be updated.
 `<itm-url>`             | The URL at which the intranda Task Manager can be accessed is specified here.
 `<rss-show>`            | This parameter defines whether news that can be retrieved via RSS feed should be displayed.
-`<rss-cache-time>`      | This value is specified in milliseconds and indicates how often the RSS feed should be updated.
 `<rss-url>`             | This parameter specifies the website from which the RSS feed is to be loaded.
 `<rss-title>`           | The title that is to appear above the news items is defined here.
 `<search-show>`         | This parameter determines whether the `Search` form should be displayed.

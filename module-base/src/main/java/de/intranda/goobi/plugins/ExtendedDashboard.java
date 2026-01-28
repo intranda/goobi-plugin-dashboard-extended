@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.intranda.digiverso.model.helper.*;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.goobi.beans.User;
@@ -14,12 +15,6 @@ import org.goobi.production.enums.PluginType;
 import org.goobi.production.flow.statistics.hibernate.FilterHelper;
 import org.goobi.production.plugin.interfaces.IDashboardPlugin;
 
-import de.intranda.digiverso.model.helper.DashboardHelperBatches;
-import de.intranda.digiverso.model.helper.DashboardHelperItm;
-import de.intranda.digiverso.model.helper.DashboardHelperNagios;
-import de.intranda.digiverso.model.helper.DashboardHelperProcesses;
-import de.intranda.digiverso.model.helper.DashboardHelperRss;
-import de.intranda.digiverso.model.helper.DashboardHelperTasks;
 import de.intranda.digiverso.model.queue.MessageQueueStatus;
 import de.sub.goobi.config.ConfigPlugins;
 import de.sub.goobi.forms.NavigationForm;
@@ -38,6 +33,7 @@ public class ExtendedDashboard implements IDashboardPlugin {
     private transient DashboardHelperRss rssHelper;
     private transient DashboardHelperItm itmHelper;
     private transient DashboardHelperNagios nagiosHelper;
+    private transient DashboardHelperIcinga2 icinga2Helper;
     private transient DashboardHelperProcesses processHelper;
     private static final String PLUGIN_NAME = "intranda_dashboard_extended";
     private transient DashboardHelperBatches batchHelper;
@@ -64,13 +60,13 @@ public class ExtendedDashboard implements IDashboardPlugin {
     private List<String> column3 = new ArrayList<>();
 
     private String[] widgetNames = { "assignedSteps", "tasksLastChanges", "taskHistory", "processSearch", "htmlBox", "statisticsProcesses",
-            "processTemplates", "itm", "queue", "rss", "nagios" };
+            "processTemplates", "itm", "queue", "rss", "nagios", "icinga2" };
 
     public ExtendedDashboard() {
         pluginConfig = ConfigPlugins.getPluginConfig(PLUGIN_NAME);
 
         String value =
-                "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 itm,2 queue,3 rss,3 nagios";
+                "1 assignedSteps,1 tasksLastChanges,1 taskHistory,1 processSearch,1 htmlBox,2 statisticsProcesses,2 processTemplates,2 itm,2 queue,3 rss,3 nagios,3 icinga2";
 
         User user = Helper.getCurrentUser();
 
@@ -162,6 +158,13 @@ public class ExtendedDashboard implements IDashboardPlugin {
             nagiosHelper = new DashboardHelperNagios(pluginConfig);
         }
         return nagiosHelper;
+    }
+
+    public DashboardHelperNagios getIcinga2Helper() {
+        if (icinga2Helper == null) {
+            icinga2Helper = new DashboardHelperIcinga2(pluginConfig);
+        }
+        return icinga2Helper;
     }
 
     public DashboardHelperProcesses getProcessHelper() {

@@ -4,19 +4,22 @@
 
 	<!-- intranda TaskManager -->
 	<itm-show>false</itm-show>
-	<itm-cache-time>180000</itm-cache-time>
 	<itm-url>http://localhost:8080/itm/</itm-url>
 
 	<!-- Nagios Monitoring -->
 	<nagios-show>false</nagios-show>
-	<nagios-cache-time>180000</nagios-cache-time>
 	<nagios-host>host.example.org</nagios-host>
 	<nagios-login>user</nagios-login>
 	<nagios-password>pass</nagios-password>
 
+	<!-- Icinga2 Monitoring -->
+	<icinga2-show>false</icinga2-show>
+	<icinga2-host>monitoring03.intranda.com</icinga2-host>
+	<icinga2-username>user</icinga2-username>
+	<icinga2-password>pass</icinga2-password>
+
 	<!-- RSS-Feed e.g. of last imports -->
 	<rss-show>true</rss-show>
-	<rss-cache-time>900000</rss-cache-time>
 	<rss-url>https://www.intranda.com/feed/</rss-url>
 	<rss-title>News by intranda GmbH</rss-title>
 
