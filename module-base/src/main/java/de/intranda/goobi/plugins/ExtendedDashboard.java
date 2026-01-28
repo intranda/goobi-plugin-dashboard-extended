@@ -160,7 +160,7 @@ public class ExtendedDashboard implements IDashboardPlugin {
         return nagiosHelper;
     }
 
-    public DashboardHelperNagios getIcinga2Helper() {
+    public DashboardHelperIcinga2 getIcinga2Helper() {
         if (icinga2Helper == null) {
             icinga2Helper = new DashboardHelperIcinga2(pluginConfig);
         }

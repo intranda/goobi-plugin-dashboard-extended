@@ -37,12 +37,18 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.configuration.XMLConfiguration;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.*;
 
 @Getter
@@ -70,7 +76,7 @@ public class DashboardHelperIcinga2 {
     public List<Icinga2Host> getHosts() {
         try {
             reloadData();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | NoSuchAlgorithmException | KeyManagementException e) {
             String message = "Failed to load Icinga2 monitoring data";
             log.error(message, e);
             Helper.setFehlerMeldung(message, e);
@@ -79,62 +85,76 @@ public class DashboardHelperIcinga2 {
         return hosts;
     }
 
-    private void reloadData() throws IOException, InterruptedException {
+    private void reloadData() throws IOException, InterruptedException, NoSuchAlgorithmException, KeyManagementException {
         String auth = Base64.getEncoder()
                 .encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
 
-        HttpClient client = HttpClient.newHttpClient();
+        TrustManager[] trustAll = new TrustManager[]{
+                new X509TrustManager() {
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) {}
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) {}
+                    public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
+                }
+        };
 
-        HttpRequest hostsRequest = HttpRequest.newBuilder()
-                .uri(URI.create("https://" + monitoringHost + ":5665/v1/objects/hosts"))
-                .header("Authorization", "Basic " + auth)
-                .header("Accept", "application/json")
-                .GET()
-                .build();
-        HttpRequest servicesRequest = HttpRequest.newBuilder()
-                .uri(URI.create("https://" + monitoringHost + ":5665/v1/objects/services"))
-                .header("Authorization", "Basic " + auth)
-                .header("Accept", "application/json")
-                .GET()
-                .build();
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, trustAll, new java.security.SecureRandom());
 
-        HttpResponse<String> hostsResponse =
-                client.send(hostsRequest, HttpResponse.BodyHandlers.ofString());
-        HttpResponse<String> servicesResponse =
-                client.send(servicesRequest, HttpResponse.BodyHandlers.ofString());
+        try (HttpClient client = HttpClient.newBuilder()
+                .sslContext(sslContext)
+                .build()) {
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonHosts = mapper.readTree(hostsResponse.body());
-        JsonNode jsonServices = mapper.readTree(servicesResponse.body());
+            HttpRequest hostsRequest = HttpRequest.newBuilder()
+                    .uri(URI.create("https://" + monitoringHost + ":5665/v1/objects/hosts"))
+                    .header("Authorization", "Basic " + auth)
+                    .header("Accept", "application/json")
+                    .GET()
+                    .build();
+            HttpRequest servicesRequest = HttpRequest.newBuilder()
+                    .uri(URI.create("https://" + monitoringHost + ":5665/v1/objects/services"))
+                    .header("Authorization", "Basic " + auth)
+                    .header("Accept", "application/json")
+                    .GET()
+                    .build();
 
-        Map<String, Icinga2Host> hostMap = new HashMap<>();
-        for (JsonNode node : jsonHosts.get("results")) {
-            JsonNode attrs = node.get("attrs");
-            Icinga2Host host = new Icinga2Host();
-            String name = attrs.get("display_name").asText();
-            int statusCode = attrs.get("state").asInt();
-            host.setName(name);
-            host.setStatus(Icinga2HostStatus.fromCode(statusCode));
-            hostMap.put(name, host);
+            HttpResponse<String> hostsResponse =
+                    client.send(hostsRequest, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> servicesResponse =
+                    client.send(servicesRequest, HttpResponse.BodyHandlers.ofString());
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonHosts = mapper.readTree(hostsResponse.body());
+            JsonNode jsonServices = mapper.readTree(servicesResponse.body());
+
+            Map<String, Icinga2Host> hostMap = new HashMap<>();
+            for (JsonNode node : jsonHosts.get("results")) {
+                JsonNode attrs = node.get("attrs");
+                Icinga2Host host = new Icinga2Host();
+                String name = attrs.get("display_name").asText();
+                int statusCode = attrs.get("state").asInt();
+                host.setName(name);
+                host.setStatus(Icinga2HostStatus.fromCode(statusCode));
+                hostMap.put(name, host);
+            }
+
+            for (JsonNode node : jsonServices.get("results")) {
+                JsonNode attrs = node.get("attrs");
+                String hostName = attrs.get("host_name").asText();
+                String name = attrs.get("display_name").asText();
+                int statusCode = attrs.get("state").asInt();
+                String output = Optional.ofNullable(attrs.get("output")).map(JsonNode::asText).orElse("");
+                Icinga2Host host = Optional.ofNullable(hostMap.get(hostName)).orElseThrow();
+                Icinga2Service service = new Icinga2Service();
+                service.setName(name);
+                service.setStatus(Icinga2ServiceStatus.fromCode(statusCode));
+                service.setOutput(output);
+                host.getServices().add(service);
+            }
+
+            hosts = hostMap.entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .map(Map.Entry::getValue)
+                    .toList();
         }
-
-        for (JsonNode node : jsonServices.get("results")) {
-            JsonNode attrs = node.get("attrs");
-            String hostName = attrs.get("host_name").asText();
-            String name = attrs.get("display_name").asText();
-            int statusCode = attrs.get("state").asInt();
-            String output = Optional.ofNullable(attrs.get("output")).map(JsonNode::asText).orElse("");
-            Icinga2Host host = Optional.ofNullable(hostMap.get(hostName)).orElseThrow();
-            Icinga2Service service = new Icinga2Service();
-            service.setName(name);
-            service.setStatus(Icinga2ServiceStatus.fromCode(statusCode));
-            service.setOutput(output);
-            host.getServices().add(service);
-        }
-
-        hosts = hostMap.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .map(Map.Entry::getValue)
-                .toList();
     }
 }
