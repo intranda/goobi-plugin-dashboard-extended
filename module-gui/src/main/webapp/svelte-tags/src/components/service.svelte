@@ -11,28 +11,45 @@
     class="service {service.status}"
     title="{service.status}"
     style="--service-status-color: {color};">
-    {service.name}: {service.status}
+    <span class="font-monospace">{service.status}</span>: {service.name}
 </dt>
-<dd class="service-output">
+<dd
+    class="service-output"
+    style="--service-status-color: {color};">
     {service.output}
 </dd>
 
 <style>
     .service {
-        border-inline-start: .25em solid var(--service-status-color);
         font-weight: normal;
-        margin-inline-start: 0.5em;
-        padding-inline-start: 2em;
     }
 
     .service,
     .service-output {
+        border-inline-start: .25em solid var(--service-status-color);
+        grid-column: 1 /span 2;
         height: 100%;
         padding-block: .5em;
+        padding-inline-start: 2em;
+        margin-inline-start: 0.5em;
     }
 
-    .service:not(:last-of-type),
     .service-output:not(:last-of-type) {
         border-bottom: 1px solid var(--bs-border-color);
+    }
+
+    @container services (min-width: 400px) {
+        .service {
+            grid-column: 1;
+        }
+        .service:not(:last-of-type) {
+            border-bottom: 1px solid var(--bs-border-color);
+        }
+        .service-output {
+            border: 0;
+            grid-column: 2;
+            padding-inline-start: 0;
+            margin-inline-start: 0;
+        }
     }
 </style>

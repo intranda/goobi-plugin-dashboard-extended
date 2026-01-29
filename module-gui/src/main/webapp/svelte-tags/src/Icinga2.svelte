@@ -105,11 +105,12 @@
 						<div
 							class="host">
 							<Indicator status={host.summary} />
-							<span class="host-name">{host.name}: {host.summary}</span>
+							<span class="host-name">
+								<span class="font-monospace">{host.summary}</span>: {host.name}</span>
 							<span class="filler"></span>
 						</div>
 
-						<dl class="definition-list">
+						<dl class="services">
 							{#each host.servicesByStatus['UNKNOWN'] ?? [] as service}
 								<Service {service} />
 							{/each}
@@ -151,5 +152,13 @@
 		flex: 1 0 auto;
 		height: 2px;
 		padding-inline-start: 1em;
+	}
+
+	.services {
+		container: services/inline-size;
+		display: grid;
+		grid-template-columns: 25% auto;
+		margin: 0;
+		padding: 0;
 	}
 </style>
