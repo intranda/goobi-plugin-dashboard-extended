@@ -2,21 +2,18 @@ package de.intranda.digiverso.model.helper;
 
 /**
  * This file is part of a plugin for the Goobi Application - a Workflow tool for the support of mass digitization.
- * 
- * Visit the websites for more information.
- *          - https://goobi.io
- *          - https://www.intranda.com
- *          - https://github.com/intranda/goobi
- * 
+ *
+ * Visit the websites for more information. - https://goobi.io - https://www.intranda.com - https://github.com/intranda/goobi
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free
  * Software Foundation; either version 2 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59
  * Temple Place, Suite 330, Boston, MA 02111-1307 USA
- * 
+ *
  * Linking this library statically or dynamically with other modules is making a combined work based on this library. Thus, the terms and conditions
  * of the GNU General Public License cover the whole combination. As a special exception, the copyright holders of this library give you permission to
  * link this library with independent modules to produce an executable, regardless of the license terms of these independent modules, and to copy and
@@ -37,9 +34,6 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.configuration.XMLConfiguration;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -48,7 +42,6 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
 import java.util.*;
 
 @Getter
@@ -130,7 +123,9 @@ public class DashboardHelperIcinga2 {
                 String hostName = attrs.get("host_name").asText();
                 String name = attrs.get("display_name").asText();
                 int statusCode = attrs.get("state").asInt();
-                String output = Optional.ofNullable(attrs.get("output")).map(JsonNode::asText).orElse("");
+                String output = Optional.ofNullable(attrs.get("last_check_result"))
+                        .map(n -> n.get("output"))
+                        .map(JsonNode::asText).orElse("");
                 Icinga2Host host = Optional.ofNullable(hostMap.get(hostName)).orElseThrow();
                 Icinga2Service service = new Icinga2Service();
                 service.setName(name);
