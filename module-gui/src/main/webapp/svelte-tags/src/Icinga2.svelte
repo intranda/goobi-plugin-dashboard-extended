@@ -1,76 +1,59 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
+	import Service from './components/service.svelte';
+	import Indicator from './components/indicator.svelte';
 
-	//HOOKS
-	onMount( () => {
-		reload();
-	});
+	let { msgs = {} } = $props();
 
-	// PROPS
-	export let msgs;
+	let hosts = $state([]);
+	let show = $state(false);
 
-	// STATE
-	let hosts = [];
-	let show = 'up';
+	const statusColor = new Map([
+		['OK', 'green'],
+		['WARNING', 'orange'],
+		['CRITICAL', 'red'],
+		['UNKNOWN', 'gray'],
+	]);
+	const failStates = ['CRITICAL', 'WARNING', 'UNKNOWN'];
 
-	//METHODS
-	let reload = () => {
-		if(hosts.length > 0) {
-			hosts = [];
-		}
-		var path = window.location.pathname;
-		path = path.substring(0, path.indexOf("/uii/"));
-		fetch(`${path}/api/plugins/exdashboard/icinga2`).then(resp => {
-			resp.json().then(json => {
-				hosts = json;
-				for(var host of hosts) {
-					hosts.servicesByStatus = {};
-					for(var service of host.services) {
-						service.badgeColor = badgeColor(service.status);
-						hosts.servicesByStatus[service.status] = hosts.servicesByStatus[service.status] || [];
-						hosts.servicesByStatus[service.status].push(service);
-					}
-					host.summary = 'OK';
-					if (host.status === 'DOWN') {
-						host.summary = 'CRITICAL';
-					} else {
-						if ('CRITICAL' in hosts.servicesByStatus.keys && hosts.servicesByStatus['CRITICAL'].length > 0) {
-							host.summary = 'CRITICAL';
-						} else if ('WARNING' in hosts.servicesByStatus.keys && hosts.servicesByStatus['WARNING'].length > 0) {
-							host.summary = 'WARNING';
-						}
-					}
-					host.badgeColor = badgeColor(host.summary);
-					host.icon = host.summary === 'OK'?'fa-check':(host.summary === 'WARNING'?'fa-exclamation-triangle':'fa-times-circle');
-				}
-			})
+	setContext('statusColor', statusColor);
+
+	onMount(() => reload());
+
+	const reload = async () => {
+		const path = window.location.pathname.replace(/\/uii\/.*/, '');
+		const resp = await fetch(`${path}/api/plugins/exdashboard/icinga2`);
+		const json = await resp.json();
+
+		hosts = json.map(host => {
+			const grouped = Object.groupBy(host.services ?? [], s => s.status);
+
+			const servicesByStatus = {
+				OK: [],
+				WARNING: [],
+				CRITICAL: [],
+				UNKNOWN: [],
+				...grouped
+			};
+
+			const summary = host.status === 'DOWN'
+				? 'CRITICAL'
+				: failStates.find(s => servicesByStatus[s]?.length > 0) ?? 'OK';
+
+			return {
+				...host,
+				servicesByStatus,
+				summary,
+			};
 		});
-	}
-	let msg = (str) => {
-		if(Object.keys(msgs).length == 0) {
-			return "*".repeat(str.length);
-		}
-		if(msgs[str]) {
-			return msgs[str];
-		}
-		return "???" + str + "???";
-	}
-	let badgeColor = (status) => {
-		if(status == 'OK' ) {
-			return "badge-intranda-green";
-		}
-		if(status == 'WARNING') {
-			return "badge-intranda-orange";
-		}
-		return "badge-intranda-red";
-	}
-	let toggleShow = () => {
-		if(show == "up") {
-			show = "down";
-		} else {
-			show = "up"
-		}
-	}
+	};
+
+	const msg = (str) => {
+		if (Object.keys(msgs).length === 0) return '*'.repeat(str.length);
+		return msgs[str] ?? `???${str}???`;
+	};
+
+	const toggleShow = () => show = !show;
 </script>
 
 
@@ -80,87 +63,93 @@
 
 			<div class="box__title">
 				<h2>
-					<i class="fa fa-binoculars "></i>
+					<span class="fa fa-binoculars" aria-hidden="true"></span>
 					Monitoring
 				</h2>
 
 				<div class="actions d-flex">
 
 					<!-- reload all data again -->
-					<a class="btn d-flex align-items-center btn--title-action" on:click={reload} title="{msg('reload')}">
-						<i class="fa fa-refresh"></i>
-					</a>
+					<button
+						type="button"
+						class="btn d-flex align-items-center btn--title-action"
+						onclick={reload}
+						title="{msg('reload')}">
+						<span class="fa fa-refresh" aria-hidden="true"></span>
+					</button>
 					<!-- // reload all data again -->
 
 					<!-- switch view -->
-					<a class="btn d-flex align-items-center btn--title-action" on:click={toggleShow}
-					   title="{show == 'up'? msg('showBoxDetailsOn') : msg('showBoxDetailsOff')}">
-						<i class="fa {show == 'down'? 'fa-angle-up' : 'fa-angle-down'}"></i>
-					</a>
+					<button
+						type="button"
+						class="btn d-flex align-items-center btn--title-action"
+						onclick={toggleShow}
+						title="{show ? msg('showBoxDetailsOff') : msg('showBoxDetailsOn')}">
+						<span class="fa {show ? 'fa-angle-up' : 'fa-angle-down'}" aria-hidden="true"></span>
+					</button>
 					<!-- // switch view -->
 
 				</div>
 			</div>
 
-			<div class="p-0">
+			<div class="p-3">
 				{#if hosts.length == 0}
-				<div class="p-3">
-					<div class="alert alert-info alert-dismissable">
-						{msg('dashboard_Icinga2NotLoaded')}
-					</div>
-				</div>
-				{/if}
-
-				{#if hosts.length != 0}
-				<div>
-					<div>
-					{#each hosts as host}
-						<div>
-							<div style="height: 0.005rem; background-color: var(--clr-neutral-400); text-align: left; margin: 15px 20px 40px 0px;">
-								<div class="badge {host.badgeColor}" style="position: relative; top: -1em; font-size: 14px; font-weight: normal; padding: 5px; display: inline-block; border: white solid 5px;">
-									<i class="fa {host.icon}"/>
-									<span style="margin:5px;">{host.name}</span>
-								</div>
-							</div>
-
-							<div  style="margin-top:-15px;">
-								{#each host.servicesByStatus['UNKNOWN'] as service}
-								<span
-										class="badge {service.badgeColor}" style="font-weight:normal; margin:3px;"
-										title="{service.status}" rel="tooltip">
-									{service.name} / {service.output}
-								</span>
-								{/each}
-								{#each host.servicesByStatus['CRITICAL'] as service}
-								<span
-										class="badge {service.badgeColor}" style="font-weight:normal; margin:3px;"
-										title="{service.status}" rel="tooltip">
-									{service.name} / {service.output}
-								</span>
-								{/each}
-								{#each host.servicesByStatus['WARNING'] as service}
-								<span
-										class="badge {service.badgeColor}" style="font-weight:normal; margin:3px;"
-										title="{service.status}" rel="tooltip">
-									{service.name} / {service.output}
-								</span>
-								{/each}
-								{#if show == 'down'}
-								{#each host.servicesByStatus['OK'] as service}
-								<span
-										class="badge {service.badgeColor}" style="font-weight:normal; margin:3px;"
-										title="{service.status}" rel="tooltip">
-									{service.name}
-								</span>
-								{/each}
-								{/if}
-							</div>
+					<div class="p-3">
+						<div class="alert alert-info alert-dismissable">
+							{msg('dashboard_Icinga2NotLoaded')}
 						</div>
-					{/each}
 					</div>
-				</div>
 				{/if}
+				{#each hosts as host, i}
+					<div class="{i > 0 ? 'mt-3' : ''}">
+						<div
+							class="host">
+							<Indicator status={host.summary} />
+							<span class="host-name">{host.name}: {host.summary}</span>
+							<span class="filler"></span>
+						</div>
+
+						<dl class="definition-list">
+							{#each host.servicesByStatus['UNKNOWN'] ?? [] as service}
+								<Service {service} />
+							{/each}
+							{#each host.servicesByStatus['CRITICAL'] ?? [] as service}
+								<Service {service} />
+							{/each}
+							{#each host.servicesByStatus['WARNING'] ?? [] as service}
+								<Service {service} />
+							{/each}
+							{#if show}
+								{#each host.servicesByStatus['OK'] ?? [] as service}
+									<Service {service} />
+								{/each}
+							{/if}
+						</dl>
+					</div>
+				{/each}
 			</div>
 		</div>
 	</div>
 </div>
+
+<style>
+	.host {
+		align-items: center;
+		display: flex;
+		gap: 1rem;
+		justify-content: start;
+		margin-block-end: 1rem;
+		width: 100%;
+	}
+
+	.host-name {
+		flex: 0 1 auto;
+	}
+
+	.filler {
+		background: linear-gradient(var(--bs-border-color), var(--bs-border-color)) no-repeat center/100% 2px;
+		flex: 1 0 auto;
+		height: 2px;
+		padding-inline-start: 1em;
+	}
+</style>
