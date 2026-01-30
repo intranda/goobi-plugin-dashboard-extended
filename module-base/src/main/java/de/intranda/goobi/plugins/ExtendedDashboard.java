@@ -1,6 +1,25 @@
 package de.intranda.goobi.plugins;
 
-import de.intranda.digiverso.model.helper.*;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.lang.StringUtils;
+import org.goobi.beans.User;
+import org.goobi.managedbeans.DatabasePaginator;
+import org.goobi.production.enums.PluginType;
+import org.goobi.production.flow.statistics.hibernate.FilterHelper;
+import org.goobi.production.plugin.interfaces.IDashboardPlugin;
+
+import de.intranda.digiverso.model.helper.DashboardHelperBatches;
+import de.intranda.digiverso.model.helper.DashboardHelperItm;
+import de.intranda.digiverso.model.helper.DashboardHelperNagios;
+import de.intranda.digiverso.model.helper.DashboardHelperProcesses;
+import de.intranda.digiverso.model.helper.DashboardHelperRss;
+import de.intranda.digiverso.model.helper.DashboardHelperTasks;
 import de.intranda.digiverso.model.queue.MessageQueueStatus;
 import de.sub.goobi.config.ConfigPlugins;
 import de.sub.goobi.forms.NavigationForm;
@@ -10,19 +29,6 @@ import de.sub.goobi.persistence.managers.ProcessManager;
 import lombok.Getter;
 import lombok.Setter;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
-import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.lang.StringUtils;
-import org.goobi.beans.User;
-import org.goobi.managedbeans.DatabasePaginator;
-import org.goobi.production.enums.PluginType;
-import org.goobi.production.flow.statistics.hibernate.FilterHelper;
-import org.goobi.production.plugin.interfaces.IDashboardPlugin;
-
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 @PluginImplementation
 public class ExtendedDashboard implements IDashboardPlugin {
@@ -208,12 +214,11 @@ public class ExtendedDashboard implements IDashboardPlugin {
         String sql = FilterHelper.criteriaBuilder(filter, null, null, null, null, true, false);
         if (!sql.isEmpty()) {
             sql = sql + " AND ";
+        } else {
+            sql = " WHERE ";
         }
-        sql = sql + " prozesse.istTemplate = true ";
+        sql = sql + " prozesse.istTemplate = true AND ";
 
-        if (!sql.isEmpty()) {
-            sql = sql + " AND ";
-        }
         sql = sql + " prozesse.ProjekteID not in (select ProjekteID from projekte where projectIsArchived = true) ";
 
         ProcessManager m = new ProcessManager();

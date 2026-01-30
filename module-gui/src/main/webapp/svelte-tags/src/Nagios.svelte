@@ -20,7 +20,7 @@
       }
       var path = window.location.pathname;
       path = path.substring(0, path.indexOf("/uii/"));
-      fetch(`${path}/plugins/exdashboard/nagios`).then(resp => {
+      fetch(`${path}/api/plugins/exdashboard/nagios`).then(resp => {
           resp.json().then(json => {
             hosts = json;
             for(var host of hosts) {
