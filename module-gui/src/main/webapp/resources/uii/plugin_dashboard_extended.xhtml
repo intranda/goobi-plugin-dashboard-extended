@@ -46,7 +46,7 @@
 	        path = path.substring(0, path.indexOf("/uii/"));
 			fetch(path+ "/api/messages/" + language).then(resp => {
 		        resp.json().then(msgs => {
-		            var rssEle = document.getElementById("jsRssFeed")
+		            var rssEle = document.getElementById("jsRssFeed");
 		            if(rssEle) {
 						window.mountRssFeed(
 					        rssEle,
@@ -66,21 +66,24 @@
 					        }
 					    );
 		            }
-					var nagiosEle = document.getElementById("jsNagiosView")
-		            if(nagiosEle) {
-		                new window.mountSvelteNagios({
-		                	target: nagiosEle,
-		                	props: {
-		                	    msgs: msgs
-		                	}
-		                })
-						/*window.mountNagios(
-					        nagiosEle,
-					        {
-					            msgs: msgs
-					        }
-					    );*/
-		             }
+                    var nagiosEle = document.getElementById("jsNagiosView")
+                    if(nagiosEle) {
+                        window.mountSvelteNagios({
+                            target: nagiosEle,
+                            props: {
+                                msgs: msgs
+                            }
+                        })
+                    }
+                    var icinga2Ele = document.getElementById("jsIcinga2View")
+                    if(icinga2Ele) {
+                        window.mountSvelteIcinga2({
+                            target: icinga2Ele,
+                            props: {
+                                msgs: msgs
+                            }
+                        })
+                    }
 	        	})
 	        })
 		</script>
