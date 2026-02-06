@@ -6,7 +6,8 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:jsf="http://xmlns.jcp.org/jsf"
-    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites">
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
+    xmlns:util="http://goobi.io/util">
 
     <composite:interface>
     </composite:interface>
@@ -23,7 +24,7 @@
                     <!-- BUTTONS TO EXPAND LIST -->
                     <intranda:boxTitle
                         title="#{msgs.plugin_dashboard_tasks_in_messageQueue}"
-                        icon="fa-list">
+                        icon="list">
 
                         <div class="actions d-flex">
                             <button
@@ -31,7 +32,7 @@
                                 class="btn d-flex align-items-center btn--title-action"
                                 jsf:rendered="#{!DashboardForm.plugin.messageQueueStatus.showAllTasks}"
                                 aria-label="#{msgs.showMore}">
-                                <i class="fa fa-angle-up"></i>
+                                <util:icon icon="chevron-up" />
                                 <f:setPropertyActionListener
                                     target="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
                                     value="true" />
@@ -43,7 +44,7 @@
                                 class="btn d-flex align-items-center btn--title-action"
                                 jsf:rendered="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
                                 aria-label="#{msgs.showLess}">
-                                <i class="fa fa-angle-down"></i>
+                                <util:icon icon="chevron-down" />
                                 <f:setPropertyActionListener
                                     target="#{DashboardForm.plugin.messageQueueStatus.showAllTasks}"
                                     value="false" />
@@ -83,7 +84,7 @@
                                         <f:setPropertyActionListener
                                             target="#{NavigationForm.aktuell}"
                                             value="a22" />
-                                        <i class="fa fa-search" />
+                                        <util:icon icon="search" />
                                     </button>
                                 </h:column>
                             </h:dataTable>

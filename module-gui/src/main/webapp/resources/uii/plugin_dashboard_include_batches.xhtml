@@ -5,7 +5,8 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:p="http://primefaces.org/ui"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
-    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites">
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
+    xmlns:util="http://goobi.io/util">
 
 	<composite:interface>
 	</composite:interface>
@@ -27,7 +28,7 @@
                         <!-- BUTTONS -->
                         <intranda:boxTitle
                             title="#{msgs.plugin_dashboard_batches_current}"
-                            icon="fa-table">
+                            icon="table">
 
                             <div class="actions d-flex">
                                 <button jsf:id="reload"
@@ -35,7 +36,7 @@
                                     class="btn d-flex align-items-center btn--title-action"
                                     title="#{msgs.reload}"
                                     jsf:rel="tooltip">
-                                    <i class="fa fa-refresh"></i>
+                                    <util:icon icon="refresh" />
                                     <f:passThroughAttribute name="data-toggle" value="tooltip" />
                                 </button>
                             </div>
@@ -55,7 +56,7 @@
 				<intranda:box
                     boxType="primary"
                     boxPadding="false"
-                    icon="fa-table"
+                    icon="table"
                     title="#{msgs.plugin_dashboard_batches_overview}">
 
 					<h:panelGrid columns="2" styleClass="table table-hover table-bordered" columnClasses="columnLabel, columnValue">

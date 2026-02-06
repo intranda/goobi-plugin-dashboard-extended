@@ -6,7 +6,8 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:jsf="http://xmlns.jcp.org/jsf"
-    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites">
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
+    xmlns:util="http://goobi.io/util">
 
     <composite:interface>
     </composite:interface>
@@ -18,7 +19,7 @@
                 <intranda:box
                     boxType="action"
                     boxPadding="false"
-                    icon="fa-list"
+                    icon="list"
                     title="#{msgs.assignedSteps}">
 
                     <h:form
@@ -74,7 +75,7 @@
                                                         jsf:rel="tooltip"
                                                         jsf:rendered="#{(assignedStep.bearbeitungsstatusEnum == 'INWORK' and assignedStep.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and !assignedStep.batchStep) or (assignedStep.bearbeitungsstatusEnum == 'INWORK' and assignedStep.bearbeitungsbenutzer.id == LoginForm.myBenutzer.id and assignedStep.batchStep and !assignedStep.batchSize)}"
                                                         title="#{msgs.plugin_dashboard_extended_continueTask}">
-                                                        <i class="fa fa-cog"></i>
+                                                        <util:icon icon="settings" />
                                                         <f:passThroughAttribute
                                                             name="data-toggle"
                                                             value="tooltip" />
