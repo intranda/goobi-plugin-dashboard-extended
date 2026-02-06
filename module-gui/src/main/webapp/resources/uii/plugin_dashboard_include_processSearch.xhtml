@@ -6,7 +6,8 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:jsf="http://xmlns.jcp.org/jsf"
-    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites">
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
+    xmlns:util="http://goobi.io/util">
 
     <composite:interface>
     </composite:interface>
@@ -19,7 +20,7 @@
                 <intranda:box
                     boxType="action"
                     boxPadding="true"
-                    icon="fa-search"
+                    icon="search"
                     title="#{msgs.suche}">
 
                     <h:form
@@ -63,7 +64,7 @@
                                 jsf:id="absenden"
                                 type="submit"
                                 jsf:action="#{ProzessverwaltungForm.FilterAlleStart}">
-                                <span class="fa fa-search margin-right-5" />
+                                <util:icon icon="search" styleClass="margin-right-5" />
                                 <span>
                                     <h:outputText value="#{msgs.search}" />
                                 </span>
