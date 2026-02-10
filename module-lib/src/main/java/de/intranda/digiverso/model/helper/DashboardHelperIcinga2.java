@@ -54,12 +54,6 @@ public class DashboardHelperIcinga2 {
     private List<Icinga2Host> hosts = Collections.emptyList();
 
     public DashboardHelperIcinga2(XMLConfiguration config) {
-        String trustStore = config.getString("icinga2-truststore", "monitor03.jks");
-
-        // Required for certificate validation of monitor03
-        System.setProperty("javax.net.ssl.trustStore", trustStore);
-        System.setProperty("javax.net.ssl.trustStorePassword", "intranda");
-
         showIcinga = config.getBoolean("icinga2-show", true);
         monitoringHost = config.getString("icinga2-host", "monitoring03.intranda.com");
         username = config.getString("icinga2-username", "user");
