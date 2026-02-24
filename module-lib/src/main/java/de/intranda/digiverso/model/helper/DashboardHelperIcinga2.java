@@ -54,7 +54,7 @@ public class DashboardHelperIcinga2 {
     private List<Icinga2Host> hosts = Collections.emptyList();
 
     public DashboardHelperIcinga2(XMLConfiguration config) {
-        showIcinga = config.getBoolean("icinga2-show", true);
+        showIcinga = config.getBoolean("icinga2-show", false);
         monitoringHost = config.getString("icinga2-host", "monitoring03.intranda.com");
         username = config.getString("icinga2-username", "user");
         password = config.getString("icinga2-password", "pass");
