@@ -6,7 +6,8 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:jsf="http://xmlns.jcp.org/jsf"
-    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites">
+    xmlns:intranda="http://xmlns.jcp.org/jsf/composite/composites"
+    xmlns:util="http://goobi.io/util">
 
     <composite:interface>
     </composite:interface>
@@ -23,7 +24,7 @@
                     <!-- BUTTONS TO EXPAND LIST -->
                     <intranda:boxTitle
                         title="#{msgs.stepHistory}"
-                        icon="fa-list">
+                        icon="list">
 
                         <div class="actions d-flex">
                             <button
@@ -31,7 +32,7 @@
                                 class="btn d-flex align-items-center btn--title-action"
                                 jsf:rendered="#{!DashboardForm.plugin.tasksHelper.showAllTasks}"
                                 aria-label="#{msgs.showLess}">
-                                <i class="fa fa-angle-up"></i>
+                                <util:icon icon="chevron-up" />
                                 <f:setPropertyActionListener
                                     target="#{DashboardForm.plugin.tasksHelper.showAllTasks}"
                                     value="true" />
@@ -43,7 +44,7 @@
                                 class="btn d-flex align-items-center btn--title-action"
                                 jsf:rendered="#{DashboardForm.plugin.tasksHelper.showAllTasks}"
                                 aria-label="#{msgs.showMore}">
-                                <i class="fa fa-angle-down margin-right-5"></i>
+                                <util:icon icon="chevron-down" styleClass="me-1" />
                                 <f:setPropertyActionListener
                                     target="#{DashboardForm.plugin.tasksHelper.showAllTasks}"
                                     value="false" />
@@ -100,7 +101,7 @@
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.aktuell}"
                                                             value="a22" />
-                                                        <i class="fa fa-search" />
+                                                        <util:icon icon="search" />
                                                     </button>
                                                 </td>
                                                 <td>
@@ -117,7 +118,7 @@
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.aktuell}"
                                                             value="a22" />
-                                                        <i class="fa fa-search" />
+                                                        <util:icon icon="search" />
                                                     </button>
                                                 </td>
                                                 <td>
@@ -134,7 +135,7 @@
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.aktuell}"
                                                             value="a22" />
-                                                        <i class="fa fa-search" />
+                                                        <util:icon icon="search" />
                                                     </button>
 
                                                 </td>
@@ -152,7 +153,7 @@
                                                         <f:setPropertyActionListener
                                                             target="#{NavigationForm.aktuell}"
                                                             value="a22" />
-                                                        <i class="fa fa-search" />
+                                                        <util:icon icon="search" />
                                                     </button>
                                                 </td>
                                             </tr>

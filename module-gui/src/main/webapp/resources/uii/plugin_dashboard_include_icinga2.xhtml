@@ -11,19 +11,11 @@
     </composite:interface>
 
     <composite:implementation>
-        <h:panelGroup rendered="#{DashboardForm.plugin.showHtmlBox}" styleClass="mb-3">
-
-            <intranda:box
-                boxType="outline"
-                boxPadding="true"
-                icon="info-circle"
-                title="#{DashboardForm.plugin.htmlBoxTitle}">
-
-                <h:outputText
-                    value="#{DashboardForm.plugin.htmlBoxContent}"
-                    escape="false" />
-            </intranda:box>
-        </h:panelGroup>
+        <ui:fragment rendered="#{DashboardForm.plugin.icinga2Helper.showIcinga and LoginForm.maximaleBerechtigung le 2}">
+            <h:form id="dashboard-icinga2" styleClass="mb-3">
+                <div id="jsIcinga2View"></div>
+            </h:form>
+        </ui:fragment>
     </composite:implementation>
 
 </ui:composition>

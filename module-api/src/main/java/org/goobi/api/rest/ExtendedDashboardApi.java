@@ -1,8 +1,10 @@
 package org.goobi.api.rest;
 
+import de.intranda.digiverso.model.helper.DashboardHelperIcinga2;
 import de.intranda.digiverso.model.helper.DashboardHelperItm;
 import de.intranda.digiverso.model.helper.DashboardHelperNagios;
 import de.intranda.digiverso.model.helper.DashboardHelperRss;
+import de.intranda.digiverso.model.icinga.Icinga2Host;
 import de.intranda.digiverso.model.itm.DashQueuesObj;
 import de.intranda.digiverso.model.nagios.Host;
 import de.intranda.digiverso.model.rss.RssEntry;
@@ -23,6 +25,7 @@ public class ExtendedDashboardApi {
     private static DashboardHelperRss rssHelper;
     private static DashboardHelperItm itmHelper;
     private static DashboardHelperNagios nagiosHelper;
+    private static DashboardHelperIcinga2 icinga2Helper;
 
     static {
         pluginConfig = ConfigPlugins.getPluginConfig(PLUGIN_NAME);
@@ -49,6 +52,13 @@ public class ExtendedDashboardApi {
         return nagiosHelper;
     }
 
+    private static DashboardHelperIcinga2 getIcinga2Helper() {
+        if (icinga2Helper == null) {
+            icinga2Helper = new DashboardHelperIcinga2(pluginConfig);
+        }
+        return icinga2Helper;
+    }
+
     @GET
     @Path("/rssfeed")
     public List<RssEntry> rssFeed() {
@@ -65,5 +75,11 @@ public class ExtendedDashboardApi {
     @Path("/nagios")
     public List<Host> nagios() {
         return getNagiosHelper().getHosts();
+    }
+
+    @GET
+    @Path("/icinga2")
+    public List<Icinga2Host> icinga2() {
+        return getIcinga2Helper().getHosts();
     }
 }
