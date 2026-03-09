@@ -9,10 +9,10 @@
 	let show = $state(false);
 
 	const statusColor = new Map([
-		['OK', 'green'],
-		['WARNING', 'orange'],
-		['CRITICAL', 'red'],
-		['UNKNOWN', 'gray'],
+		['OK', '#198754'],
+		['WARNING', '#e67e22'],
+		['CRITICAL', '#dc3545'],
+		['UNKNOWN', '#6c757d'],
 	]);
 	const failStates = ['CRITICAL', 'WARNING', 'UNKNOWN'];
 
@@ -103,10 +103,12 @@
 				{#each hosts as host, i}
 					<div class="{i > 0 ? 'mt-3' : ''}">
 						<div
-							class="host">
+							class="host"
+							style="--host-status-color: {statusColor.get(host.summary)};">
 							<Indicator status={host.summary} />
-							<span class="host-name">
-								<span class="font-monospace">{host.summary}</span>: {host.name}</span>
+							<span class="host-badge" title="{host.name}">
+								{host.name}
+							</span>
 							<span class="filler"></span>
 						</div>
 
@@ -143,8 +145,17 @@
 		width: 100%;
 	}
 
-	.host-name {
+	.host-badge {
+		background-color: color-mix(in srgb, var(--host-status-color) 10%, transparent);
+		border: 1px solid color-mix(in srgb, var(--host-status-color) 30%, transparent);
+		border-radius: 0.375em;
+		color: var(--host-status-color);
 		flex: 0 1 auto;
+		font-weight: 600;
+		overflow: hidden;
+		padding: 0.15em 0.6em;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.filler {
