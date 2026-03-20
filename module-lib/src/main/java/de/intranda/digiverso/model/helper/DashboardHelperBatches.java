@@ -322,17 +322,14 @@ public class DashboardHelperBatches {
                     int inWork = rs.getInt("inWork");
                     int locked = rs.getInt("locked");
                     if (locked == 0 && inWork == 0) {
-                        // completed
+                        // all steps are completed
                         finishedBatches = finishedBatches + 1;
-                    } else if (inWork != 0) {
-                        // inwork
-                        batchesInwork = batchesInwork + 1;
                     } else if (completed == 0 && inWork == 0) {
-                        // not started
+                        // no steps completed or in work, all still locked
                         batchesNotStarted = batchesNotStarted + 1;
                     } else {
-                        // error, should not occur
-                        log.error("Something happened during creation of batch details");
+                        // some steps are in work, or a mix of locked/completed
+                        batchesInwork = batchesInwork + 1;
                     }
                 }
             }
