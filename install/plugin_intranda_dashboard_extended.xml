@@ -20,8 +20,8 @@
 
 	<!-- RSS-Feed e.g. of last imports -->
 	<rss-show>true</rss-show>
-	<rss-url>https://www.intranda.com/feed/</rss-url>
-	<rss-title>News by intranda GmbH</rss-title>
+	<rss-url>https://goobi.io/de/rss</rss-url>
+	<rss-title>Goobi News</rss-title>
 
 	<!-- Search -->
 	<search-show>true</search-show>
