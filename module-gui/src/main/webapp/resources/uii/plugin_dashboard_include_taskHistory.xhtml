@@ -88,73 +88,80 @@
 
                                                 <td>#{historyStep.stepName}</td>
                                                 <td>
-                                                    <h:outputText value="#{historyStep.numberOfOpenTasks}" />
-                                                    <button
-                                                        jsf:rendered="#{historyStep.numberOfOpenTasks gt 0 and LoginForm.hasRole('Workflow_Processes')}"
-                                                        class="btn btn-blank ms-3"
-                                                        title="#{msgs.search}"
-                                                        data-toggle="tooltip"
-                                                        jsf:action="#{DashboardForm.plugin.tasksHelper.loadOpenSteps}">
-                                                        <f:setPropertyActionListener
-                                                            value="#{historyStep}"
-                                                            target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
-                                                        <f:setPropertyActionListener
-                                                            target="#{NavigationForm.aktuell}"
-                                                            value="a22" />
-                                                        <util:icon icon="search" />
-                                                    </button>
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <h:outputText value="#{historyStep.numberOfOpenTasks}" />
+                                                        <button
+                                                            jsf:rendered="#{historyStep.numberOfOpenTasks gt 0 and LoginForm.hasRole('Workflow_Processes')}"
+                                                            class="btn btn-blank btn-icon"
+                                                            title="#{msgs.search}"
+                                                            data-toggle="tooltip"
+                                                            jsf:action="#{DashboardForm.plugin.tasksHelper.loadOpenSteps}">
+                                                            <f:setPropertyActionListener
+                                                                value="#{historyStep}"
+                                                                target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
+                                                            <f:setPropertyActionListener
+                                                                target="#{NavigationForm.aktuell}"
+                                                                value="a22" />
+                                                            <util:icon icon="search" />
+                                                        </button>
+                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <h:outputText value="#{historyStep.numberOfFinishedTasks}" />
-                                                    <button
-                                                        jsf:rendered="#{historyStep.numberOfFinishedTasks gt 0 and LoginForm.hasRole('Workflow_Processes')}"
-                                                        class="btn btn-blank ms-3"
-                                                        title="#{msgs.search}"
-                                                        data-toggle="tooltip"
-                                                        jsf:action="#{DashboardForm.plugin.tasksHelper.loadFinishedSteps}">
-                                                        <f:setPropertyActionListener
-                                                            value="#{historyStep}"
-                                                            target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
-                                                        <f:setPropertyActionListener
-                                                            target="#{NavigationForm.aktuell}"
-                                                            value="a22" />
-                                                        <util:icon icon="search" />
-                                                    </button>
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <h:outputText value="#{historyStep.numberOfFinishedTasks}" />
+                                                        <button
+                                                            jsf:rendered="#{historyStep.numberOfFinishedTasks gt 0 and LoginForm.hasRole('Workflow_Processes')}"
+                                                            class="btn btn-blank btn-icon"
+                                                            title="#{msgs.search}"
+                                                            data-toggle="tooltip"
+                                                            jsf:action="#{DashboardForm.plugin.tasksHelper.loadFinishedSteps}">
+                                                            <f:setPropertyActionListener
+                                                                value="#{historyStep}"
+                                                                target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
+                                                            <f:setPropertyActionListener
+                                                                target="#{NavigationForm.aktuell}"
+                                                                value="a22" />
+                                                            <util:icon icon="search" />
+                                                        </button>
+                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <h:outputText value="#{historyStep.numberOfTasksInProcess}" />
-                                                    <button
-                                                        jsf:rendered="#{historyStep.numberOfTasksInProcess gt 0 and LoginForm.hasRole('Workflow_Processes')}"
-                                                        class="btn btn-blank ms-3"
-                                                        title="#{msgs.search}"
-                                                        data-toggle="tooltip"
-                                                        jsf:action="#{DashboardForm.plugin.tasksHelper.loadStepsInWork}">
-                                                        <f:setPropertyActionListener
-                                                            value="#{historyStep}"
-                                                            target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
-                                                        <f:setPropertyActionListener
-                                                            target="#{NavigationForm.aktuell}"
-                                                            value="a22" />
-                                                        <util:icon icon="search" />
-                                                    </button>
-
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <h:outputText value="#{historyStep.numberOfTasksInProcess}" />
+                                                        <button
+                                                            jsf:rendered="#{historyStep.numberOfTasksInProcess gt 0 and LoginForm.hasRole('Workflow_Processes')}"
+                                                            class="btn btn-blank btn-icon"
+                                                            title="#{msgs.search}"
+                                                            data-toggle="tooltip"
+                                                            jsf:action="#{DashboardForm.plugin.tasksHelper.loadStepsInWork}">
+                                                            <f:setPropertyActionListener
+                                                                value="#{historyStep}"
+                                                                target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
+                                                            <f:setPropertyActionListener
+                                                                target="#{NavigationForm.aktuell}"
+                                                                value="a22" />
+                                                            <util:icon icon="search" />
+                                                        </button>
+                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <h:outputText value="#{historyStep.numberOfErrorTasks}" />
-                                                    <button
-                                                        jsf:rendered="#{historyStep.numberOfErrorTasks gt 0 and LoginForm.hasRole('Workflow_Processes')}"
-                                                        class="btn btn-blank ms-3"
-                                                        title="#{msgs.search}"
-                                                        data-toggle="tooltip"
-                                                        jsf:action="#{DashboardForm.plugin.tasksHelper.loadErrorSteps}">
-                                                        <f:setPropertyActionListener
-                                                            value="#{historyStep}"
-                                                            target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
-                                                        <f:setPropertyActionListener
-                                                            target="#{NavigationForm.aktuell}"
-                                                            value="a22" />
-                                                        <util:icon icon="search" />
-                                                    </button>
+                                                    <div class="d-flex align-items-center justify-content-between">
+                                                        <h:outputText value="#{historyStep.numberOfErrorTasks}" />
+                                                        <button
+                                                            jsf:rendered="#{historyStep.numberOfErrorTasks gt 0 and LoginForm.hasRole('Workflow_Processes')}"
+                                                            class="btn btn-blank btn-icon"
+                                                            title="#{msgs.search}"
+                                                            data-toggle="tooltip"
+                                                            jsf:action="#{DashboardForm.plugin.tasksHelper.loadErrorSteps}">
+                                                            <f:setPropertyActionListener
+                                                                value="#{historyStep}"
+                                                                target="#{DashboardForm.plugin.tasksHelper.currentElement}" />
+                                                            <f:setPropertyActionListener
+                                                                target="#{NavigationForm.aktuell}"
+                                                                value="a22" />
+                                                            <util:icon icon="search" />
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </ui:repeat>
