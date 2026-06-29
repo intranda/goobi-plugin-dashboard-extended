@@ -42,22 +42,16 @@ public class DashboardHelperProcesses {
     public LineChartModel getProcessesPerMonth() {
         if (this.processesPerMonth == null) {
 
-            String strProjecIds = "(";
+            List<String> projectIds = new ArrayList<>();
             User user = Helper.getCurrentUser();
             if (user != null) {
                 String sql = "select ProjekteID from projektbenutzer where BenutzerID = "
                         + user.getId();
                 List<Object[]> rawvalues = ControllingManager.getResultsAsObjectList(sql);
                 for (Object[] objArr : rawvalues) {
-                    String projectId = (String) objArr[0];
-                    if (strProjecIds.length() > 1) {
-                        strProjecIds += ",";
-                    }
-                    strProjecIds += projectId;
+                    projectIds.add((String) objArr[0]);
                 }
             }
-
-            strProjecIds += ")";
 
             List<Object> values = new ArrayList<>();
             List<String> labels = new ArrayList<>();
@@ -65,10 +59,17 @@ public class DashboardHelperProcesses {
 
             String dateFilter = getStatisticsDateFilter();
 
-            List<?> list = ProcessManager.runSQL(
-                    "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false AND ProjekteID in "
-                            +
-                            strProjecIds + dateFilter + " GROUP BY year, month  ORDER BY year desc, month desc;");
+            // Skip the query, if the user is not assigned to any project
+            List<?> list;
+            if (projectIds.isEmpty()) {
+                list = new ArrayList<>();
+            } else {
+                String strProjecIds = "(" + String.join(",", projectIds) + ")";
+                list = ProcessManager.runSQL(
+                        "Select year(erstellungsdatum) as year, month(erstellungsdatum) as month, count(*) FROM prozesse WHERE IstTemplate=false AND ProjekteID in "
+                                +
+                                strProjecIds + dateFilter + " GROUP BY year, month  ORDER BY year desc, month desc;");
+            }
             Collections.reverse(list);
             for (Object obj : list) {
                 Object[] o = (Object[]) obj;
